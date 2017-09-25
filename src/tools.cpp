@@ -10,6 +10,8 @@
 #include "tools.h"
 
 #define PI 3.14159265359
+#define VERTEX_SHADER_FILE "shaders/test_vs.glsl"
+#define FRAGMENT_SHADER_FILE "shaders/test_fs.glsl"
 
 bool load_mesh (const char* file_name, GLuint* vao, int* point_count) {
 	const aiScene* scene = aiImportFile(file_name, aiProcess_Triangulate);
@@ -121,4 +123,20 @@ bool load_mesh (const char* file_name, GLuint* vao, int* point_count) {
 	printf ("mesh loaded\n");
 	
 	return true;
+}
+
+void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
+	restart_gl_log ();
+	start_gl ();
+	glEnable (GL_DEPTH_TEST); // enable depth-testing
+	glDepthFunc (GL_LESS); // depth-testing interprets a smaller value as "closer"
+	glEnable (GL_CULL_FACE); // cull face
+	glCullFace (GL_BACK); // cull back face
+	glFrontFace (GL_CCW); // set counter-clock-wise vertex order to mean the front
+	glClearColor (0.2, 0.2, 0.2, 1.0); // grey background to help spot mistakes
+	glViewport (0, 0, g_gl_width, g_gl_height);
+	
+	*shader_programme = create_programme_from_files (
+		VERTEX_SHADER_FILE, FRAGMENT_SHADER_FILE
+	);
 }

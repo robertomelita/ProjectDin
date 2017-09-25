@@ -31,10 +31,9 @@
 #include "gl_utils.h"
 #include "tools.h"
 #include "malla.h"
+#include "enemy.h"
 
 #define GL_LOG_FILE "log/gl.log"
-#define VERTEX_SHADER_FILE "shaders/test_vs.glsl"
-#define FRAGMENT_SHADER_FILE "shaders/test_fs.glsl"
 
 int g_gl_width = 800;
 int g_gl_height = 600;
@@ -62,16 +61,11 @@ float fov   =  45.0f;
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
+GLuint shader_programme;
+
 int main(int argc, char **argv){
-	restart_gl_log ();
-	start_gl ();
-	glEnable (GL_DEPTH_TEST); // enable depth-testing
-	glDepthFunc (GL_LESS); // depth-testing interprets a smaller value as "closer"
-	glEnable (GL_CULL_FACE); // cull face
-	glCullFace (GL_BACK); // cull back face
-	glFrontFace (GL_CCW); // set counter-clock-wise vertex order to mean the front
-	glClearColor (0.2, 0.2, 0.2, 1.0); // grey background to help spot mistakes
-	glViewport (0, 0, g_gl_width, g_gl_height);
+
+    init(g_gl_width, g_gl_height, &shader_programme);
 
     glfwSetFramebufferSizeCallback(g_window, framebuffer_size_callback);
     glfwSetCursorPosCallback(g_window, mouse_callback);
@@ -80,9 +74,6 @@ int main(int argc, char **argv){
     glfwSetInputMode(g_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     /*-------------------------------CREATE SHADERS-------------------------------*/
-	GLuint shader_programme = create_programme_from_files (
-		VERTEX_SHADER_FILE, FRAGMENT_SHADER_FILE
-	);
 
     if(argc != 2){
 	fprintf(stderr, "run as ./prog N\n");
@@ -92,15 +83,19 @@ int main(int argc, char **argv){
     float x, y, z;
     malla **monos = (malla**)malloc(sizeof(malla*)*N);
     for(int i=0; i<N; ++i){
-	monos[i] = new malla((char*)"mallas/suzanne.obj");
-        //setpos(glm::vec3 p);
-	x = 2.5f*(float)rand()/(float)RAND_MAX;
-	y = 2.5f*(float)rand()/(float)RAND_MAX;
-	z = 2.5f*(float)rand()/(float)RAND_MAX;
-	printf("mono %i (%f, %f, %f)\n", i, x, y, z);
- 	monos[i]->setpos(glm::vec3(x, y, z));
-	monos[i]->setmatloc(shader_programme, "model");
+        monos[i] = new malla((char*)"mallas/suzanne.obj");
+            //setpos(glm::vec3 p);
+        x = 2.5f*(float)rand()/(float)RAND_MAX;
+        y = 2.5f*(float)rand()/(float)RAND_MAX;
+        z = 2.5f*(float)rand()/(float)RAND_MAX;
+        printf("mono %i (%f, %f, %f)\n", i, x, y, z);
+        monos[i]->setpos(glm::vec3(x, y, z));
+        monos[i]->setmatloc(shader_programme, "model");
     }
+
+    enemy *cosa = new enemy((char*)"mallas/suelo.obj");
+    cosa->setPos(glm::vec3(0.0f,-10.0f,0.0f));
+    cosa->setMatloc(shader_programme,"model");
 
     glm::mat4 projection = glm::perspective(glm::radians(fov), (float)g_gl_width / (float)g_gl_height, 0.1f, 100.0f);
     glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
@@ -112,8 +107,6 @@ int main(int argc, char **argv){
     int proj_mat_location = glGetUniformLocation (shader_programme, "proj");
     glUseProgram (shader_programme);
     glUniformMatrix4fv (proj_mat_location, 1, GL_FALSE, &projection[0][0]);
-    printf("viewloc %i  projloc %i\n", view_mat_location, proj_mat_location);
-    
     
 
     for(int i = 0; i<N; i++){
@@ -143,7 +136,7 @@ int main(int argc, char **argv){
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // activate shader
-	glUseProgram (shader_programme);
+	    glUseProgram (shader_programme);
 
         // pass projection matrix to shader (note that in this case it could change every frame)
         projection = glm::perspective(glm::radians(fov), (float)g_gl_width / (float)g_gl_height, 0.1f, 100.0f);
@@ -151,16 +144,20 @@ int main(int argc, char **argv){
 
         // camera/view transformation
         view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-	glUniformMatrix4fv(view_mat_location, 1, GL_FALSE, &view[0][0]);
+	    glUniformMatrix4fv(view_mat_location, 1, GL_FALSE, &view[0][0]);
 
-	// dibujar los N monos
+	    // dibujar los N monos
 	
-	for(int i=0; i<N; ++i){
-		glBindVertexArray(monos[i]->getvao());
-		// copiar matriz model de cada mono, antes de dibujarlo
-		monos[i]->model2shader(shader_programme);
-		glDrawArrays(GL_TRIANGLES,0,monos[i]->getnumvertices());
-    }
+        for(int i=0; i<N; ++i){
+            glBindVertexArray(monos[i]->getvao());
+            // copiar matriz model de cada mono, antes de dibujarlo
+            monos[i]->model2shader(shader_programme);
+            glDrawArrays(GL_TRIANGLES,0,monos[i]->getnumvertices());
+        }
+        glBindVertexArray(cosa->getVao());
+        cosa->model2shader(shader_programme);
+        glDrawArrays(GL_TRIANGLES,0,cosa->getNvertices());
+
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
@@ -220,10 +217,8 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos){
     pitch += yoffset;
 
     // make sure that when pitch is out of bounds, screen doesn't get flipped
-    if (pitch > 89.0f)
-        pitch = 89.0f;
-    if (pitch < -89.0f)
-        pitch = -89.0f;
+    if (pitch > 89.0f) pitch = 89.0f;
+    if (pitch < -89.0f) pitch = -89.0f;
 
     glm::vec3 front;
     front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));

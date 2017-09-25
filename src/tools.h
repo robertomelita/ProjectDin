@@ -5,4 +5,6 @@
 bool load_mesh (const char* file_name, GLuint* vao, int* point_count);
 // funcion gameplay
 bool gameplay(float cam_speed, double elapsed_seconds, float *cam_pos, float *cam_yaw, float cam_yaw_speed);
+// funcion que inicializa openGL
+void init(int g_gl_width, int g_gl_height, GLuint *shader_programme);
 #endif
