@@ -32,6 +32,8 @@
 #include "tools.h"
 #include "malla.h"
 #include "enemy.h"
+#include "protagonist.h"
+#include "suelo.h"
 
 #define GL_LOG_FILE "log/gl.log"
 
@@ -97,6 +99,10 @@ int main(int argc, char **argv){
     cosa->setPos(glm::vec3(0.0f,-10.0f,0.0f));
     cosa->setMatloc(shader_programme,"model");
 
+    suelo *sword = new suelo((char*)"mallas/mastersword.obj");
+    sword->setPos(glm::vec3(0.0f,-10.0f,0.0f));
+    sword->setMatloc(shader_programme,"model");
+
     glm::mat4 projection = glm::perspective(glm::radians(fov), (float)g_gl_width / (float)g_gl_height, 0.1f, 100.0f);
     glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 
@@ -116,6 +122,7 @@ int main(int argc, char **argv){
             if (mono1.x <= mono2.x+1.0f && mono1.x >= mono2.x-1.0f && mono1.y <= mono2.y+1.0f && mono1.y >= mono2.y-1.0f && mono1.z <= mono2.z+1.0f && mono1.z >= mono2.z-1.0f && i!=j)printf("mono %i, colisiona con mono %i\n",i,j);
         }
     }
+	
 
     // render loop
     // -----------
@@ -157,6 +164,10 @@ int main(int argc, char **argv){
         glBindVertexArray(cosa->getVao());
         cosa->model2shader(shader_programme);
         glDrawArrays(GL_TRIANGLES,0,cosa->getNvertices());
+
+        glBindVertexArray(sword->getVao());
+        sword->model2shader(shader_programme);
+        glDrawArrays(GL_TRIANGLES,0,sword->getNvertices());
 
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
