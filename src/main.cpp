@@ -83,7 +83,7 @@ int main(int argc, char **argv){
     }
     int N = atoi(argv[1]);
     float x, y, z;
-    malla **monos = (malla**)malloc(sizeof(malla*)*N);
+   /* malla **monos = (malla**)malloc(sizeof(malla*)*N);
     for(int i=0; i<N; ++i){
         monos[i] = new malla((char*)"mallas/suzanne.obj");
             //setpos(glm::vec3 p);
@@ -97,9 +97,9 @@ int main(int argc, char **argv){
 
     enemy *cosa = new enemy((char*)"mallas/suelo.obj");
     cosa->setPos(glm::vec3(0.0f,-10.0f,0.0f));
-    cosa->setMatloc(shader_programme,"model");
+    cosa->setMatloc(shader_programme,"model");*/
 
-    suelo *sword = new suelo((char*)"mallas/mastersword.obj");
+    suelo *sword = new suelo((char*)"mallas/terrenin.obj");
     sword->setPos(glm::vec3(0.0f,-10.0f,0.0f));
     sword->setMatloc(shader_programme,"model");
 
@@ -115,13 +115,13 @@ int main(int argc, char **argv){
     glUniformMatrix4fv (proj_mat_location, 1, GL_FALSE, &projection[0][0]);
     
 
-    for(int i = 0; i<N; i++){
+    /*for(int i = 0; i<N; i++){
         glm::vec3 mono1 = monos[i]->getpos();
         for(int j = 0; j<N ; j++){
             glm::vec3 mono2 = monos[j]->getpos();
             if (mono1.x <= mono2.x+1.0f && mono1.x >= mono2.x-1.0f && mono1.y <= mono2.y+1.0f && mono1.y >= mono2.y-1.0f && mono1.z <= mono2.z+1.0f && mono1.z >= mono2.z-1.0f && i!=j)printf("mono %i, colisiona con mono %i\n",i,j);
         }
-    }
+    }*/
 	
 
     // render loop
@@ -155,7 +155,7 @@ int main(int argc, char **argv){
 
 	    // dibujar los N monos
 	
-        for(int i=0; i<N; ++i){
+       /* for(int i=0; i<N; ++i){
             glBindVertexArray(monos[i]->getvao());
             // copiar matriz model de cada mono, antes de dibujarlo
             monos[i]->model2shader(shader_programme);
@@ -163,7 +163,7 @@ int main(int argc, char **argv){
         }
         glBindVertexArray(cosa->getVao());
         cosa->model2shader(shader_programme);
-        glDrawArrays(GL_TRIANGLES,0,cosa->getNvertices());
+        glDrawArrays(GL_TRIANGLES,0,cosa->getNvertices());*/
 
         glBindVertexArray(sword->getVao());
         sword->model2shader(shader_programme);
