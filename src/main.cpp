@@ -46,9 +46,11 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow *window);
 
+glm::vec3 posObj = glm::vec3(0.0f,0,-2.0f);
+glm::vec3 distanciaCamara = glm::vec3(0.0f, 1.0f, 12.0f);
 
 // camera
-glm::vec3 cameraPos   = glm::vec3(0.0f, 0.0f, 3.0f);
+glm::vec3 cameraPos   = posObj + glm::vec3(0.0f, 0.5f, 5.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f, 0.0f);
 
@@ -99,12 +101,17 @@ int main(int argc, char **argv){
     cosa->setPos(glm::vec3(0.0f,-10.0f,0.0f));
     cosa->setMatloc(shader_programme,"model");*/
 
-    suelo *sword = new suelo((char*)"mallas/terrenin.obj");
-    sword->setPos(glm::vec3(0.0f,-10.0f,0.0f));
+    suelo *sword = new suelo((char*)"mallas/cosa.obj");
+    sword->setPos(posObj);
     sword->setMatloc(shader_programme,"model");
 
+    suelo *piso = new suelo((char*)"mallas/suelo.obj");
+    piso->setPos(glm::vec3(0,-5.0f,0));
+    piso->setMatloc(shader_programme,"model");
+    
+
     glm::mat4 projection = glm::perspective(glm::radians(fov), (float)g_gl_width / (float)g_gl_height, 0.1f, 100.0f);
-    glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+    glm::mat4 view = glm::lookAt(cameraPos, posObj + cameraFront, cameraUp);
 
 		
     int view_mat_location = glGetUniformLocation (shader_programme, "view");
@@ -165,9 +172,15 @@ int main(int argc, char **argv){
         cosa->model2shader(shader_programme);
         glDrawArrays(GL_TRIANGLES,0,cosa->getNvertices());*/
 
+        sword->setPos(posObj);
+        sword->setMatloc(shader_programme,"model");
         glBindVertexArray(sword->getVao());
         sword->model2shader(shader_programme);
         glDrawArrays(GL_TRIANGLES,0,sword->getNvertices());
+
+        glBindVertexArray(piso->getVao());
+        piso->model2shader(shader_programme);
+        glDrawArrays(GL_TRIANGLES,0,piso->getNvertices());
 
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -188,14 +201,20 @@ void processInput(GLFWwindow *window){
         glfwSetWindowShouldClose(window, true);
 
     float cameraSpeed = 2.5 * deltaTime;
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        cameraPos += cameraSpeed * cameraFront;
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        cameraPos -= cameraSpeed * cameraFront;
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
+        posObj += glm::vec3(0,0,-1.0f)*cameraSpeed;
+    }
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS){
+        posObj += glm::vec3(0,0,1.0f)*cameraSpeed;
+    }
+        
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){
+        posObj += glm::vec3(-1.0f,0,0)*cameraSpeed;
+    }
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS){
+        posObj += glm::vec3(1.0f,0,0)*cameraSpeed;
+    }
+    cameraPos = posObj + distanciaCamara;
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
