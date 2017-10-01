@@ -50,7 +50,7 @@ glm::vec3 posObj = glm::vec3(0.0f,0,-2.0f);
 glm::vec3 distanciaCamara = glm::vec3(0.0f, 1.0f, 12.0f);
 
 // camera
-glm::vec3 cameraPos   = posObj + glm::vec3(0.0f, 0.5f, 5.0f);
+glm::vec3 cameraPos   = posObj + glm::vec3(12.0f, 0.5f, 0.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f, 0.0f);
 
