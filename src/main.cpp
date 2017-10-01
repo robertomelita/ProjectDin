@@ -54,8 +54,9 @@ glm::vec3 cameraPos   = posObj + glm::vec3(0.0f, 0.5f, 5.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f, 0.0f);
 
+bool raiznegativa = false;
 bool firstMouse = true;
-float yaw   = -90.0f;	// yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right so we initially rotate a bit to the left.
+float yaw   =  0.0f;	// yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right so we initially rotate a bit to the left.
 float pitch =  0.0f;
 float lastX =  g_gl_width / 2.0;
 float lastY =  g_gl_height / 2.0;
@@ -79,28 +80,6 @@ int main(int argc, char **argv){
 
     /*-------------------------------CREATE SHADERS-------------------------------*/
 
-    if(argc != 2){
-	fprintf(stderr, "run as ./prog N\n");
-	exit(EXIT_FAILURE);
-    }
-    int N = atoi(argv[1]);
-    float x, y, z;
-   /* malla **monos = (malla**)malloc(sizeof(malla*)*N);
-    for(int i=0; i<N; ++i){
-        monos[i] = new malla((char*)"mallas/suzanne.obj");
-            //setpos(glm::vec3 p);
-        x = 2.5f*(float)rand()/(float)RAND_MAX;
-        y = 2.5f*(float)rand()/(float)RAND_MAX;
-        z = 2.5f*(float)rand()/(float)RAND_MAX;
-        printf("mono %i (%f, %f, %f)\n", i, x, y, z);
-        monos[i]->setpos(glm::vec3(x, y, z));
-        monos[i]->setmatloc(shader_programme, "model");
-    }
-
-    enemy *cosa = new enemy((char*)"mallas/suelo.obj");
-    cosa->setPos(glm::vec3(0.0f,-10.0f,0.0f));
-    cosa->setMatloc(shader_programme,"model");*/
-
     suelo *sword = new suelo((char*)"mallas/cosa.obj");
     sword->setPos(posObj);
     sword->setMatloc(shader_programme,"model");
@@ -111,7 +90,7 @@ int main(int argc, char **argv){
     
 
     glm::mat4 projection = glm::perspective(glm::radians(fov), (float)g_gl_width / (float)g_gl_height, 0.1f, 100.0f);
-    glm::mat4 view = glm::lookAt(cameraPos, posObj + cameraFront, cameraUp);
+    glm::mat4 view = glm::lookAt(cameraPos, posObj, cameraUp);
 
 		
     int view_mat_location = glGetUniformLocation (shader_programme, "view");
@@ -157,7 +136,7 @@ int main(int argc, char **argv){
         glUniformMatrix4fv(proj_mat_location, 1, GL_FALSE, &projection[0][0]);
 
         // camera/view transformation
-        view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+        view = glm::lookAt(cameraPos, posObj, cameraUp);
 	    glUniformMatrix4fv(view_mat_location, 1, GL_FALSE, &view[0][0]);
 
 	    // dibujar los N monos
@@ -203,18 +182,22 @@ void processInput(GLFWwindow *window){
     float cameraSpeed = 2.5 * deltaTime;
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
         posObj += glm::vec3(0,0,-1.0f)*cameraSpeed;
+        cameraPos += glm::vec3(0,0,-1.0f)*cameraSpeed;
     }
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS){
         posObj += glm::vec3(0,0,1.0f)*cameraSpeed;
+        cameraPos += glm::vec3(0,0,1.0f)*cameraSpeed;
     }
         
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){
         posObj += glm::vec3(-1.0f,0,0)*cameraSpeed;
+        cameraPos += glm::vec3(-1.0f,0,0)*cameraSpeed;
     }
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS){
         posObj += glm::vec3(1.0f,0,0)*cameraSpeed;
+        cameraPos += glm::vec3(-1.0f,0,0)*cameraSpeed;
     }
-    cameraPos = posObj + distanciaCamara;
+    
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
@@ -238,23 +221,40 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos){
     float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
     lastX = xpos;
     lastY = ypos;
-
+    
     float sensitivity = 0.1f; // change this value to your liking
     xoffset *= sensitivity;
     yoffset *= sensitivity;
-
-    yaw += xoffset;
+    
     pitch += yoffset;
+    yaw+=xoffset;
 
+    cameraPos.x = (12.0f*cos(glm::radians(yaw)))+posObj.x;
+    cameraPos.z = (12.0f*sin(glm::radians(yaw)))+posObj.z;
+    /*
+    if (yaw > 12.0f){
+        yaw = 12.0f;
+    }
+    if (yaw < -12.0f){
+        yaw = -12.0f;
+    }
     // make sure that when pitch is out of bounds, screen doesn't get flipped
-    if (pitch > 89.0f) pitch = 89.0f;
-    if (pitch < -89.0f) pitch = -89.0f;
-
-    glm::vec3 front;
-    front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-    front.y = sin(glm::radians(pitch));
-    front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-    cameraFront = glm::normalize(front);
+    if (yaw >= 12.0f) {
+        raiznegativa = !raiznegativa;
+    }
+    if (yaw <= -12.0f) {
+        raiznegativa = !raiznegativa;
+    }
+    
+    if (raiznegativa==true){
+        yaw-=xoffset;
+        cameraPos.x = yaw+posObj.x;
+        cameraPos.z = -glm::sqrt(144.0f-(yaw)*(yaw))+posObj.z;
+    }else{
+        yaw+=xoffset;
+        cameraPos.x = yaw+posObj.x;
+        cameraPos.z = glm::sqrt(144.0f-(yaw)*(yaw))+posObj.z;
+    }*/
 }
 
 // glfw: whenever the mouse scroll wheel scrolls, this callback is called
