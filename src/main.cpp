@@ -58,7 +58,7 @@ glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f, 0.0f);
 bool raiznegativa = false;
 bool firstMouse = true;
 float yaw   =  0.0f;	// yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right so we initially rotate a bit to the left.
-float pitch =  -45.0f;
+float pitch =  45.0f;
 float lastX =  g_gl_width / 2.0;
 float lastY =  g_gl_height / 2.0;
 float fov   =  45.0f;
@@ -82,11 +82,11 @@ int main(int argc, char **argv){
 
     /*-------------------------------CREATE SHADERS-------------------------------*/
 
-    suelo *sword = new suelo((char*)"mallas/cosa.obj");
+    suelo *sword = new suelo((char*)"mallas/suzanne.obj");
     sword->setPos(posObj);
     sword->setMatloc(shader_programme,"model");
 
-    suelo *piso = new suelo((char*)"mallas/suelo.obj");
+    suelo *piso = new suelo((char*)"mallas/mapa2.obj");
     piso->setPos(glm::vec3(0,-5.0f,0));
     piso->setMatloc(shader_programme,"model");
     
@@ -101,15 +101,6 @@ int main(int argc, char **argv){
     int proj_mat_location = glGetUniformLocation (shader_programme, "proj");
     glUseProgram (shader_programme);
     glUniformMatrix4fv (proj_mat_location, 1, GL_FALSE, &projection[0][0]);
-    
-
-    /*for(int i = 0; i<N; i++){
-        glm::vec3 mono1 = monos[i]->getpos();
-        for(int j = 0; j<N ; j++){
-            glm::vec3 mono2 = monos[j]->getpos();
-            if (mono1.x <= mono2.x+1.0f && mono1.x >= mono2.x-1.0f && mono1.y <= mono2.y+1.0f && mono1.y >= mono2.y-1.0f && mono1.z <= mono2.z+1.0f && mono1.z >= mono2.z-1.0f && i!=j)printf("mono %i, colisiona con mono %i\n",i,j);
-        }
-    }*/
 	
 
     // render loop
@@ -139,19 +130,8 @@ int main(int argc, char **argv){
 
         // camera/view transformation
         view = glm::lookAt(cameraPos, posObj, cameraUp);
-	    glUniformMatrix4fv(view_mat_location, 1, GL_FALSE, &view[0][0]);
-
-	    // dibujar los N monos
-	
-       /* for(int i=0; i<N; ++i){
-            glBindVertexArray(monos[i]->getvao());
-            // copiar matriz model de cada mono, antes de dibujarlo
-            monos[i]->model2shader(shader_programme);
-            glDrawArrays(GL_TRIANGLES,0,monos[i]->getnumvertices());
-        }
-        glBindVertexArray(cosa->getVao());
-        cosa->model2shader(shader_programme);
-        glDrawArrays(GL_TRIANGLES,0,cosa->getNvertices());*/
+        glUniformMatrix4fv(view_mat_location, 1, GL_FALSE, &view[0][0]);
+        
 
         sword->setPos(posObj);
         sword->setMatloc(shader_programme,"model");
@@ -231,11 +211,11 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos){
     pitch += yoffset;
     yaw   += xoffset;
 
-    if(pitch >=-10.0f){
-        pitch = -10.0f;
+    if(pitch <=10.0f){
+        pitch = 10.0f;
     }
-    if(pitch <-100.0f){
-        pitch = -100.0f;
+    if(pitch >100.0f){
+        pitch = 100.0f;
     }
 
     cameraPos.x = (distancia*sin(glm::radians(pitch))*cos(glm::radians(yaw)))+posObj.x;
