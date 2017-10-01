@@ -45,22 +45,24 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow *window);
+int distancia = 12.0f;
 
 glm::vec3 posObj = glm::vec3(0.0f,0,-2.0f);
-glm::vec3 distanciaCamara = glm::vec3(0.0f, 1.0f, 12.0f);
+glm::vec3 distanciaCamara = glm::vec3(0.0f, 1.0f, distancia);
 
 // camera
-glm::vec3 cameraPos   = posObj + glm::vec3(12.0f, 0.5f, 0.0f);
+glm::vec3 cameraPos   = posObj + glm::vec3(distancia, 0.5f, 0.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f, 0.0f);
 
 bool raiznegativa = false;
 bool firstMouse = true;
 float yaw   =  0.0f;	// yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right so we initially rotate a bit to the left.
-float pitch =  0.0f;
+float pitch =  -45.0f;
 float lastX =  g_gl_width / 2.0;
 float lastY =  g_gl_height / 2.0;
 float fov   =  45.0f;
+
 
 // timing
 float deltaTime = 0.0f;	// time between current frame and last frame
@@ -195,7 +197,7 @@ void processInput(GLFWwindow *window){
     }
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS){
         posObj += glm::vec3(1.0f,0,0)*cameraSpeed;
-        cameraPos += glm::vec3(-1.0f,0,0)*cameraSpeed;
+        cameraPos += glm::vec3(1.0f,0,0)*cameraSpeed;
     }
     
 }
@@ -227,34 +229,19 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos){
     yoffset *= sensitivity;
     
     pitch += yoffset;
-    yaw+=xoffset;
+    yaw   += xoffset;
 
-    cameraPos.x = (12.0f*cos(glm::radians(yaw)))+posObj.x;
-    cameraPos.z = (12.0f*sin(glm::radians(yaw)))+posObj.z;
-    /*
-    if (yaw > 12.0f){
-        yaw = 12.0f;
+    if(pitch >=-10.0f){
+        pitch = -10.0f;
     }
-    if (yaw < -12.0f){
-        yaw = -12.0f;
+    if(pitch <-100.0f){
+        pitch = -100.0f;
     }
-    // make sure that when pitch is out of bounds, screen doesn't get flipped
-    if (yaw >= 12.0f) {
-        raiznegativa = !raiznegativa;
-    }
-    if (yaw <= -12.0f) {
-        raiznegativa = !raiznegativa;
-    }
-    
-    if (raiznegativa==true){
-        yaw-=xoffset;
-        cameraPos.x = yaw+posObj.x;
-        cameraPos.z = -glm::sqrt(144.0f-(yaw)*(yaw))+posObj.z;
-    }else{
-        yaw+=xoffset;
-        cameraPos.x = yaw+posObj.x;
-        cameraPos.z = glm::sqrt(144.0f-(yaw)*(yaw))+posObj.z;
-    }*/
+
+    cameraPos.x = (distancia*sin(glm::radians(pitch))*cos(glm::radians(yaw)))+posObj.x;
+    cameraPos.z = (distancia*sin(glm::radians(pitch))*sin(glm::radians(yaw)))+posObj.z;
+    cameraPos.y = (distancia*cos(glm::radians(pitch)))+posObj.y;
+   
 }
 
 // glfw: whenever the mouse scroll wheel scrolls, this callback is called
