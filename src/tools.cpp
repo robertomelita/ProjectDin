@@ -6,7 +6,11 @@
 #include <assimp/cimport.h> // C importer
 #include <assimp/scene.h> // collects data
 #include <assimp/postprocess.h> // various extra operations
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include "gl_utils.h"
+#include "input.h"
 #include "tools.h"
 
 #define PI 3.14159265359
@@ -139,4 +143,27 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	*shader_programme = create_programme_from_files (
 		VERTEX_SHADER_FILE, FRAGMENT_SHADER_FILE
 	);
+
+	init_input();
+	
+		/*-------------------------------CREATE SHADERS-------------------------------*/
+	
+	sword = new suelo((char*)"mallas/suzanne.obj");
+	sword->setPos(posObj);
+	sword->setMatloc(*shader_programme,"model");
+	
+	piso = new suelo((char*)"mallas/mapa2.obj");
+	piso->setPos(glm::vec3(0,-5.0f,0));
+	piso->setMatloc(*shader_programme,"model");
+
+	projection = glm::perspective(glm::radians(fov), (float)g_gl_width / (float)g_gl_height, 0.1f, 100.0f);
+	view = glm::lookAt(cameraPos, posObj, cameraUp);
+	
+			
+	view_mat_location = glGetUniformLocation (*shader_programme, "view");
+	glUseProgram (*shader_programme);
+	glUniformMatrix4fv(view_mat_location, 1, GL_FALSE, &view[0][0]);
+	proj_mat_location = glGetUniformLocation (*shader_programme, "proj");
+	glUseProgram (*shader_programme);
+	glUniformMatrix4fv (proj_mat_location, 1, GL_FALSE, &projection[0][0]);
 }

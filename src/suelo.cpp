@@ -31,7 +31,7 @@ int suelo::getNvertices(){
 }
 void suelo::setPos(glm::vec3 pos){
 	this->pos = pos;	
-	this->model = glm::translate(glm::mat4(), this->pos);
+    this->model = glm::translate(glm::mat4(), this->pos);
 }
 
 void suelo::setMatloc(GLuint shaderprog, const char *name){	

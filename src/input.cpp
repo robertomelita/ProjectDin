@@ -8,8 +8,8 @@
 #include "input.h"
 
 bool firstMouse = true;
-float yaw   =  0.0f;
-float pitch =  45.0f;
+float yaw   =  90.0f;
+float pitch =  90.0f;
 float lastX =  g_gl_width / 2.0;
 float lastY =  g_gl_height / 2.0;
 
@@ -21,9 +21,7 @@ void init_input(){
     glfwSetInputMode(g_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
-
-
-void processInput(GLFWwindow *window){
+void input(GLFWwindow *window){
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 

@@ -37,7 +37,7 @@ int protagonist::getNvertices(){
 }
 void protagonist::setPos(glm::vec3 pos){
 	this->pos = pos;	
-	this->model = glm::translate(glm::mat4(), this->pos);
+    this->model = glm::translate(glm::mat4(), this->pos);
 }
 
 void protagonist::setMatloc(GLuint shaderprog, const char *name){	

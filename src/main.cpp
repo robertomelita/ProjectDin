@@ -34,7 +34,7 @@
 #include "enemy.h"
 #include "protagonist.h"
 #include "suelo.h"
-
+#include "input.h"
 
 #define GL_LOG_FILE "log/gl.log"
 
@@ -47,49 +47,31 @@ int distancia = 12.0f;
 glm::vec3 posObj = glm::vec3(0.0f,0,-2.0f);
 
 // camera
-glm::vec3 cameraPos   = posObj + glm::vec3(distancia, 0.5f, 0.0f);
+glm::vec3 cameraPos   = posObj + glm::vec3(0.0f, 0.5f, distancia);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f, 0.0f);
-
 float fov   =  45.0f;
-
 
 // timing
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
-#include "input.h"
+
 GLuint shader_programme;
+
+//mallas
+suelo *sword;
+suelo *piso;
+
+glm::mat4 projection;
+glm::mat4 view;
+
+int view_mat_location;
+int proj_mat_location;
 
 int main(int argc, char **argv){
 
     init(g_gl_width, g_gl_height, &shader_programme);
-    init_input();
 
-    /*-------------------------------CREATE SHADERS-------------------------------*/
-
-    suelo *sword = new suelo((char*)"mallas/suzanne.obj");
-    sword->setPos(posObj);
-    sword->setMatloc(shader_programme,"model");
-
-    suelo *piso = new suelo((char*)"mallas/mapa2.obj");
-    piso->setPos(glm::vec3(0,-5.0f,0));
-    piso->setMatloc(shader_programme,"model");
-    
-
-    glm::mat4 projection = glm::perspective(glm::radians(fov), (float)g_gl_width / (float)g_gl_height, 0.1f, 100.0f);
-    glm::mat4 view = glm::lookAt(cameraPos, posObj, cameraUp);
-
-		
-    int view_mat_location = glGetUniformLocation (shader_programme, "view");
-    glUseProgram (shader_programme);
-    glUniformMatrix4fv(view_mat_location, 1, GL_FALSE, &view[0][0]);
-    int proj_mat_location = glGetUniformLocation (shader_programme, "proj");
-    glUseProgram (shader_programme);
-    glUniformMatrix4fv (proj_mat_location, 1, GL_FALSE, &projection[0][0]);
-	
-
-    // render loop
-    // -----------
     while (!glfwWindowShouldClose(g_window)){
         // per-frame time logic
         // --------------------
@@ -99,7 +81,7 @@ int main(int argc, char **argv){
 
         // input
         // -----
-        processInput(g_window);
+        input(g_window);
 
         // render
         // ------
