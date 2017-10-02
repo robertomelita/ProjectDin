@@ -61,6 +61,8 @@ GLuint shader_programme;
 //mallas
 suelo *sword;
 suelo *piso;
+suelo *castillo;
+enemy *espada;
 
 glm::mat4 projection;
 glm::mat4 view;
@@ -89,16 +91,9 @@ int main(int argc, char **argv){
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // activate shader
-	    glUseProgram (shader_programme);
-
-        // pass projection matrix to shader (note that in this case it could change every frame)
-        projection = glm::perspective(glm::radians(fov), (float)g_gl_width / (float)g_gl_height, 0.1f, 100.0f);
-        glUniformMatrix4fv(proj_mat_location, 1, GL_FALSE, &projection[0][0]);
-
-        // camera/view transformation
-        view = glm::lookAt(cameraPos, posObj, cameraUp);
-        glUniformMatrix4fv(view_mat_location, 1, GL_FALSE, &view[0][0]);
+        glUseProgram(shader_programme);
         
+        update_camera();
 
         sword->setPos(posObj);
         sword->setMatloc(shader_programme,"model");
@@ -109,6 +104,14 @@ int main(int argc, char **argv){
         glBindVertexArray(piso->getVao());
         piso->model2shader(shader_programme);
         glDrawArrays(GL_TRIANGLES,0,piso->getNvertices());
+
+        glBindVertexArray(castillo->getVao());
+        castillo->model2shader(shader_programme);
+        glDrawArrays(GL_TRIANGLES,0,castillo->getNvertices());
+
+        glBindVertexArray(espada->getVao());
+        espada->model2shader(shader_programme);
+        glDrawArrays(GL_TRIANGLES,0,espada->getNvertices());
 
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)

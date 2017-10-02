@@ -98,3 +98,12 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset){
     if (fov >= 45.0f)
         fov = 45.0f;
 }
+void update_camera(){
+    // pass projection matrix to shader (note that in this case it could change every frame)
+    projection = glm::perspective(glm::radians(fov), (float)g_gl_width / (float)g_gl_height, 0.1f, 100.0f);
+    glUniformMatrix4fv(proj_mat_location, 1, GL_FALSE, &projection[0][0]);
+
+    // camera/view transformation
+    view = glm::lookAt(cameraPos, posObj, cameraUp);
+    glUniformMatrix4fv(view_mat_location, 1, GL_FALSE, &view[0][0]);
+}

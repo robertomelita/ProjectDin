@@ -152,14 +152,21 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	sword->setPos(posObj);
 	sword->setMatloc(*shader_programme,"model");
 	
-	piso = new suelo((char*)"mallas/mapa2.obj");
-	piso->setPos(glm::vec3(0,-5.0f,0));
+	piso = new suelo((char*)"mallas/mapa3.obj");
+	piso->setPos(glm::vec3(0,-15.0f,0));
 	piso->setMatloc(*shader_programme,"model");
+
+	castillo = new suelo((char*)"mallas/castillo.obj");
+	castillo->setPos(glm::vec3(-40.0f,-10.0f,-20.0f));
+	castillo->setMatloc(*shader_programme,"model");
+
+	espada = new enemy((char*)"mallas/mastersword.obj");
+	espada->setPos(glm::vec3(10.0f,0.0f,0));
+	espada->setMatloc(*shader_programme,"model");
 
 	projection = glm::perspective(glm::radians(fov), (float)g_gl_width / (float)g_gl_height, 0.1f, 100.0f);
 	view = glm::lookAt(cameraPos, posObj, cameraUp);
 	
-			
 	view_mat_location = glGetUniformLocation (*shader_programme, "view");
 	glUseProgram (*shader_programme);
 	glUniformMatrix4fv(view_mat_location, 1, GL_FALSE, &view[0][0]);
