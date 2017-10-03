@@ -26,13 +26,15 @@ void input(GLFWwindow *window){
         glfwSetWindowShouldClose(window, true);
 
     float cameraSpeed = 2.5 * deltaTime;
+
+    glm::vec3 vectorDirector = glm::normalize(posObj-cameraPos);
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
-        posObj += glm::vec3(0,0,-1.0f)*cameraSpeed;
-        cameraPos += glm::vec3(0,0,-1.0f)*cameraSpeed;
+        posObj += vectorDirector*cameraSpeed;
+        cameraPos += vectorDirector*cameraSpeed;
     }
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS){
-        posObj += glm::vec3(0,0,1.0f)*cameraSpeed;
-        cameraPos += glm::vec3(0,0,1.0f)*cameraSpeed;
+        posObj -= vectorDirector*cameraSpeed;
+        cameraPos -= vectorDirector*cameraSpeed;
     }
         
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){
