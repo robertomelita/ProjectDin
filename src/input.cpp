@@ -25,9 +25,14 @@ void input(GLFWwindow *window){
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
-    float cameraSpeed = 2.5 * deltaTime;
+    float cameraSpeed = 5.0f * deltaTime;
+
+    if(glfwGetKey(window,GLFW_KEY_LEFT_SHIFT)){
+        cameraSpeed = 20.0f * deltaTime;
+    }
 
     glm::vec3 vectorDirector = glm::normalize(posObj-cameraPos);
+    glm::vec3 vectorPerpendicular = glm::normalize(glm::cross(vectorDirector,glm::vec3(0,1.0f,0)));
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
         posObj += vectorDirector*cameraSpeed;
         cameraPos += vectorDirector*cameraSpeed;
@@ -38,12 +43,12 @@ void input(GLFWwindow *window){
     }
         
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){
-        posObj += glm::vec3(-1.0f,0,0)*cameraSpeed;
-        cameraPos += glm::vec3(-1.0f,0,0)*cameraSpeed;
+        posObj -= vectorPerpendicular*cameraSpeed;
+        cameraPos -= vectorPerpendicular*cameraSpeed;
     }
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS){
-        posObj += glm::vec3(1.0f,0,0)*cameraSpeed;
-        cameraPos += glm::vec3(1.0f,0,0)*cameraSpeed;
+        posObj += vectorPerpendicular*cameraSpeed;
+        cameraPos += vectorPerpendicular*cameraSpeed;
     }
     
 }
@@ -80,8 +85,8 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos){
     if(pitch <=10.0f){
         pitch = 10.0f;
     }
-    if(pitch >100.0f){
-        pitch = 100.0f;
+    if(pitch >150.0f){
+        pitch = 150.0f;
     }
 
     cameraPos.x = (distancia*sin(glm::radians(pitch))*cos(glm::radians(yaw)))+posObj.x;
