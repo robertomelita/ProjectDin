@@ -17,6 +17,8 @@
 #define VERTEX_SHADER_FILE "shaders/test_vs.glsl"
 #define FRAGMENT_SHADER_FILE "shaders/test_fs.glsl"
 
+using namespace std;
+
 bool load_mesh (const char* file_name, GLuint* vao, int* point_count) {
 	const aiScene* scene = aiImportFile(file_name, aiProcess_Triangulate);
 	if (!scene) {
@@ -148,7 +150,8 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	
 		/*-------------------------------CREATE SHADERS-------------------------------*/
 	
-	sword = new suelo((char*)"mallas/suzanne.obj");
+	sword = new suelo((char*)"mallas/cubo.obj");
+	sword->load_texture("textures/redbrick.jpg");
 	sword->setPos(posObj);
 	sword->setMatloc(*shader_programme,"model");
 	
@@ -160,7 +163,7 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	castillo->setPos(glm::vec3(-40.0f,-10.0f,-20.0f));
 	castillo->setMatloc(*shader_programme,"model");
 
-	espada = new enemy((char*)"mallas/mastersword.obj");
+	espada = new enemy((char*)"mallas/basicman.obj");
 	espada->setPos(glm::vec3(10.0f,0.0f,0));
 	espada->setMatloc(*shader_programme,"model");
 

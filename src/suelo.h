@@ -1,5 +1,8 @@
 #ifndef SUELO_H
 #define SUELO_H
+
+using namespace std;
+
 class suelo
 {
 private:
@@ -9,6 +12,8 @@ private:
     glm::mat4 model;
     int matloc;
     char *filename;
+protected:
+    GLuint tex; 
 public:
 	suelo(char *filename);
 	 //gets
@@ -24,6 +29,7 @@ public:
     void setFilename(char *f);
     void setMatloc(GLuint shaderprog, const char* name);
     void model2shader(GLuint shaderprog);
-	
+    
+    bool load_texture (const char* file_name);
 };
 #endif

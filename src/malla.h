@@ -5,7 +5,7 @@ using namespace std;
 
 class malla{
     private:
-        GLuint vao, vbo;
+        GLuint vao, vbo, tex;
         int numvertices;
         glm::vec3 pos;
 	glm::mat4 model;
@@ -29,7 +29,7 @@ class malla{
         void setfilename(char *f);
 	void setmatloc(GLuint shaderprog, const char* name);
 	void model2shader(GLuint shaderprog);
-	void printmodel();
+        void printmodel();
 };
 
 

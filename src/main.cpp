@@ -29,6 +29,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 #include "gl_utils.h"
+#include "stb_image.h"
 #include "tools.h"
 #include "malla.h"
 #include "enemy.h"
@@ -37,6 +38,7 @@
 #include "input.h"
 
 #define GL_LOG_FILE "log/gl.log"
+using namespace std;
 
 int g_gl_width = 800;
 int g_gl_height = 600;
@@ -95,11 +97,7 @@ int main(int argc, char **argv){
         
         update_camera();
 
-        sword->setPos(posObj);
-        sword->setMatloc(shader_programme,"model");
-        glBindVertexArray(sword->getVao());
-        sword->model2shader(shader_programme);
-        glDrawArrays(GL_TRIANGLES,0,sword->getNvertices());
+        
 
         glBindVertexArray(piso->getVao());
         piso->model2shader(shader_programme);
@@ -112,6 +110,14 @@ int main(int argc, char **argv){
         glBindVertexArray(espada->getVao());
         espada->model2shader(shader_programme);
         glDrawArrays(GL_TRIANGLES,0,espada->getNvertices());
+
+        sword->setPos(posObj);
+        sword->setMatloc(shader_programme,"model");
+        glActiveTexture(GL_TEXTURE0);
+        glBindVertexArray(sword->getVao());
+        sword->model2shader(shader_programme);
+        glDrawArrays(GL_TRIANGLES,0,sword->getNvertices());
+        glBindVertexArray(0);
 
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)

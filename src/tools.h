@@ -12,6 +12,8 @@
 #include "suelo.h"
 #include "input.h"
 
+using namespace std;
+
 extern GLuint shader_programme;
 
 //mallas

@@ -7,6 +7,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "stb_image.h"
 #include "tools.h"
 #include "malla.h"
 
@@ -51,6 +52,7 @@ void malla::setmatloc(GLuint shaderprog, const char *name){
 void malla::model2shader(GLuint shaderprog){
 	// enviar matriz al shader (gpu)
 	glUseProgram(shaderprog);
+	glBindTexture(GL_TEXTURE_2D, tex);
 	glUniformMatrix4fv(this->matloc, 1, GL_FALSE, &(this->model[0][0]));
 }
 
@@ -63,6 +65,7 @@ void malla::printmodel(){
 	}
 	printf("\n");
 }
+
 
 
 
