@@ -91,10 +91,7 @@ int main(int argc, char **argv){
         // ------
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        // activate shader
-        glUseProgram(shader_programme);
-        
+       
         update_camera();
 
         sword->transform(posObj);
