@@ -157,21 +157,21 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	sword->setMatloc(*shader_programme,"model");
 	
 	piso = new suelo((char*)"mallas/mapa3.obj");
-	piso->load_texture("textures/earth1k.jpg");
+	piso->load_texture("textures/nevada_dn.tga");
 	piso->setPos(glm::vec3(0,-15.0f,0));
 	piso->setMatloc(*shader_programme,"model");
 
 	castillo = new suelo((char*)"mallas/castillo.obj");
-//	castillo->load_texture("textures/sun1k.jpg");
+	castillo->load_texture("textures/sun1k.jpg");
 	castillo->setPos(glm::vec3(-40.0f,-10.0f,-20.0f));
 	castillo->setMatloc(*shader_programme,"model");
 
 	espada = new suelo((char*)"mallas/mastersword.obj");
 	espada->load_texture("textures/mars1k.jpg");
-	espada->setPos(glm::vec3(10.0f,0.0f,0));
+	espada->setPos(glm::vec3(15.0f,0.0f,0));
 	espada->setMatloc(*shader_programme,"model");
 
-	projection = glm::perspective(glm::radians(fov), (float)g_gl_width / (float)g_gl_height, 0.1f, 100.0f);
+	projection = glm::perspective(glm::radians(fov), (float)g_gl_width / (float)g_gl_height, 0.1f, 1000.0f);
 	view = glm::lookAt(cameraPos, posObj, cameraUp);
 	
 	view_mat_location = glGetUniformLocation (*shader_programme, "view");

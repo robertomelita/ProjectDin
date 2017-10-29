@@ -107,7 +107,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset){
 }
 void update_camera(){
     // pass projection matrix to shader (note that in this case it could change every frame)
-    projection = glm::perspective(glm::radians(fov), (float)g_gl_width / (float)g_gl_height, 0.1f, 100.0f);
+    projection = glm::perspective(glm::radians(fov), (float)g_gl_width / (float)g_gl_height, 0.1f, 10001.0f);
     glUniformMatrix4fv(proj_mat_location, 1, GL_FALSE, &projection[0][0]);
 
     // camera/view transformation

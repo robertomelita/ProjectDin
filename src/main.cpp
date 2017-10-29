@@ -36,6 +36,7 @@
 #include "protagonist.h"
 #include "suelo.h"
 #include "input.h"
+#include "skybox.h"
 
 #define GL_LOG_FILE "log/gl.log"
 using namespace std;
@@ -75,6 +76,7 @@ int proj_mat_location;
 int main(int argc, char **argv){
 
     init(g_gl_width, g_gl_height, &shader_programme);
+    skybox *skyshok = new skybox(projection,view);
 
     while (!glfwWindowShouldClose(g_window)){
         // per-frame time logic
@@ -85,24 +87,25 @@ int main(int argc, char **argv){
 	
         // input
         // -----
-	glfwSwapBuffers(g_window);
+	    glfwSwapBuffers(g_window);
         glfwPollEvents();
         input(g_window);
 
         // render
         // ------
+        
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-       
+        glUseProgram(shader_programme);
         update_camera();
 
         sword->transform(posObj);
         sword->render(shader_programme);
-   
-        piso->render(shader_programme);
-        castillo->render(shader_programme);
-        espada->render(shader_programme);
         
+//        piso->render(shader_programme);
+        espada->render(shader_programme);
+        castillo->render(shader_programme);
+        skyshok->render(glm::lookAt(glm::vec3(),posObj,glm::normalize(glm::cross(cameraPos-posObj,glm::vec3(1.0f,0,0)))));//glm::normalize(posObj-cameraPos)
     }
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
