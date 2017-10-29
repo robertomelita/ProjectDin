@@ -82,9 +82,11 @@ int main(int argc, char **argv){
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
-
+	
         // input
         // -----
+	glfwSwapBuffers(g_window);
+        glfwPollEvents();
         input(g_window);
 
         // render
@@ -100,11 +102,7 @@ int main(int argc, char **argv){
         piso->render(shader_programme);
         castillo->render(shader_programme);
         espada->render(shader_programme);
-
-        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-        // -------------------------------------------------------------------------------
-        glfwSwapBuffers(g_window);
-        glfwPollEvents();
+        
     }
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
