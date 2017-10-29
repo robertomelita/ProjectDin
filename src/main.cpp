@@ -110,10 +110,10 @@ int main(int argc, char **argv){
         sword->transform(posObj);
         sword->render(shader_programme);
         
-//        piso->render(shader_programme);
+        piso->render(shader_programme);
         espada->render(shader_programme);
         castillo->render(shader_programme);
-        skyshok->render(glm::lookAt(glm::vec3(),posObj,glm::normalize(glm::cross(cameraPos-posObj,glm::vec3(1.0f,0,0)))));//glm::normalize(posObj-cameraPos)
+        skyshok->render(glm::lookAt(cameraPos,posObj,glm::cross(cameraPos-posObj,glm::cross(cameraUp,cameraPos-posObj))));
     }
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
