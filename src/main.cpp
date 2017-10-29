@@ -37,6 +37,7 @@
 #include "suelo.h"
 #include "input.h"
 #include "skybox.h"
+#include "sound.h"
 
 #define GL_LOG_FILE "log/gl.log"
 using namespace std;
@@ -66,6 +67,8 @@ suelo *sword;
 suelo *piso;
 suelo *castillo;
 suelo *espada;
+sound *snd_01 = new sound((const char*)"audio/fall.wav");
+sound *snd_02 = new sound((const char*)"audio/test.wav");
 
 glm::mat4 projection;
 glm::mat4 view;
@@ -77,6 +80,7 @@ int main(int argc, char **argv){
 
     init(g_gl_width, g_gl_height, &shader_programme);
     skybox *skyshok = new skybox(projection,view);
+    
 
     while (!glfwWindowShouldClose(g_window)){
         // per-frame time logic
@@ -90,6 +94,7 @@ int main(int argc, char **argv){
 	    glfwSwapBuffers(g_window);
         glfwPollEvents();
         input(g_window);
+        soundsPositioning();
 
         // render
         // ------
@@ -98,7 +103,10 @@ int main(int argc, char **argv){
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUseProgram(shader_programme);
         update_camera();
-
+        if(snd_01->get_source_state() != AL_PLAYING)
+        {
+            snd_01->play();
+        }
         sword->transform(posObj);
         sword->render(shader_programme);
         
@@ -112,3 +120,4 @@ int main(int argc, char **argv){
     glfwTerminate();
     return 0;
 }
+

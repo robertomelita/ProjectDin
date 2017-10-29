@@ -21,6 +21,12 @@ void init_input(){
     glfwSetInputMode(g_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
+void soundsPositioning()
+{
+    snd_01->set_listener(cameraPos);
+}
+
+
 void input(GLFWwindow *window){
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
@@ -49,6 +55,12 @@ void input(GLFWwindow *window){
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS){
         posObj += vectorPerpendicular*cameraSpeed;
         cameraPos += vectorPerpendicular*cameraSpeed;
+    }
+    if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS){
+         if(snd_02->get_source_state() != AL_PLAYING)
+        {
+            snd_02->play();
+        }
     }
     
 }

@@ -1,6 +1,6 @@
 #ifndef INPUT_H
 #define INPUT_H
-
+#include "sound.h"
 extern int g_gl_width;
 extern int g_gl_height;
 extern GLFWwindow* g_window;
@@ -24,7 +24,13 @@ extern glm::mat4 view;
 extern int view_mat_location;
 extern int proj_mat_location;
 
+extern sound *snd_01;
+extern sound *snd_02;
+//sound
+//extern sound *snd_01;
+
 void init_input();
+void soundsPositioning();
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);

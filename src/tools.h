@@ -11,6 +11,7 @@
 #include "protagonist.h"
 #include "suelo.h"
 #include "input.h"
+#include "sound.h"
 
 using namespace std;
 
