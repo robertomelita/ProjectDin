@@ -19,12 +19,12 @@
 
 #define CUBE_VERT_FILE "shaders/cube_vs.glsl"
 #define CUBE_FRAG_FILE "shaders/cube_fs.glsl"
-#define FRONT "textures/nevada_ft.tga"
-#define BACK "textures/nevada_bk.tga"
-#define TOP "textures/nevada_up.tga"
-#define BOTTOM "textures/nevada_dn.tga"
-#define LEFT "textures/nevada_lf.tga"
-#define RIGHT "textures/nevada_rt.tga"
+#define FRONT "textures/Box_Back.bmp"
+#define BACK "textures/Box_Front.bmp"
+#define TOP "textures/Box_Top.bmp"
+#define BOTTOM "textures/Box_Bottom.bmp"
+#define LEFT "textures/Box_Left.bmp"
+#define RIGHT "textures/Box_Right.bmp"
 
 skybox::skybox(glm::mat4 projection,glm::mat4 view){
     float points[] = {
