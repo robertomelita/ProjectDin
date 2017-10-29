@@ -6,6 +6,7 @@ EXEC=bin/prog
 
 all: 
 	${CC} ${SRC} ${LIBS} -o ${EXEC} 
+	./bin/prog
 
 
 clear:
