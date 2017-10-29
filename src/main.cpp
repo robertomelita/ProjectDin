@@ -67,7 +67,7 @@ suelo *sword;
 suelo *piso;
 suelo *castillo;
 suelo *espada;
-sound *snd_01 = new sound((const char*)"audio/fall.wav");
+sound *snd_01 = new sound((const char*)"audio/rito2.wav");
 sound *snd_02 = new sound((const char*)"audio/test.wav");
 
 glm::mat4 projection;

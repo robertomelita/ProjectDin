@@ -167,7 +167,7 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	castillo->setMatloc(*shader_programme,"model");
 
 	espada = new suelo((char*)"mallas/mastersword.obj");
-	espada->load_texture("textures/mars1k.jpg");
+	espada->load_texture("textures/espada.png");
 	espada->setPos(glm::vec3(15.0f,0.0f,0));
 	espada->setMatloc(*shader_programme,"model");
 

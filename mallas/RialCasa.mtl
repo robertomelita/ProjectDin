@@ -8,6 +8,7 @@ Kd 0.8 0.8 0.8
 Ks 0.8 0.8 0.8
 d 1
 illum 2
+map_Kd /home/sapito-qlo/Documentos/door.jpg
 
 newmtl None_6.free-roof-textures.jpg
 Ns 0
@@ -18,14 +19,13 @@ d 1
 illum 2
 map_Kd /home/sapito-qlo/Documentos/6.free-roof-textures.jpg
 
-newmtl None_door.jpg
+newmtl None_Sin_nombre
 Ns 0
 Ka 0.000000 0.000000 0.000000
 Kd 0.8 0.8 0.8
 Ks 0.8 0.8 0.8
 d 1
 illum 2
-map_Kd /home/sapito-qlo/Documentos/door.jpg
 
 newmtl None_madera2.jpg
 Ns 0
