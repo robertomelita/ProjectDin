@@ -29,6 +29,9 @@ GLuint suelo::getVbo(){
 glm::vec3 suelo::getPos(){
     return this->pos;
 }
+GLuint suelo::getTex(){
+	return this->tex;
+}
 int suelo::getNvertices(){
     return this->nvertices;
 }
@@ -46,8 +49,6 @@ void suelo::model2shader(GLuint shaderprog){
 	glUseProgram(shaderprog);
 	glUniformMatrix4fv(this->matloc, 1, GL_FALSE, &(this->model[0][0]));
 }
-
-
 
 bool suelo::load_texture (const char* file_name) {
 	int x, y, n;
@@ -96,4 +97,17 @@ bool suelo::load_texture (const char* file_name) {
 	// set the maximum!
 	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, max_aniso);
 	return true;
+}
+
+void suelo::render(GLuint shader_programme){
+	setMatloc(shader_programme,"model");
+	glActiveTexture(GL_TEXTURE0);
+	glBindVertexArray(getVao());
+	glBindTexture(GL_TEXTURE_2D,getTex());
+	model2shader(shader_programme);
+	glDrawArrays(GL_TRIANGLES,0,getNvertices());
+}
+
+void suelo::transform(glm::vec3 posObj){
+	setPos(posObj);
 }

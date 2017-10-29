@@ -20,7 +20,7 @@ extern GLuint shader_programme;
 extern suelo *sword;
 extern suelo *piso;
 extern suelo *castillo;
-extern enemy *espada;
+extern suelo *espada;
 
 extern glm::mat4 projection;
 extern glm::mat4 view;

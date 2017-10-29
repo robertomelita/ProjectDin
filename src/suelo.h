@@ -6,14 +6,13 @@ using namespace std;
 class suelo
 {
 private:
-	GLuint VAO, VBO;
+	GLuint VAO, VBO, tex;
     int nvertices;
     glm::vec3 pos;
     glm::mat4 model;
     int matloc;
     char *filename;
-protected:
-    GLuint tex; 
+
 public:
 	suelo(char *filename);
 	 //gets
@@ -21,6 +20,7 @@ public:
     GLuint getVao();
     GLuint getVbo();
     glm::vec3 getPos();
+    GLuint getTex();
 
     // sets
     void setVao(GLuint vao);
@@ -29,7 +29,8 @@ public:
     void setFilename(char *f);
     void setMatloc(GLuint shaderprog, const char* name);
     void model2shader(GLuint shaderprog);
-    
+    void render(GLuint shader_programme);
+    void transform(glm::vec3 posObj);
     bool load_texture (const char* file_name);
 };
 #endif

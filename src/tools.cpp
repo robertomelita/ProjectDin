@@ -146,24 +146,28 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 		VERTEX_SHADER_FILE, FRAGMENT_SHADER_FILE
 	);
 
+
 	init_input();
 	
 		/*-------------------------------CREATE SHADERS-------------------------------*/
 	
-	sword = new suelo((char*)"mallas/cubo.obj");
+	sword = new suelo((char*)"mallas/suzanne.obj");
 	sword->load_texture("textures/redbrick.jpg");
 	sword->setPos(posObj);
 	sword->setMatloc(*shader_programme,"model");
 	
 	piso = new suelo((char*)"mallas/mapa3.obj");
+	piso->load_texture("textures/earth1k.jpg");
 	piso->setPos(glm::vec3(0,-15.0f,0));
 	piso->setMatloc(*shader_programme,"model");
 
 	castillo = new suelo((char*)"mallas/castillo.obj");
+//	castillo->load_texture("textures/sun1k.jpg");
 	castillo->setPos(glm::vec3(-40.0f,-10.0f,-20.0f));
 	castillo->setMatloc(*shader_programme,"model");
 
-	espada = new enemy((char*)"mallas/basicman.obj");
+	espada = new suelo((char*)"mallas/mastersword.obj");
+	espada->load_texture("textures/mars1k.jpg");
 	espada->setPos(glm::vec3(10.0f,0.0f,0));
 	espada->setMatloc(*shader_programme,"model");
 

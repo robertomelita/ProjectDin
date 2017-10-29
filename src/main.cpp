@@ -1,4 +1,4 @@
-/******************************************************************************\
+    /******************************************************************************\
 | OpenGL 4 Example Code.                                                       |
 | Accompanies written series "Anton's OpenGL 4 Tutorials"                      |
 | Email: anton at antongerdelan dot net                                        |
@@ -64,7 +64,7 @@ GLuint shader_programme;
 suelo *sword;
 suelo *piso;
 suelo *castillo;
-enemy *espada;
+suelo *espada;
 
 glm::mat4 projection;
 glm::mat4 view;
@@ -97,28 +97,12 @@ int main(int argc, char **argv){
         
         update_camera();
 
-        
-
-        glBindVertexArray(piso->getVao());
-        piso->model2shader(shader_programme);
-        glDrawArrays(GL_TRIANGLES,0,piso->getNvertices());
-
-        glBindVertexArray(castillo->getVao());
-        castillo->model2shader(shader_programme);
-        glDrawArrays(GL_TRIANGLES,0,castillo->getNvertices());
-
-        glBindVertexArray(espada->getVao());
-        espada->model2shader(shader_programme);
-        glDrawArrays(GL_TRIANGLES,0,espada->getNvertices());
-
-        sword->setPos(posObj);
-        sword->setMatloc(shader_programme,"model");
-        glActiveTexture(GL_TEXTURE0);
-        glBindVertexArray(sword->getVao());
-        sword->model2shader(shader_programme);
-        glDrawArrays(GL_TRIANGLES,0,sword->getNvertices());
-        glBindVertexArray(0);
-
+        sword->transform(posObj);
+        sword->render(shader_programme);
+   
+        piso->render(shader_programme);
+        castillo->render(shader_programme);
+        espada->render(shader_programme);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
