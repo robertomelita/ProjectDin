@@ -7,6 +7,7 @@ extern GLFWwindow* g_window;
 extern float fov;
 
 extern int distancia;
+extern int speedLimit;
 extern float yawPersonaje;
 
 extern glm::vec3 impulso;

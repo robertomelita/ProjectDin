@@ -23,6 +23,7 @@ extern suelo *piso;
 extern suelo *castillo;
 extern suelo *espada;
 extern worldPhysics *world;
+extern enemy *key;
 
 extern glm::mat4 projection;
 extern glm::mat4 view;

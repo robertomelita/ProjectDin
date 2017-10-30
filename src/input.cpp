@@ -34,7 +34,7 @@ void input(GLFWwindow *window){
     bool wPressed=false;
     bool sPressed=false;
     float vectorTranquibarranqui = 50.0f;
-    int speedLimit = 12.0f;
+    speedLimit = 12.0f;
     if(glfwGetKey(window,GLFW_KEY_LEFT_SHIFT)){
         speedLimit = 20.0f;
     }

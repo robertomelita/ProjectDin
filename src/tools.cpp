@@ -176,6 +176,12 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	espada->initPhysics(world);
 	espada->setMatloc(*shader_programme,"model");
 
+	key = new enemy((char*)"mallas/Key_B_02.obj");
+	key->load_texture("textures/keyB_tx.bmp");
+	key->setPos(glm::vec3(15.0f,-45.0f,-100.0f));
+	//key->initPhysics(world);
+	key->setMatloc(*shader_programme,"model");
+
 	projection = glm::perspective(glm::radians(fov), (float)g_gl_width / (float)g_gl_height, 0.1f, 1000.0f);
 	view = glm::lookAt(cameraPos, posObj, cameraUp);
 	
