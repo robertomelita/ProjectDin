@@ -4,7 +4,7 @@
 class enemy{
 private:
     int vida;
-    GLuint VAO, VBO;
+    GLuint VAO, VBO, tex;
     int poder;
     int nvertices;
     glm::vec3 pos;
@@ -21,6 +21,7 @@ public:
     int getNvertices();
     GLuint getVao();
     GLuint getVbo();
+    GLuint getTex();
     glm::vec3 getPos();
 
     // sets
@@ -30,5 +31,8 @@ public:
     void setFilename(char *f);
     void setMatloc(GLuint shaderprog, const char* name);
     void model2shader(GLuint shaderprog);
+    void render(GLuint shader_programme);
+    void transform(glm::vec3 posObj);
+    bool load_texture (const char* file_name);
 };
 #endif

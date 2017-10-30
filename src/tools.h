@@ -18,7 +18,7 @@ using namespace std;
 extern GLuint shader_programme;
 
 //mallas
-extern suelo *sword;
+extern protagonist *sword;
 extern suelo *piso;
 extern suelo *castillo;
 extern suelo *espada;

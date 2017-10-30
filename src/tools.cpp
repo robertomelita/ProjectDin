@@ -151,7 +151,7 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	
 		/*-------------------------------CREATE SHADERS-------------------------------*/
 	
-	sword = new suelo((char*)"mallas/suzanne.obj");
+	sword = new protagonist((char*)"mallas/suzanne.obj");
 	sword->load_texture("textures/redbrick.jpg");
 	sword->setPos(posObj);
 	sword->setMatloc(*shader_programme,"model");

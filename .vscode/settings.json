@@ -2,6 +2,7 @@
     "files.associations": {
         "cmath": "cpp",
         "*.tcc": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "string": "cpp"
     }
 }

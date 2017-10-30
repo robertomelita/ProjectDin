@@ -63,7 +63,7 @@ float lastFrame = 0.0f;
 GLuint shader_programme;
 
 //mallas
-suelo *sword;
+protagonist *sword;
 suelo *piso;
 suelo *castillo;
 suelo *espada;
