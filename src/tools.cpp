@@ -150,25 +150,30 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	init_input();
 	
 		/*-------------------------------CREATE SHADERS-------------------------------*/
+	world = new worldPhysics();
 	
 	sword = new protagonist((char*)"mallas/suzanne.obj");
 	sword->load_texture("textures/redbrick.jpg");
 	sword->setPos(posObj);
+	sword->initPhysics(world);
 	sword->setMatloc(*shader_programme,"model");
 	
 	piso = new suelo((char*)"mallas/mapa3.obj");
 	piso->load_texture("textures/nevada_dn.tga");
 	piso->setPos(glm::vec3(0,-15.0f,0));
+	piso->initPhysics(world);
 	piso->setMatloc(*shader_programme,"model");
 
 	castillo = new suelo((char*)"mallas/castillo.obj");
 	castillo->load_texture("textures/sun1k.jpg");
 	castillo->setPos(glm::vec3(-40.0f,-10.0f,-20.0f));
+	castillo->initPhysics(world);
 	castillo->setMatloc(*shader_programme,"model");
 
 	espada = new suelo((char*)"mallas/mastersword.obj");
 	espada->load_texture("textures/espada.png");
 	espada->setPos(glm::vec3(15.0f,0.0f,0));
+	espada->initPhysics(world);
 	espada->setMatloc(*shader_programme,"model");
 
 	projection = glm::perspective(glm::radians(fov), (float)g_gl_width / (float)g_gl_height, 0.1f, 1000.0f);

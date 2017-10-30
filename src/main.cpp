@@ -69,6 +69,7 @@ protagonist *sword;
 suelo *piso;
 suelo *castillo;
 suelo *espada;
+worldPhysics* world;
 sound *snd_01 = new sound((const char*)"audio/rito2.wav");
 sound *snd_02 = new sound((const char*)"audio/test.wav");
 
@@ -82,7 +83,6 @@ int main(int argc, char **argv){
 
     init(g_gl_width, g_gl_height, &shader_programme);
     skybox *skyshok = new skybox(projection,view);
-    
 
     while (!glfwWindowShouldClose(g_window)){
         // per-frame time logic
@@ -100,6 +100,7 @@ int main(int argc, char **argv){
 
         // render
         // ------
+        world->stepSimulation();
         
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -109,7 +110,9 @@ int main(int argc, char **argv){
         {
             snd_01->play();
         }
-        sword->transform(posObj);
+        btTransform trans;
+        sword->getRigidBody()->getMotionState()->getWorldTransform(trans);
+        sword->transform(glm::vec3(float(trans.getOrigin().getX()),float(trans.getOrigin().getY()),float(trans.getOrigin().getZ())));
         sword->render(shader_programme);
         
         piso->render(shader_programme);

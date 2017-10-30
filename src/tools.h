@@ -22,6 +22,7 @@ extern protagonist *sword;
 extern suelo *piso;
 extern suelo *castillo;
 extern suelo *espada;
+extern worldPhysics *world;
 
 extern glm::mat4 projection;
 extern glm::mat4 view;

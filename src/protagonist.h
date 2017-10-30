@@ -12,6 +12,7 @@ private:
     glm::mat4 model;
     int matloc;
     char *filename;
+    btRigidBody* body;
 public:
 	protagonist(char *filename);
 
@@ -22,6 +23,7 @@ public:
     GLuint getVao();
     GLuint getVbo();
     GLuint getTex();
+    btRigidBody* getRigidBody();
     glm::vec3 getPos();
 
     // sets

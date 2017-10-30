@@ -141,8 +141,11 @@ void protagonist::initPhysics(worldPhysics *world){
 	//using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
 	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
-	btRigidBody* body = new btRigidBody(rbInfo);
-	body->setActivationState(DISABLE_DEACTIVATION);
-	body->setDamping(0.1f,0.1f);
+	this->body = new btRigidBody(rbInfo);
+	this->body->setActivationState(DISABLE_DEACTIVATION);
+	this->body->setDamping(0.1f,0.1f);
 	world->addRigidBody(body);
+}
+btRigidBody* protagonist::getRigidBody(){
+	return this->body;
 }
