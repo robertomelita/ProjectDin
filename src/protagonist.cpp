@@ -124,7 +124,7 @@ void protagonist::setRot(float angle, glm::vec3 vector){
     this->model = glm::rotate(this->model,(glm::mediump_float)angle,vector);
 }
 void protagonist::initPhysics(worldPhysics *world){
-	btCollisionShape* colShape = new btCapsuleShape(.5f,5);/*btConvexTriangleMeshShape(originalMesh,true);*/  //btSphereShape(btScalar(1.f));
+	btCollisionShape* colShape = new btCapsuleShape(.5f,3.5f);/*btConvexTriangleMeshShape(originalMesh,true);*/  //btSphereShape(btScalar(1.f));
 	world->getCollisionShapes().push_back(colShape);
 
 	/// Create Dynamic Objects

@@ -1,11 +1,15 @@
-# Blender MTL File: 'mastersword.blend'
+# Blender MTL File: 'None'
 # Material Count: 1
 
-newmtl None
-Ns 0
+newmtl PackedMaterial0
+Ns 96.078431
 Ka 0.000000 0.000000 0.000000
-Kd 0.8 0.8 0.8
-Ks 0.8 0.8 0.8
-d 1
+Kd 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
 illum 2
-map_Kd /home/sapito-qlo/Documentos/Espada_Maestra_OoT.png
+map_Kd tula_packed0_diffuse.png
+map_Bump tula_packed0_normal.png
+map_Ks tula_packed0_specular.png

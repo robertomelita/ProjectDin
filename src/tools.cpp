@@ -152,8 +152,8 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 		/*-------------------------------CREATE SHADERS-------------------------------*/
 	world = new worldPhysics();
 
-	sword = new protagonist((char*)"mallas/personaje.obj");
-	sword->load_texture("textures/redbrick.jpg");
+	sword = new protagonist((char*)"mallas/maracaqla.obj");
+	sword->load_texture("textures/ropaMaraca.png");
 	sword->setPos(posObj);
 	sword->initPhysics(world);
 	sword->setMatloc(*shader_programme,"model");
