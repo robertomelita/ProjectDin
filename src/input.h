@@ -7,7 +7,9 @@ extern GLFWwindow* g_window;
 extern float fov;
 
 extern int distancia;
+extern float yawPersonaje;
 
+extern glm::vec3 impulso;
 extern glm::vec3 posObj;
 extern GLuint shader_programme;
 // camera

@@ -30,32 +30,64 @@ void soundsPositioning()
 void input(GLFWwindow *window){
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
-
-    float cameraSpeed = 5.0f * deltaTime;
-
+    impulso = glm::vec3(0,0,0);
+    bool wPressed=false;
+    bool sPressed=false;
+    float vectorTranquibarranqui = 50.0f;
+    int speedLimit = 12.0f;
     if(glfwGetKey(window,GLFW_KEY_LEFT_SHIFT)){
-        cameraSpeed = 20.0f * deltaTime;
+        speedLimit = 20.0f;
     }
-
+    //float vectorTranquibarranqui = 10.f;
     glm::vec3 vectorDirector = glm::normalize(posObj-cameraPos);
     glm::vec3 vectorPerpendicular = glm::normalize(glm::cross(vectorDirector,glm::vec3(0,1.0f,0)));
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
-        posObj += vectorDirector*cameraSpeed;
-        cameraPos += vectorDirector*cameraSpeed;
+    //    posObj += vectorDirector*cameraSpeed;
+    //    cameraPos += vectorDirector*cameraSpeed;
+    //    traslacion += vectorDirector*vectorTranquibarranqui;.
+        impulso +=glm::normalize((vectorDirector-glm::vec3(0,vectorDirector.y,0)))*vectorTranquibarranqui;
+        yawPersonaje=yaw;
+        wPressed = true;
     }
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS){
-        posObj -= vectorDirector*cameraSpeed;
-        cameraPos -= vectorDirector*cameraSpeed;
+    //    posObj -= vectorDirector*cameraSpeed;
+    //    cameraPos -= vectorDirector*cameraSpeed;
+    //    traslacion -= vectorDirector*vectorTranquibarranqui;
+        impulso +=-glm::normalize(vectorDirector-glm::vec3(0,vectorDirector.y,0))*vectorTranquibarranqui;
+        yawPersonaje=yaw-180.0f;
+        sPressed = true;
     }
         
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){
-        posObj -= vectorPerpendicular*cameraSpeed;
-        cameraPos -= vectorPerpendicular*cameraSpeed;
+    //    posObj -= vectorPerpendicular*cameraSpeed;
+    //    cameraPos -= vectorPerpendicular*cameraSpeed;
+    //    traslacion -= vectorPerpendicular*vectorTranquibarranqui;
+        impulso +=-glm::normalize(vectorPerpendicular)*vectorTranquibarranqui;
+        if(wPressed) yawPersonaje=yaw-45.0f;
+        else if(sPressed) yawPersonaje=yaw-125.0f;
+        else yawPersonaje=yaw-90.0f;
     }
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS){
-        posObj += vectorPerpendicular*cameraSpeed;
-        cameraPos += vectorPerpendicular*cameraSpeed;
+    //    posObj += vectorPerpendicular*cameraSpeed;
+    //    cameraPos += vectorPerpendicular*cameraSpeed;
+    //    traslacion += vectorPerpendicular*vectorTranquibarranqui;
+        impulso +=glm::normalize(vectorPerpendicular)*vectorTranquibarranqui;
+        if(wPressed) yawPersonaje=yaw+45.0f;
+        else if(sPressed) yawPersonaje=yaw+125.0f;
+        else yawPersonaje=yaw+90.0f;
     }
+    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS){
+        impulso += glm::vec3(0,100.0f,0);
+    }
+    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS){
+        posObj = glm::vec3(0,0,0);
+    }
+    cameraPos.x = (distancia*sin(glm::radians(pitch))*cos(glm::radians(yaw)))+posObj.x;
+    cameraPos.z = (distancia*sin(glm::radians(pitch))*sin(glm::radians(yaw)))+posObj.z;
+    cameraPos.y = (distancia*cos(glm::radians(pitch)))+posObj.y;
+
+
+
     if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS){
          if(snd_02->get_source_state() != AL_PLAYING)
         {

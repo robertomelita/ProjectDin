@@ -34,9 +34,10 @@ public:
     void setMatloc(GLuint shaderprog, const char* name);
     void model2shader(GLuint shaderprog);
 	void render(GLuint shader_programme);
-    void transform(glm::vec3 posObj);
+    void transform(glm::vec3 posObj,float rot);
     bool load_texture (const char* file_name);
     void initPhysics(worldPhysics *world);
+    void setRot(float angle , glm::vec3 vector);
 };
 
 #endif

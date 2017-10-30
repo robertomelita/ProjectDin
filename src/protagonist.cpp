@@ -116,8 +116,12 @@ void protagonist::render(GLuint shader_programme){
 	glDrawArrays(GL_TRIANGLES,0,getNvertices());
 }
 
-void protagonist::transform(glm::vec3 posObj){
+void protagonist::transform(glm::vec3 posObj, float rot){
 	setPos(posObj);
+	sword->setRot(-glm::radians(yawPersonaje+90.f),glm::vec3(0,1,0));
+}
+void protagonist::setRot(float angle, glm::vec3 vector){
+    this->model = glm::rotate(this->model,(glm::mediump_float)angle,vector);
 }
 void protagonist::initPhysics(worldPhysics *world){
 	btCollisionShape* colShape = new btCapsuleShape(.5f,5);/*btConvexTriangleMeshShape(originalMesh,true);*/  //btSphereShape(btScalar(1.f));

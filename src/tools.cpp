@@ -151,16 +151,16 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	
 		/*-------------------------------CREATE SHADERS-------------------------------*/
 	world = new worldPhysics();
-	
-	sword = new protagonist((char*)"mallas/suzanne.obj");
+
+	sword = new protagonist((char*)"mallas/personaje.obj");
 	sword->load_texture("textures/redbrick.jpg");
 	sword->setPos(posObj);
 	sword->initPhysics(world);
 	sword->setMatloc(*shader_programme,"model");
 	
-	piso = new suelo((char*)"mallas/mapa3.obj");
+	piso = new suelo((char*)"mallas/mapadm.obj");
 	piso->load_texture("textures/nevada_dn.tga");
-	piso->setPos(glm::vec3(0,-15.0f,0));
+	piso->setPos(glm::vec3(0,-50.0f,0));
 	piso->initPhysics(world);
 	piso->setMatloc(*shader_programme,"model");
 

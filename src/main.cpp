@@ -49,7 +49,9 @@ int g_gl_height = 600;
 GLFWwindow* g_window = NULL;
 
 int distancia = 12.0f;
+float yawPersonaje = 90.0f;
 
+glm::vec3 impulso = glm::vec3(0,0,0);
 glm::vec3 posObj = glm::vec3(0.0f,0,-2.0f);
 
 // camera
@@ -112,7 +114,10 @@ int main(int argc, char **argv){
         }
         btTransform trans;
         sword->getRigidBody()->getMotionState()->getWorldTransform(trans);
-        sword->transform(glm::vec3(float(trans.getOrigin().getX()),float(trans.getOrigin().getY()),float(trans.getOrigin().getZ())));
+        if(sword->getRigidBody()->getLinearVelocity().length()<12) sword->getRigidBody()->applyImpulse(btVector3(impulso.x,impulso.y,impulso.z),btVector3(0,0,0));
+        sword->getRigidBody()->setAngularFactor(0);
+        posObj = glm::vec3(float(trans.getOrigin().getX()),float(trans.getOrigin().getY()),float(trans.getOrigin().getZ()));
+        sword->transform(posObj,yawPersonaje);
         sword->render(shader_programme);
         
         piso->render(shader_programme);
