@@ -159,14 +159,14 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	sword->setMatloc(*shader_programme,"model");
 	
 	piso = new suelo((char*)"mallas/mapadm.obj");
-	piso->load_texture("textures/nevada_dn.tga");
+	piso->load_texture("textures/terreno/past.jpg");
 	piso->setPos(glm::vec3(0,-50.0f,0));
 	piso->initPhysics(world);
 	piso->setMatloc(*shader_programme,"model");
 
-	castillo = new suelo((char*)"mallas/castillo.obj");
-	castillo->load_texture("textures/sun1k.jpg");
-	castillo->setPos(glm::vec3(-40.0f,-10.0f,-20.0f));
+	castillo = new suelo((char*)"mallas/castillo3.obj");
+	castillo->load_texture("textures/nombre.png");
+	castillo->setPos(glm::vec3(-25.0f,-35.0f,-150.0f));
 	castillo->initPhysics(world);
 	castillo->setMatloc(*shader_programme,"model");
 
