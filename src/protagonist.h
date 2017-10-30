@@ -1,5 +1,6 @@
 #ifndef PROTAGONIST_H
 #define PROTAGONIST_H
+#include "worldPhysics.h"
 class protagonist
 {
 private:
@@ -33,6 +34,7 @@ public:
 	void render(GLuint shader_programme);
     void transform(glm::vec3 posObj);
     bool load_texture (const char* file_name);
+    void initPhysics(worldPhysics *world);
 };
 
 #endif

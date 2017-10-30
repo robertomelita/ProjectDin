@@ -1,7 +1,8 @@
 #ifndef WORLDPHYSYCS_H
+#include <btBulletDynamicsCommon.h>
 #define WORLDPHYSYCS_H
 
-class worldPyshics{
+class worldPhysics{
     private:
         btDefaultCollisionConfiguration* collisionConfiguration;
         btCollisionDispatcher* dispatcher;
@@ -10,7 +11,7 @@ class worldPyshics{
         btDiscreteDynamicsWorld* dynamicsWorld;
         btAlignedObjectArray<btCollisionShape*> collisionShapes;
     public:
-        worldPyshics();
+        worldPhysics();
         void addRigidBody(btRigidBody *body);
         void stepSimulation();
         void del();

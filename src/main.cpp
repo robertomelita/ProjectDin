@@ -12,6 +12,7 @@
 | Assimp will load animated meshes, which will we need to use later, so this   |
 | demo is a starting point before doing skinning animation                     |
 \******************************************************************************/
+#include <btBulletDynamicsCommon.h>
 #include <assimp/cimport.h> // C importer
 #include <assimp/scene.h> // collects data
 #include <assimp/postprocess.h> // various extra operations
@@ -38,6 +39,7 @@
 #include "input.h"
 #include "skybox.h"
 #include "sound.h"
+#include "worldPhysics.h"
 
 #define GL_LOG_FILE "log/gl.log"
 using namespace std;

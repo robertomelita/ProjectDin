@@ -1,3 +1,6 @@
+#include <assimp/cimport.h> // C importer
+#include <assimp/scene.h> // collects data
+#include <assimp/postprocess.h> // various extra operations
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
@@ -110,4 +113,48 @@ void suelo::render(GLuint shader_programme){
 
 void suelo::transform(glm::vec3 posObj){
 	setPos(posObj);
+}
+void suelo::initPhysics(worldPhysics *world){
+	btTriangleMesh* originalMesh = new btTriangleMesh();
+		const aiScene* scene = aiImportFile(this->filename, aiProcess_Triangulate);
+		if (!scene) {
+			fprintf (stderr, "ERROR: reading mesh\n");
+			return;
+		}
+			
+		const aiMesh* mesh = scene->mMeshes[0];
+		printf ("    %i vertices in mesh[0]\n", mesh->mNumVertices);
+			
+		if (mesh->HasPositions ()) {
+			for (int i = 0; i < mesh->mNumVertices/3; i++) {
+				const aiVector3D* vp1 = &(mesh->mVertices[3*i]);
+				const aiVector3D* vp2 = &(mesh->mVertices[3*i+1]);
+				const aiVector3D* vp3 = &(mesh->mVertices[3*i+2]);
+				originalMesh->addTriangle(btVector3(vp1->x,vp1->y,vp1->z),btVector3(vp2->x,vp2->y,vp2->z) ,btVector3(vp3->x,vp3->y,vp3->z),false);
+			}
+		}
+
+	btCollisionShape* groundShape = new btBvhTriangleMeshShape(originalMesh ,true);//btStaticPlaneShape(btVector3(0, 1, 0),1);
+
+	world->getCollisionShapes().push_back(groundShape);
+
+	btTransform groundTransform;
+	groundTransform.setIdentity();
+	groundTransform.setOrigin(btVector3(this->pos.x,this->pos.y,this->pos.z));
+
+	btScalar mass(0.);
+
+	bool isDynamic = (mass != 0.f);
+	
+	btVector3 localInertia(0, 0, 0);
+	if (isDynamic)
+		groundShape->calculateLocalInertia(mass, localInertia);
+
+	//using motionstate is optional, it provides interpolation capabilities, and only synchronizes 'active' objects
+	btDefaultMotionState* myMotionState = new btDefaultMotionState(groundTransform);
+	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, groundShape, localInertia);
+	rbInfo.m_friction = 2.0f;
+	btRigidBody* body = new btRigidBody(rbInfo);
+	//add the body to the dynamics world
+	world->addRigidBody(body);
 }

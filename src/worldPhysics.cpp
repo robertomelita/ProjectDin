@@ -17,7 +17,7 @@
 #include <iostream>
 #include "worldPhysics.h"
 
-worldPyshics::worldPyshics(){
+worldPhysics::worldPhysics(){
     this->collisionConfiguration = new btDefaultCollisionConfiguration();
     this->dispatcher = new btCollisionDispatcher(collisionConfiguration);
     this->overlappingPairCache = new btDbvtBroadphase();
@@ -26,13 +26,13 @@ worldPyshics::worldPyshics(){
     this->dynamicsWorld->setGravity(btVector3(0, -10, 0));
 }
 
-void worldPyshics::addRigidBody(btRigidBody *body){
+void worldPhysics::addRigidBody(btRigidBody *body){
     this->dynamicsWorld->addRigidBody(body);
 }
-void worldPyshics::stepSimulation(){
+void worldPhysics::stepSimulation(){
     this->dynamicsWorld->stepSimulation(1.f / 120.f*2, 10);
 }
-void worldPyshics::del(){
+void worldPhysics::del(){
     for (int j = 0; j < this->collisionShapes.size(); j++){
 		btCollisionShape* shape = collisionShapes[j];
 		collisionShapes[j] = 0;
@@ -45,10 +45,10 @@ void worldPyshics::del(){
 	delete this->collisionConfiguration;
 	this->collisionShapes.clear();
 }
-btDiscreteDynamicsWorld* worldPyshics::getDynamicWorld(){
+btDiscreteDynamicsWorld* worldPhysics::getDynamicWorld(){
     return this->dynamicsWorld;
 }
 
-btAlignedObjectArray<btCollisionShape*> worldPyshics::getCollisionShapes(){
+btAlignedObjectArray<btCollisionShape*> worldPhysics::getCollisionShapes(){
     return this->collisionShapes;
 }

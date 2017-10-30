@@ -1,4 +1,8 @@
+#include <assimp/cimport.h> // C importer
+#include <assimp/scene.h> // collects data
+#include <assimp/postprocess.h> // various extra operations
 #include <stdlib.h>
+#include <btBulletDynamicsCommon.h>
 #include <stdio.h>
 #include <math.h>
 #include <assert.h>
@@ -7,6 +11,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "worldPhysics.h"
 #include "stb_image.h"
 #include "tools.h"
 #include "protagonist.h"
@@ -113,4 +118,31 @@ void protagonist::render(GLuint shader_programme){
 
 void protagonist::transform(glm::vec3 posObj){
 	setPos(posObj);
+}
+void protagonist::initPhysics(worldPhysics *world){
+	btCollisionShape* colShape = new btCapsuleShape(.5f,5);/*btConvexTriangleMeshShape(originalMesh,true);*/  //btSphereShape(btScalar(1.f));
+	world->getCollisionShapes().push_back(colShape);
+
+	/// Create Dynamic Objects
+	btTransform startTransform;
+	startTransform.setIdentity();
+
+	btScalar mass(100.f);
+
+	//rigidbody is dynamic if and only if mass is non zero, otherwise static
+	bool isDynamic = (mass != 0.f);
+
+	btVector3 localInertia(0, 0, 0);
+	if (isDynamic)
+		colShape->calculateLocalInertia(mass, localInertia);
+
+	startTransform.setOrigin(btVector3(posObj.x, posObj.y, posObj.z));
+
+	//using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
+	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
+	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
+	btRigidBody* body = new btRigidBody(rbInfo);
+	body->setActivationState(DISABLE_DEACTIVATION);
+	body->setDamping(0.1f,0.1f);
+	world->addRigidBody(body);
 }
