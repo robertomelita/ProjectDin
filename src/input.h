@@ -29,6 +29,7 @@ extern int proj_mat_location;
 
 extern sound *snd_01;
 extern sound *snd_02;
+extern sound *snd_03;
 //sound
 //extern sound *snd_01;
 

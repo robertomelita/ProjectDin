@@ -77,6 +77,7 @@ worldPhysics* world;
 enemy *key;
 sound *snd_01 = new sound((const char*)"audio/rito2.wav");
 sound *snd_02 = new sound((const char*)"audio/secret.wav");
+sound *snd_03 = new sound((const char*)"audio/naruto.wav");
 
 glm::mat4 projection;
 glm::mat4 view;
@@ -144,6 +145,7 @@ int main(int argc, char **argv){
             flagCastle = true;
             gltSetText(text,"GANASTE!!!!");
             snd_01->stop();
+            snd_03->play();
             size = 8;
             x = 20;
             y = (g_gl_height/2)-20;
