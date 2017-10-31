@@ -158,8 +158,8 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	sword->initPhysics(world);
 	sword->setMatloc(*shader_programme,"model");
 	
-	piso = new suelo((char*)"mallas/mapadm.obj");
-	piso->load_texture("textures/terreno/past.jpg");
+	piso = new suelo((char*)"mallas/mapadm2.obj");
+	piso->load_texture("textures/agua.jpg");
 	piso->setPos(glm::vec3(0,-50.0f,0));
 	piso->initPhysics(world);
 	piso->setMatloc(*shader_programme,"model");
@@ -172,7 +172,7 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 
 	espada = new suelo((char*)"mallas/mastersword.obj");
 	espada->load_texture("textures/espada.png");
-	espada->setPos(glm::vec3(15.0f,0.0f,0));
+	espada->setPos(glm::vec3(-30.0f,-41.0f,-115.0f));
 	espada->initPhysics(world);
 	espada->setMatloc(*shader_programme,"model");
 
