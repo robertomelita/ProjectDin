@@ -73,6 +73,7 @@ protagonist *sword;
 suelo *piso;
 suelo *castillo;
 suelo *espada;
+suelo *arbolito;
 worldPhysics* world;
 enemy *key;
 sound *snd_01 = new sound((const char*)"audio/rito2.wav");
@@ -154,6 +155,7 @@ int main(int argc, char **argv){
         piso->render(shader_programme);
         espada->render(shader_programme);
         castillo->render(shader_programme);
+        arbolito->render(shader_programme);
         skyshok->render(glm::lookAt(cameraPos,posObj,glm::cross(cameraPos-posObj,glm::cross(cameraUp,cameraPos-posObj))));
 printf("%f,%f\n",posObj.x,posObj.z);
     }

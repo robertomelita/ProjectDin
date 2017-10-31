@@ -176,6 +176,12 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	espada->initPhysics(world);
 	espada->setMatloc(*shader_programme,"model");
 
+	arbolito = new suelo((char*)"mallas/arbolito.obj");
+	arbolito->load_texture("textures/arbi.png");
+	arbolito->setPos(glm::vec3(-40.0f,-48.0f,-115.0f));
+	arbolito->setMatloc(*shader_programme,"model");
+
+
 	key = new enemy((char*)"mallas/Key_B_02.obj");
 	key->load_texture("textures/keyB_tx.bmp");
 	key->setPos(glm::vec3(15.0f,-45.0f,-100.0f));

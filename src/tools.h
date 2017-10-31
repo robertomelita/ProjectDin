@@ -22,6 +22,7 @@ extern protagonist *sword;
 extern suelo *piso;
 extern suelo *castillo;
 extern suelo *espada;
+extern suelo *arbolito;
 extern worldPhysics *world;
 extern enemy *key;
 
