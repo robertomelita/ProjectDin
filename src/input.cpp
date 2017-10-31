@@ -24,6 +24,7 @@ void init_input(){
 void soundsPositioning()
 {
     snd_01->set_listener(cameraPos);
+    snd_02->set_listener(cameraPos);
 }
 
 

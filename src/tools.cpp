@@ -152,8 +152,8 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 		/*-------------------------------CREATE SHADERS-------------------------------*/
 	world = new worldPhysics();
 
-	sword = new protagonist((char*)"mallas/maracaqla.obj");
-	sword->load_texture("textures/ropaMaraca.png");
+	sword = new protagonist((char*)"mallas/maraca2.obj");
+	sword->load_texture("textures/ropa2.png");
 	sword->setPos(posObj);
 	sword->initPhysics(world);
 	sword->setMatloc(*shader_programme,"model");
@@ -164,8 +164,8 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	piso->initPhysics(world);
 	piso->setMatloc(*shader_programme,"model");
 
-	castillo = new suelo((char*)"mallas/castillo3.obj");
-	castillo->load_texture("textures/nombre.png");
+	castillo = new suelo((char*)"mallas/castillo.obj");
+	castillo->load_texture("textures/castle3.jpg");
 	castillo->setPos(glm::vec3(-25.0f,-35.0f,-150.0f));
 	castillo->initPhysics(world);
 	castillo->setMatloc(*shader_programme,"model");

@@ -76,7 +76,7 @@ suelo *espada;
 worldPhysics* world;
 enemy *key;
 sound *snd_01 = new sound((const char*)"audio/rito2.wav");
-sound *snd_02 = new sound((const char*)"audio/test.wav");
+sound *snd_02 = new sound((const char*)"audio/secret.wav");
 
 glm::mat4 projection;
 glm::mat4 view;
@@ -124,7 +124,7 @@ int main(int argc, char **argv){
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUseProgram(shader_programme);
         update_camera();
-        if(snd_01->get_source_state() != AL_PLAYING)
+        if(!flagCastle && snd_01->get_source_state() != AL_PLAYING)
         {
             snd_01->play();
         }
@@ -137,11 +137,13 @@ int main(int argc, char **argv){
         sword->render(shader_programme);
         if(!flagKey && posObj.x > 10.0f && posObj.x < 20.0f && posObj.z > -101.0f && posObj.z <-99.0f ){
             flagKey = true;
+            snd_02->play();
             gltSetText(text,"Ahora entra al castillo");
         }
-        if(flagKey && !flagCastle && posObj.x > -18.0f && posObj.x < -8.0f && posObj.z > -136.0f && posObj.z <-135.0f){
+        if(flagKey && !flagCastle && posObj.x < -18.0f && posObj.x > -24.0f && posObj.z > -135.0f && posObj.z <-134.0f){
             flagCastle = true;
             gltSetText(text,"GANASTE!!!!");
+            snd_01->stop();
             size = 8;
             x = 20;
             y = (g_gl_height/2)-20;
@@ -151,6 +153,7 @@ int main(int argc, char **argv){
         espada->render(shader_programme);
         castillo->render(shader_programme);
         skyshok->render(glm::lookAt(cameraPos,posObj,glm::cross(cameraPos-posObj,glm::cross(cameraUp,cameraPos-posObj))));
+printf("%f,%f\n",posObj.x,posObj.z);
     }
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
