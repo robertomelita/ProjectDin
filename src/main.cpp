@@ -40,6 +40,7 @@
 #include "skybox.h"
 #include "sound.h"
 #include "worldPhysics.h"
+#include "gltext.h"
 
 #define GL_LOG_FILE "log/gl.log"
 using namespace std;
@@ -83,10 +84,20 @@ glm::mat4 view;
 int view_mat_location;
 int proj_mat_location;
 
+bool flagKey = false;
+bool flagCastle = false;
+
 int main(int argc, char **argv){
 
     init(g_gl_width, g_gl_height, &shader_programme);
     skybox *skyshok = new skybox(projection,view);
+    gltInit();
+
+    GLTtext *text = gltCreateText();
+    gltSetText(text, "Consigue la llave!");
+    int size = 3;
+    int x = 10;
+    int y = 10;
 
     while (!glfwWindowShouldClose(g_window)){
         // per-frame time logic
@@ -94,6 +105,9 @@ int main(int argc, char **argv){
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
+
+        gltColor(1.0f, 1.0f, 1.0f, 0.0f);
+        gltDrawText2D(text,x, y, size);
 	
         // input
         // -----
@@ -121,8 +135,18 @@ int main(int argc, char **argv){
         posObj = glm::vec3(float(trans.getOrigin().getX()),float(trans.getOrigin().getY()),float(trans.getOrigin().getZ()));
         sword->transform(posObj,yawPersonaje);
         sword->render(shader_programme);
-        
-        key->render(shader_programme);
+        if(!flagKey && posObj.x > 10.0f && posObj.x < 20.0f && posObj.z > -101.0f && posObj.z <-99.0f ){
+            flagKey = true;
+            gltSetText(text,"Ahora entra al castillo");
+        }
+        if(flagKey && !flagCastle && posObj.x > -18.0f && posObj.x < -8.0f && posObj.z > -136.0f && posObj.z <-135.0f){
+            flagCastle = true;
+            gltSetText(text,"GANASTE!!!!");
+            size = 8;
+            x = 20;
+            y = (g_gl_height/2)-20;
+        }
+        if(!flagKey) key->render(shader_programme);
         piso->render(shader_programme);
         espada->render(shader_programme);
         castillo->render(shader_programme);
@@ -130,6 +154,11 @@ int main(int argc, char **argv){
     }
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
+    // Deleting text
+    gltDeleteText(text);
+
+    // Destroy glText
+    gltTerminate();
     glfwTerminate();
     return 0;
 }
