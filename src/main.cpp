@@ -41,6 +41,7 @@
 #include "sound.h"
 #include "worldPhysics.h"
 #include "gltext.h"
+#include "GLDebugDrawer.hpp"
 
 #define GL_LOG_FILE "log/gl.log"
 using namespace std;
@@ -95,6 +96,12 @@ int main(int argc, char **argv){
     skybox *skyshok = new skybox(projection,view);
     gltInit();
 
+    GLDebugDrawer *drawer = new GLDebugDrawer();
+    world->getDynamicWorld()->setDebugDrawer(drawer);
+    drawer->setView(&view);
+    drawer->setProj(&projection);
+    drawer->setDebugMode(btIDebugDraw::DBG_DrawWireframe);
+
     GLTtext *text = gltCreateText();
     gltSetText(text, "Consigue la llave!");
     int size = 3;
@@ -108,22 +115,24 @@ int main(int argc, char **argv){
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         gltColor(1.0f, 1.0f, 1.0f, 0.0f);
         gltDrawText2D(text,x, y, size);
 	
         // input
         // -----
-	    glfwSwapBuffers(g_window);
-        glfwPollEvents();
+	   
         input(g_window);
         soundsPositioning();
+
 
         // render
         // ------
         world->stepSimulation();
+/*        world->getDynamicWorld()->debugDrawWorld();
+        drawer->drawLines();*/
         
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUseProgram(shader_programme);
         update_camera();
         if(!flagCastle && snd_01->get_source_state() != AL_PLAYING)
@@ -156,13 +165,15 @@ int main(int argc, char **argv){
         espada->render(shader_programme);
         castillo->render(shader_programme);
         arbolito->render(shader_programme);
-        skyshok->render(glm::lookAt(cameraPos,posObj,glm::cross(cameraPos-posObj,glm::cross(cameraUp,cameraPos-posObj))));
+        skyshok->render(view/*glm::lookAt(cameraPos,posObj,glm::cross(cameraPos-posObj,glm::cross(cameraUp,cameraPos-posObj)))*/);
+        glfwSwapBuffers(g_window);
+        glfwPollEvents();
     }
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
     // Deleting text
     gltDeleteText(text);
-
+    world->del();
     // Destroy glText
     gltTerminate();
     glfwTerminate();
