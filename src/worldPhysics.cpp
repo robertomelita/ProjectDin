@@ -30,7 +30,7 @@ void worldPhysics::addRigidBody(btRigidBody *body){
     this->dynamicsWorld->addRigidBody(body);
 }
 void worldPhysics::stepSimulation(){
-    this->dynamicsWorld->stepSimulation(1.f / 120.f, 10);
+    this->dynamicsWorld->stepSimulation(1.f / 60.f, 10);
 }
 void worldPhysics::del(){
     for (int j = 0; j < this->collisionShapes.size(); j++){

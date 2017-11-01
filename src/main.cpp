@@ -45,8 +45,8 @@
 #define GL_LOG_FILE "log/gl.log"
 using namespace std;
 
-int g_gl_width = 800;
-int g_gl_height = 600;
+int g_gl_width = 1280;
+int g_gl_height = 720;
 GLFWwindow* g_window = NULL;
 
 int distancia = 12.0f;
@@ -157,7 +157,6 @@ int main(int argc, char **argv){
         castillo->render(shader_programme);
         arbolito->render(shader_programme);
         skyshok->render(glm::lookAt(cameraPos,posObj,glm::cross(cameraPos-posObj,glm::cross(cameraUp,cameraPos-posObj))));
-printf("%f,%f\n",posObj.x,posObj.z);
     }
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
