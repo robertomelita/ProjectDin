@@ -134,6 +134,7 @@ bool load_mesh (const char* file_name, GLuint* vao, int* point_count) {
 void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	restart_gl_log ();
 	start_gl ();
+	glfwSwapInterval(1);
 	glEnable (GL_DEPTH_TEST); // enable depth-testing
 	glDepthFunc (GL_LESS); // depth-testing interprets a smaller value as "closer"
 	glEnable (GL_CULL_FACE); // cull face
