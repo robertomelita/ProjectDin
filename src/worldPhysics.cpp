@@ -23,7 +23,7 @@ worldPhysics::worldPhysics(){
     this->overlappingPairCache = new btDbvtBroadphase();
     this->solver = new btSequentialImpulseConstraintSolver;
     this->dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration);
-    this->dynamicsWorld->setGravity(btVector3(0, -10, 0));
+    this->dynamicsWorld->setGravity(btVector3(0,-10, 0));
 }
 
 void worldPhysics::addRigidBody(btRigidBody *body){

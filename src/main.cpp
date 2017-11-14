@@ -141,7 +141,7 @@ int main(int argc, char **argv){
         }
         btTransform trans;
         sword->getRigidBody()->getMotionState()->getWorldTransform(trans);
-        if(sword->getRigidBody()->getLinearVelocity().length()<speedLimit) sword->getRigidBody()->applyImpulse(btVector3(impulso.x,impulso.y,impulso.z),btVector3(0,0,0));
+        if(/*impulso.length()!=0 && */sword->getRigidBody()->getLinearVelocity().length()<speedLimit) sword->getRigidBody()->applyImpulse(btVector3(impulso.x,impulso.y,impulso.z),btVector3(0,0,0));
         sword->getRigidBody()->setAngularFactor(0);
         posObj = glm::vec3(float(trans.getOrigin().getX()),float(trans.getOrigin().getY()),float(trans.getOrigin().getZ()));
         sword->transform(posObj,yawPersonaje);
@@ -165,7 +165,7 @@ int main(int argc, char **argv){
         espada->render(shader_programme);
         castillo->render(shader_programme);
         arbolito->render(shader_programme);
-        skyshok->render(view/*glm::lookAt(cameraPos,posObj,glm::cross(cameraPos-posObj,glm::cross(cameraUp,cameraPos-posObj)))*/);
+        skyshok->render(view);
         glfwSwapBuffers(g_window);
         glfwPollEvents();
     }

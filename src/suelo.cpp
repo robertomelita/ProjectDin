@@ -154,7 +154,11 @@ void suelo::initPhysics(worldPhysics *world){
 	btDefaultMotionState* myMotionState = new btDefaultMotionState(groundTransform);
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, groundShape, localInertia);
 	rbInfo.m_friction = 2.0f;
-	btRigidBody* body = new btRigidBody(rbInfo);
+	this->body = new btRigidBody(rbInfo);
 	//add the body to the dynamics world
-	world->addRigidBody(body);
+	world->addRigidBody(this->body);
+}
+
+btRigidBody* suelo::getRigidBody(){
+	return this->body;
 }

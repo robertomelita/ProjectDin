@@ -886,7 +886,7 @@ GLT_API void gltTerminate(void)
 
 
 static const GLchar* _gltText2DVertexShaderSource =
-"#version 330 core\n"
+"#version 130 core\n"
 "\n"
 "in vec2 position;\n"
 "in vec2 texCoord;\n"
@@ -904,7 +904,7 @@ static const GLchar* _gltText2DVertexShaderSource =
 
 
 static const GLchar* _gltText2DFragmentShaderSource =
-"#version 330 core\n"
+"#version 130 core\n"
 "\n"
 "out vec4 fragColor;\n"
 "\n"

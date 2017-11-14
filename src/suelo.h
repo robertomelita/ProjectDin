@@ -12,6 +12,7 @@ private:
     glm::mat4 model;
     int matloc;
     char *filename;
+    btRigidBody* body;
 
 public:
 	suelo(char *filename);
@@ -21,6 +22,7 @@ public:
     GLuint getVbo();
     glm::vec3 getPos();
     GLuint getTex();
+    btRigidBody* getRigidBody();
 
     // sets
     void setVao(GLuint vao);

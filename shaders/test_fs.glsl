@@ -8,8 +8,8 @@ out vec4 frag_colour;
 uniform sampler2D basic_texture;
 
 #define SPECULAR_EXP 100
-vec4 la = vec4(0.05, 0.05, 0.05, 1.0);
-vec4 ld = vec4(1.0, 1.0, 1.0, 1.0);
+vec4 la = vec4(0.1, 0.1, 0.1, 1.0);
+vec4 ld = vec4(0.6, 0.6, 0.6, 1.0);
 vec4 ls = vec4(0.5, 0.5, 0.5, 1.0);
 
 // material objeto
@@ -20,7 +20,7 @@ vec4 ks = vec4(0.7, 0.7, 0.7, 1.0);
 void main() {
 	vec4 texel = texture (basic_texture, st);
     vec3 Ia = la.xyz * ka.xyz * texel.xyz;
-	vec3 Id = dot(light, normal)*kd.xyz*ld.xyz*texel.xyz;
+	vec3 Id = dot(light, normal) * kd.xyz * ld.xyz * texel.xyz;
 
 	vec3 r = -(light - (dot(light,normal)*2*normal));
 
@@ -28,7 +28,7 @@ void main() {
 	dot_prod_specular = max (dot_prod_specular, 0.0);
 	float specular_factor = pow (dot_prod_specular, SPECULAR_EXP);
 
-	vec3 Is = ls.xyz * ks.xyz * specular_factor; 
+	vec3 Is = ls.xyz * ks.xyz * specular_factor * texel.xyz; 
 
 	frag_colour = vec4(Ia+Id+Is,1.0);
 }
