@@ -161,24 +161,28 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	
 	piso = new suelo((char*)"mallas/mapadm2.obj");
 	piso->load_texture("textures/agua.jpg");
+	piso->setLightConstants(0.2f,0.8f,0.1f);
 	piso->setPos(glm::vec3(0,-50.0f,0));
 	piso->initPhysics(world);
 	piso->setMatloc(*shader_programme,"model");
 
 	castillo = new suelo((char*)"mallas/castillo.obj");
 	castillo->load_texture("textures/castle3.jpg");
+	castillo->setLightConstants(0.5f,0.8f,0.6f);
 	castillo->setPos(glm::vec3(-25.0f,-35.0f,-150.0f));
 	castillo->initPhysics(world);
 	castillo->setMatloc(*shader_programme,"model");
 
 	espada = new suelo((char*)"mallas/mastersword.obj");
 	espada->load_texture("textures/espada.png");
+	espada->setLightConstants(0.5f,0.8f,0.6f);
 	espada->setPos(glm::vec3(-30.0f,-41.0f,-115.0f));
 	espada->initPhysics(world);
 	espada->setMatloc(*shader_programme,"model");
 
 	arbolito = new suelo((char*)"mallas/arbolito.obj");
 	arbolito->load_texture("textures/arbi.png");
+	arbolito->setLightConstants(0.5,0.8f,0.6f);
 	arbolito->setPos(glm::vec3(-40.0f,-48.0f,-115.0f));
 	arbolito->setMatloc(*shader_programme,"model");
 

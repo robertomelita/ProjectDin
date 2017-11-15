@@ -96,11 +96,11 @@ int main(int argc, char **argv){
     skybox *skyshok = new skybox(projection,view);
     gltInit();
 
-    GLDebugDrawer *drawer = new GLDebugDrawer();
+   /* GLDebugDrawer *drawer = new GLDebugDrawer();
     world->getDynamicWorld()->setDebugDrawer(drawer);
     drawer->setView(&view);
     drawer->setProj(&projection);
-    drawer->setDebugMode(btIDebugDraw::DBG_DrawWireframe);
+    drawer->setDebugMode(btIDebugDraw::DBG_DrawWireframe);*/
 
     GLTtext *text = gltCreateText();
     gltSetText(text, "Consigue la llave!");

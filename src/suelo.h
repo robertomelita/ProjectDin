@@ -13,6 +13,7 @@ private:
     int matloc;
     char *filename;
     btRigidBody* body;
+    GLfloat ConstA,ConstD,ConstS;
 
 public:
 	suelo(char *filename);
@@ -25,6 +26,7 @@ public:
     btRigidBody* getRigidBody();
 
     // sets
+    void setLightConstants(GLfloat ConstA,GLfloat ConstD,GLfloat ConstS);
     void setVao(GLuint vao);
     void setNvertices(int num);
     void setPos(glm::vec3 p);

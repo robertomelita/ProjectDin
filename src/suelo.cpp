@@ -51,6 +51,9 @@ void suelo::model2shader(GLuint shaderprog){
 	// enviar matriz al shader (gpu)
 	glUseProgram(shaderprog);
 	glUniformMatrix4fv(this->matloc, 1, GL_FALSE, &(this->model[0][0]));
+	glUniform1f(glGetUniformLocation(shaderprog,"ConstA"),this->ConstA);
+	glUniform1f(glGetUniformLocation(shaderprog,"ConstD"),this->ConstD);
+	glUniform1f(glGetUniformLocation(shaderprog,"ConstS"),this->ConstS);
 }
 
 bool suelo::load_texture (const char* file_name) {
@@ -161,4 +164,9 @@ void suelo::initPhysics(worldPhysics *world){
 
 btRigidBody* suelo::getRigidBody(){
 	return this->body;
+}
+void suelo::setLightConstants(GLfloat ConstA,GLfloat ConstD,GLfloat ConstS){
+	this->ConstA=ConstA;
+	this->ConstD=ConstD;
+	this->ConstS=ConstS;
 }
