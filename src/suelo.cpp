@@ -33,7 +33,7 @@ glm::vec3 suelo::getPos(){
     return this->pos;
 }
 GLuint suelo::getTex(){
-	return this->tex;
+	return this->tex_rgb;
 }
 int suelo::getNvertices(){
     return this->nvertices;
@@ -56,7 +56,7 @@ void suelo::model2shader(GLuint shaderprog){
 	glUniform1f(glGetUniformLocation(shaderprog,"ConstS"),this->ConstS);
 }
 
-bool suelo::load_texture (const char* file_name) {
+bool suelo::load_texture (const char* file_name, GLuint *tex) {
 	int x, y, n;
 	int force_channels = 4;
 	unsigned char* image_data = stbi_load (file_name, &x, &y, &n, force_channels);
@@ -88,9 +88,9 @@ bool suelo::load_texture (const char* file_name) {
 			bottom++;
 		}
 	}
-	glGenTextures (1, &tex);
+	glGenTextures (1, tex);
 	glActiveTexture (GL_TEXTURE0);
-	glBindTexture (GL_TEXTURE_2D, tex);
+	glBindTexture (GL_TEXTURE_2D, *tex);
 	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data);
 	glGenerateMipmap (GL_TEXTURE_2D);
     // probar cambiar GL_CLAMP_TO_EDGE por GL_REPEAT
@@ -169,4 +169,29 @@ void suelo::setLightConstants(GLfloat ConstA,GLfloat ConstD,GLfloat ConstS){
 	this->ConstA=ConstA;
 	this->ConstD=ConstD;
 	this->ConstS=ConstS;
+}
+
+bool suelo::load_texture_rgb(const char *filename, const char *sampler_name, GLuint* shaderprog){
+	glActiveTexture(GL_TEXTURE0);
+	int code = load_texture(filename, &tex_rgb);
+
+	glUseProgram (*shaderprog);
+    printf("getuniformlocation(%u, %s)\n", *shaderprog, sampler_name);
+	texloc_rgb = glGetUniformLocation( *shaderprog, sampler_name );
+    printf("texloc_rgb = %i\n", texloc_rgb);
+	assert( texloc_rgb > -1 );
+	glUniform1i( texloc_rgb, 0);
+    glUseProgram(0);
+}
+
+bool suelo::load_texture_normal(const char *filename, const char *sampler_name, GLuint* shaderprog){
+	glActiveTexture(GL_TEXTURE1);
+	int code = load_texture(filename, &tex_normal);
+
+	glUseProgram (*shaderprog);
+    printf("getuniformlocation(%u, %s)\n", *shaderprog, sampler_name);
+	texloc_normal = glGetUniformLocation( *shaderprog, sampler_name );
+    printf("texloc_normal = %i\n", texloc_normal);
+	assert( texloc_normal > -1 );
+	glUniform1i( texloc_normal, 1 );
 }

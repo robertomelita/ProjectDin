@@ -39,7 +39,7 @@ glm::vec3 protagonist::getPos(){
     return this->pos;
 }
 GLuint protagonist::getTex(){
-	return this->tex;
+	return this->tex_rgb;
 }
 int protagonist::getNvertices(){
     return this->nvertices;
@@ -58,7 +58,7 @@ void protagonist::model2shader(GLuint shaderprog){
 	glUseProgram(shaderprog);
 	glUniformMatrix4fv(this->matloc, 1, GL_FALSE, &(this->model[0][0]));
 }
-bool protagonist::load_texture (const char* file_name) {
+bool protagonist::load_texture (const char* file_name,GLuint *tex) {
 	int x, y, n;
 	int force_channels = 4;
 	unsigned char* image_data = stbi_load (file_name, &x, &y, &n, force_channels);
@@ -90,9 +90,9 @@ bool protagonist::load_texture (const char* file_name) {
 			bottom++;
 		}
 	}
-	glGenTextures (1, &tex);
+	glGenTextures (1, tex);
 	glActiveTexture (GL_TEXTURE0);
-	glBindTexture (GL_TEXTURE_2D, tex);
+	glBindTexture (GL_TEXTURE_2D, *tex);
 	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data);
 	glGenerateMipmap (GL_TEXTURE_2D);
     // probar cambiar GL_CLAMP_TO_EDGE por GL_REPEAT
@@ -152,4 +152,28 @@ void protagonist::initPhysics(worldPhysics *world){
 }
 btRigidBody* protagonist::getRigidBody(){
 	return this->body;
+}
+bool protagonist::load_texture_rgb(const char *filename, const char *sampler_name, GLuint* shaderprog){
+	glActiveTexture(GL_TEXTURE0);
+	int code = load_texture(filename, &tex_rgb);
+
+	glUseProgram (*shaderprog);
+    printf("getuniformlocation(%u, %s)\n", *shaderprog, sampler_name);
+	texloc_rgb = glGetUniformLocation( *shaderprog, sampler_name );
+    printf("texloc_rgb = %i\n", texloc_rgb);
+	assert( texloc_rgb > -1 );
+	glUniform1i( texloc_rgb, 0);
+    glUseProgram(0);
+}
+
+bool protagonist::load_texture_normal(const char *filename, const char *sampler_name, GLuint* shaderprog){
+	glActiveTexture(GL_TEXTURE1);
+	int code = load_texture(filename, &tex_normal);
+
+	glUseProgram (*shaderprog);
+    printf("getuniformlocation(%u, %s)\n", *shaderprog, sampler_name);
+	texloc_normal = glGetUniformLocation( *shaderprog, sampler_name );
+    printf("texloc_normal = %i\n", texloc_normal);
+	assert( texloc_normal > -1 );
+	glUniform1i( texloc_normal, 1 );
 }

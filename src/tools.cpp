@@ -154,34 +154,39 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	world = new worldPhysics();
 
 	sword = new protagonist((char*)"mallas/maraca2.obj");
-	sword->load_texture("textures/ropa2.png");
+	sword->load_texture_rgb("textures/ropa2.png", "texsamp_rgb",shader_programme);
+	sword->load_texture_normal("textures/player_normal.png", "texsamp_normal",shader_programme);
 	sword->setPos(posObj);
 	sword->initPhysics(world);
 	sword->setMatloc(*shader_programme,"model");
 	
 	piso = new suelo((char*)"mallas/mapadm2.obj");
-	piso->load_texture("textures/agua.jpg");
+	piso->load_texture_rgb("textures/agua.jpg", "texsamp_rgb",shader_programme);
+	piso->load_texture_normal("textures/normal.jpg", "texsamp_normal",shader_programme);
 	piso->setLightConstants(0.2f,0.8f,0.1f);
 	piso->setPos(glm::vec3(0,-50.0f,0));
 	piso->initPhysics(world);
 	piso->setMatloc(*shader_programme,"model");
 
 	castillo = new suelo((char*)"mallas/castillo.obj");
-	castillo->load_texture("textures/castle3.jpg");
+	castillo->load_texture_rgb("textures/castle3.jpg","texsamp_rgb",shader_programme);
+	castillo->load_texture_normal("textures/normal.jpg", "texsamp_normal",shader_programme);
 	castillo->setLightConstants(0.5f,0.8f,0.6f);
 	castillo->setPos(glm::vec3(-25.0f,-35.0f,-150.0f));
 	castillo->initPhysics(world);
 	castillo->setMatloc(*shader_programme,"model");
 
 	espada = new suelo((char*)"mallas/mastersword.obj");
-	espada->load_texture("textures/espada.png");
+	espada->load_texture_rgb("textures/espada.png", "texsamp_rgb",shader_programme);
+	espada->load_texture_normal("textures/earth8k-normal.png", "texsamp_normal",shader_programme);
 	espada->setLightConstants(0.5f,0.8f,0.6f);
 	espada->setPos(glm::vec3(-30.0f,-41.0f,-115.0f));
 	espada->initPhysics(world);
 	espada->setMatloc(*shader_programme,"model");
 
 	arbolito = new suelo((char*)"mallas/arbolito.obj");
-	arbolito->load_texture("textures/arbi.png");
+	arbolito->load_texture_rgb("textures/arbi.png", "texsamp_rgb",shader_programme);
+	arbolito->load_texture_normal("textures/earth8k-normal.png", "texsamp_normal",shader_programme);
 	arbolito->setLightConstants(0.5,0.8f,0.6f);
 	arbolito->setPos(glm::vec3(-40.0f,-48.0f,-115.0f));
 	arbolito->setMatloc(*shader_programme,"model");

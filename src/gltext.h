@@ -1,4 +1,3 @@
-
 // Author: Christian Vallentin <mail@vallentinsource.com>
 // Website: http://vallentinsource.com
 // Repository: https://github.com/MrVallentin/glText
@@ -886,7 +885,7 @@ GLT_API void gltTerminate(void)
 
 
 static const GLchar* _gltText2DVertexShaderSource =
-"#version 130 core\n"
+"#version 130\n"
 "\n"
 "in vec2 position;\n"
 "in vec2 texCoord;\n"
@@ -904,7 +903,7 @@ static const GLchar* _gltText2DVertexShaderSource =
 
 
 static const GLchar* _gltText2DFragmentShaderSource =
-"#version 130 core\n"
+"#version 130\n"
 "\n"
 "out vec4 fragColor;\n"
 "\n"
