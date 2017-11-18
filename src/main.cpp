@@ -132,6 +132,26 @@ int main(int argc, char **argv){
         world->stepSimulation();
 /*        world->getDynamicWorld()->debugDrawWorld();
         drawer->drawLines();*/
+        int numManifolds = world->getDynamicWorld()->getDispatcher()->getNumManifolds();
+        for (int i = 0; i < numManifolds; i++)
+        {
+            btPersistentManifold* contactManifold =  world->getDynamicWorld()->getDispatcher()->getManifoldByIndexInternal(i);
+            const btCollisionObject* obA = contactManifold->getBody0();
+            const btCollisionObject* obB = contactManifold->getBody1();
+
+            int numContacts = contactManifold->getNumContacts();
+            printf("%i\n",numContacts);
+            for (int j = 0; j < numContacts; j++)
+            {
+                btManifoldPoint& pt = contactManifold->getContactPoint(j);
+                if (pt.getDistance() < 0.f)
+                {
+                    const btVector3& ptA = pt.getPositionWorldOnA();
+                    const btVector3& ptB = pt.getPositionWorldOnB();
+                    const btVector3& normalOnB = pt.m_normalWorldOnB;
+                }
+            }
+        }
         
         glUseProgram(shader_programme);
         update_camera();
