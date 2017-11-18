@@ -23,6 +23,7 @@ extern suelo *piso;
 extern suelo *castillo;
 extern suelo *espada;
 extern suelo *arbolito;
+extern suelo *esfera;
 extern worldPhysics *world;
 extern enemy *key;
 

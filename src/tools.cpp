@@ -155,7 +155,7 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 
 	sword = new protagonist((char*)"mallas/maraca2.obj");
 	sword->load_texture_rgb("textures/ropa2.png", "texsamp_rgb",shader_programme);
-	sword->load_texture_normal("textures/player_normal.png", "texsamp_normal",shader_programme);
+	sword->load_texture_normal("textures/tula_packed0_normal.png", "texsamp_normal",shader_programme);
 	sword->setPos(posObj);
 	sword->initPhysics(world);
 	sword->setMatloc(*shader_programme,"model");
@@ -169,8 +169,8 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	piso->setMatloc(*shader_programme,"model");
 
 	castillo = new suelo((char*)"mallas/castillo.obj");
-	castillo->load_texture_rgb("textures/castle3.jpg","texsamp_rgb",shader_programme);
-	castillo->load_texture_normal("textures/normal.jpg", "texsamp_normal",shader_programme);
+	castillo->load_texture_rgb("textures/earth8k.jpg","texsamp_rgb",shader_programme);
+	castillo->load_texture_normal("textures/earth8k-normal.png", "texsamp_normal",shader_programme);
 	castillo->setLightConstants(0.5f,0.8f,0.6f);
 	castillo->setPos(glm::vec3(-25.0f,-35.0f,-150.0f));
 	castillo->initPhysics(world);
@@ -190,6 +190,13 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	arbolito->setLightConstants(0.5,0.8f,0.6f);
 	arbolito->setPos(glm::vec3(-40.0f,-48.0f,-115.0f));
 	arbolito->setMatloc(*shader_programme,"model");
+
+	esfera = new suelo((char*)"mallas/esfera.obj");
+	esfera->load_texture_rgb("textures/earth8k.jpg", "texsamp_rgb",shader_programme);
+	esfera->load_texture_normal("textures/earth8k-normal.png", "texsamp_normal",shader_programme);
+	esfera->setLightConstants(0.5,0.8f,0.6f);
+	esfera->setPos(glm::vec3(20.0f,-45.0f,-0.0f));
+	esfera->setMatloc(*shader_programme,"model");
 
 
 	key = new enemy((char*)"mallas/Key_B_02.obj");
