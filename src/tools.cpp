@@ -51,6 +51,7 @@ bool load_mesh (const char* file_name, GLuint* vao, int* point_count) {
 	GLfloat* points = NULL; // array of vertex points
 	GLfloat* normals = NULL; // array of vertex normals
 	GLfloat* texcoords = NULL; // array of texture coordinates
+    GLfloat* tangents = NULL;
 	if (mesh->HasPositions ()) {
 		points = (GLfloat*)malloc (*point_count * 3 * sizeof (GLfloat));
 		for (int i = 0; i < *point_count; i++) {
@@ -122,7 +123,38 @@ bool load_mesh (const char* file_name, GLuint* vao, int* point_count) {
 		free (texcoords);
 	}
 	if (mesh->HasTangentsAndBitangents ()) {
-		// NB: could store/print tangents here
+		tangents = (GLfloat *)malloc( *point_count * 4 * sizeof( GLfloat ) );
+		for (int i = 0; i < *point_count; i++) {
+				const aiVector3D *tangent = &( mesh->mTangents[i] );
+				const aiVector3D *bitangent = &( mesh->mBitangents[i] );
+				const aiVector3D *normal = &( mesh->mNormals[i] );
+
+				// put the three vectors into my vec3 struct format for doing maths
+				glm::vec3 t( tangent->x, tangent->y, tangent->z );
+				glm::vec3 n( normal->x, normal->y, normal->z );
+				glm::vec3 b( bitangent->x, bitangent->y, bitangent->z );
+				// orthogonalise and normalise the tangent so we can use it in something
+				// approximating a T,N,B inverse matrix
+				glm::vec3 t_i = glm::normalize( t - n * dot( n, t ) );
+
+				// get determinant of T,B,N 3x3 matrix by dot*cross method
+				float det = ( dot( cross( n, t ), b ) );
+				if ( det < 0.0f ) {
+					det = -1.0f;
+				} else {
+					det = 1.0f;
+				}
+				// push back 4d vector for inverse tangent with determinant
+				tangents[i * 4 + 0] = t_i.x;
+				tangents[i * 4 + 1] = t_i.y;
+				tangents[i * 4 + 2] = t_i.z;
+				tangents[i * 4 + 3] = det;
+
+               
+			    glVertexAttribPointer( 3, 4, GL_FLOAT, GL_FALSE, 0, NULL );
+			    glEnableVertexAttribArray( 3 );
+                free(tangents);
+		}
 	}
 	
 	aiReleaseImport (scene);
