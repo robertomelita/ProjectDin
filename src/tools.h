@@ -6,7 +6,6 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "gl_utils.h"
 #include "tools.h"
-#include "malla.h"
 #include "enemy.h"
 #include "protagonist.h"
 #include "suelo.h"
@@ -23,7 +22,6 @@ extern suelo *piso;
 extern suelo *castillo;
 extern suelo *espada;
 extern suelo *arbolito;
-extern suelo *esfera;
 extern worldPhysics *world;
 extern enemy *key;
 

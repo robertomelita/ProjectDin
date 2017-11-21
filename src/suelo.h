@@ -6,7 +6,7 @@ using namespace std;
 class suelo
 {
 private:
-	GLuint VAO, VBO, tex_rgb,tex_normal;
+	GLuint VAO, VBO, nbo, tbo, tanbo, ebo, tex_rgb,tex_normal;
     int nvertices;
     glm::vec3 pos;
     glm::mat4 model;
@@ -36,9 +36,12 @@ public:
     void model2shader(GLuint shaderprog);
     void render(GLuint shader_programme);
     void transform(glm::vec3 posObj);
-    bool load_texture (const char* file_name,GLuint *tex);
     void initPhysics(worldPhysics *world);
+
+    bool load_mesh(const char* file_name, int* point_count);
+    bool load_texture (const char* file_name,GLuint *tex);
     bool load_texture_rgb(const char *filename, const char *sampler_name, GLuint* shaderprog);
     bool load_texture_normal(const char *filename, const char *sampler_name, GLuint* shaderprog);
+    void makevao(GLfloat *vertices, GLfloat* normals, GLfloat* texcoords, GLfloat *tangents);
 };
 #endif

@@ -18,7 +18,7 @@ uniform float ConstS;
 uniform sampler2D texsamp_rgb;
 uniform sampler2D texsamp_normal;
 
-#define SPECULAR_EXP 100
+#define SPECULAR_EXP 2
 
 vec4 la = vec4(1.0, 1.0, 1.0, 1.0);
 vec4 ld = vec4(1.0, 1.0, 1.0, 1.0);
@@ -26,6 +26,7 @@ vec4 ls = vec4(1.0, 1.0, 1.0, 1.0);
 
 void main() {
 	// material objeto
+
 	vec4 ka = vec4(ConstA, ConstA, ConstA, 1.0);
 	vec4 kd = vec4(ConstD, ConstD, ConstD, 1.0);
 	vec4 ks = vec4(ConstS, ConstS, ConstS, 1.0);

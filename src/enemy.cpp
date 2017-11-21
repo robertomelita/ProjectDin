@@ -107,6 +107,7 @@ void enemy::render(GLuint shader_programme){
 	glBindTexture(GL_TEXTURE_2D,this->tex);
 	model2shader(shader_programme);
 	glDrawArrays(GL_TRIANGLES,0,getNvertices());
+	glBindVertexArray(0);
 }
 
 void enemy::transform(glm::vec3 posObj){

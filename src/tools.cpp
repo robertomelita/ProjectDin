@@ -194,7 +194,7 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	
 	piso = new suelo((char*)"mallas/mapadm2.obj");
 	piso->load_texture_rgb("textures/agua.jpg", "texsamp_rgb",shader_programme);
-	piso->load_texture_normal("textures/normal.jpg", "texsamp_normal",shader_programme);
+//	piso->load_texture_normal("textures/normal.jpg", "texsamp_normal",shader_programme);
 	piso->setLightConstants(0.2f,0.8f,0.1f);
 	piso->setPos(glm::vec3(0,-50.0f,0));
 	piso->initPhysics(world);
@@ -210,7 +210,7 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 
 	espada = new suelo((char*)"mallas/mastersword.obj");
 	espada->load_texture_rgb("textures/espada.png", "texsamp_rgb",shader_programme);
-	espada->load_texture_normal("textures/earth8k-normal.png", "texsamp_normal",shader_programme);
+	espada->load_texture_normal("textures/normal.jpg", "texsamp_normal",shader_programme);
 	espada->setLightConstants(0.5f,0.8f,0.6f);
 	espada->setPos(glm::vec3(-30.0f,-41.0f,-115.0f));
 	espada->initPhysics(world);
@@ -218,23 +218,16 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 
 	arbolito = new suelo((char*)"mallas/arbolito.obj");
 	arbolito->load_texture_rgb("textures/arbi.png", "texsamp_rgb",shader_programme);
-	arbolito->load_texture_normal("textures/earth8k-normal.png", "texsamp_normal",shader_programme);
+	arbolito->load_texture_normal("textures/normal.jpg", "texsamp_normal",shader_programme);
 	arbolito->setLightConstants(0.5,0.8f,0.6f);
 	arbolito->setPos(glm::vec3(-40.0f,-48.0f,-115.0f));
 	arbolito->setMatloc(*shader_programme,"model");
-
-	esfera = new suelo((char*)"mallas/esfera.obj");
-	esfera->load_texture_rgb("textures/earth8k.jpg", "texsamp_rgb",shader_programme);
-	esfera->load_texture_normal("textures/earth8k-normal.png", "texsamp_normal",shader_programme);
-	esfera->setLightConstants(0.5,0.8f,0.6f);
-	esfera->setPos(glm::vec3(20.0f,-45.0f,-0.0f));
-	esfera->setMatloc(*shader_programme,"model");
-
 
 	key = new enemy((char*)"mallas/Key_B_02.obj");
 	key->load_texture("textures/keyB_tx.bmp");
 	key->setPos(glm::vec3(15.0f,-45.0f,-100.0f));
 	key->setMatloc(*shader_programme,"model");
+
 
 	projection = glm::perspective(glm::radians(fov), (float)g_gl_width / (float)g_gl_height, 0.1f, 1000.0f);
 	view = glm::lookAt(cameraPos, posObj, cameraUp);
