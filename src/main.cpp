@@ -42,7 +42,6 @@
 #include "worldPhysics.h"
 #include "gltext.h"
 #include "GLDebugDrawer.hpp"
-#include "maths_funcs.h"
 
 #define GL_LOG_FILE "log/gl.log"
 using namespace std;
@@ -108,10 +107,6 @@ int main(int argc, char **argv){
     int size = 3;
     int x = 10;
     int y = 10;
-    
-/*    malla *mymesh = new malla((const char*)"mallas/esfera.obj", shader_programme, GL_TRIANGLES);
-	mymesh->load_texture_rgb("textures/earth8k.jpg", "texsamp_rgb");
-	mymesh->load_texture_normal("textures/earth8k-normal.png", "texsamp_normal"); */
 
     while (!glfwWindowShouldClose(g_window)){
         // per-frame time logic
@@ -190,9 +185,6 @@ int main(int argc, char **argv){
         espada->render(shader_programme);
         castillo->render(shader_programme);
         arbolito->render(shader_programme);
-/*        mymesh->reset_matrix();
-        mymesh->mtranslate(vec3(25.0f,-40.0f,0.0f));
-		mymesh->render_vertices();*/
         skyshok->render(view);
         glfwSwapBuffers(g_window);
         glfwPollEvents();

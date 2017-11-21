@@ -195,7 +195,7 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	piso = new suelo((char*)"mallas/mapadm2.obj");
 	piso->load_texture_rgb("textures/agua.jpg", "texsamp_rgb",shader_programme);
 //	piso->load_texture_normal("textures/normal.jpg", "texsamp_normal",shader_programme);
-	piso->setLightConstants(0.2f,0.8f,0.1f);
+	piso->setLightConstants(0.05f,0.8f,0.0f);
 	piso->setPos(glm::vec3(0,-50.0f,0));
 	piso->initPhysics(world);
 	piso->setMatloc(*shader_programme,"model");

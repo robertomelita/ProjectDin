@@ -18,7 +18,7 @@ uniform float ConstS;
 uniform sampler2D texsamp_rgb;
 uniform sampler2D texsamp_normal;
 
-#define SPECULAR_EXP 2
+#define SPECULAR_EXP 200
 
 vec4 la = vec4(1.0, 1.0, 1.0, 1.0);
 vec4 ld = vec4(1.0, 1.0, 1.0, 1.0);
