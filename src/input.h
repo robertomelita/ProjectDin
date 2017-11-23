@@ -12,6 +12,7 @@ extern float yawPersonaje;
 
 extern glm::vec3 impulso;
 extern glm::vec3 posObj;
+extern glm::vec3 jump;
 extern GLuint shader_programme;
 // camera
 extern glm::vec3 cameraPos;

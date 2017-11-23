@@ -55,6 +55,7 @@ float yawPersonaje = 90.0f;
 int speedLimit = 12;
 
 glm::vec3 impulso = glm::vec3(0,0,0);
+glm::vec3 jump = glm::vec3(0,0,0);
 glm::vec3 posObj = glm::vec3(0.0f,0,-2.0f);
 
 // camera
@@ -96,11 +97,11 @@ int main(int argc, char **argv){
     skybox *skyshok = new skybox(projection,view);
     gltInit();
 
-   /* GLDebugDrawer *drawer = new GLDebugDrawer();
+    GLDebugDrawer *drawer = new GLDebugDrawer();
     world->getDynamicWorld()->setDebugDrawer(drawer);
     drawer->setView(&view);
     drawer->setProj(&projection);
-    drawer->setDebugMode(btIDebugDraw::DBG_DrawWireframe);*/
+    drawer->setDebugMode(btIDebugDraw::DBG_DrawWireframe);
 
     GLTtext *text = gltCreateText();
     gltSetText(text, "Consigue la llave!");
@@ -126,13 +127,12 @@ int main(int argc, char **argv){
         input(g_window);
         soundsPositioning();
 
-
+        world->getDynamicWorld()->debugDrawWorld();
+        drawer->drawLines();
         // render
         // ------
-        world->stepSimulation();
-/*        world->getDynamicWorld()->debugDrawWorld();
-        drawer->drawLines();*/
-        int numManifolds = world->getDynamicWorld()->getDispatcher()->getNumManifolds();
+        
+        /*int numManifolds = world->getDynamicWorld()->getDispatcher()->getNumManifolds();
         for (int i = 0; i < numManifolds; i++)
         {
             btPersistentManifold* contactManifold =  world->getDynamicWorld()->getDispatcher()->getManifoldByIndexInternal(i);
@@ -151,19 +151,24 @@ int main(int argc, char **argv){
                     const btVector3& normalOnB = pt.m_normalWorldOnB;
                 }
             }
-        }
-        
+        }*/
         glUseProgram(shader_programme);
         update_camera();
         if(!flagCastle && snd_01->get_source_state() != AL_PLAYING)
         {
-            snd_01->play();
+            snd_01->play(); 
         }
         btTransform trans;
+        if(sword->getRigidBody()->getLinearVelocity().length()<speedLimit){
+            sword->getRigidBody()->applyImpulse(btVector3(impulso.x, 0,impulso.z),btVector3(0,0,0));
+            if(sword->getRigidBody()->getLinearVelocity().getY()<1.0f and sword->getRigidBody()->getLinearVelocity().getY()>-1.0f){
+                sword->getRigidBody()->applyImpulse(btVector3(0,jump.y,0),btVector3(0,0,0));
+            }
+        }
+        printf("%f\n",sword->getRigidBody()->getLinearVelocity().getY());
+        world->stepSimulation();
         sword->getRigidBody()->getMotionState()->getWorldTransform(trans);
-        if(/*impulso.length()!=0 && */sword->getRigidBody()->getLinearVelocity().length()<speedLimit) sword->getRigidBody()->applyImpulse(btVector3(impulso.x,impulso.y,impulso.z),btVector3(0,0,0));
-        sword->getRigidBody()->setAngularFactor(0);
-        posObj = glm::vec3(float(trans.getOrigin().getX()),float(trans.getOrigin().getY()),float(trans.getOrigin().getZ()));
+        posObj = glm::vec3(float(trans.getOrigin().getX()),float(trans.getOrigin().getY()+1.75f),float(trans.getOrigin().getZ()));
         sword->transform(posObj,yawPersonaje);
         sword->render(shader_programme);
         if(!flagKey && posObj.x > 10.0f && posObj.x < 20.0f && posObj.z > -101.0f && posObj.z <-99.0f ){
@@ -181,10 +186,10 @@ int main(int argc, char **argv){
             y = (g_gl_height/2)-20;
         }
         if(!flagKey) key->render(shader_programme);
-        piso->render(shader_programme);
+        /*piso->render(shader_programme);
         espada->render(shader_programme);
         castillo->render(shader_programme);
-        arbolito->render(shader_programme);
+        arbolito->render(shader_programme);*/
         skyshok->render(view);
         glfwSwapBuffers(g_window);
         glfwPollEvents();

@@ -126,7 +126,7 @@ void protagonist::setRot(float angle, glm::vec3 vector){
     this->model = glm::rotate(this->model,(glm::mediump_float)angle,vector);
 }
 void protagonist::initPhysics(worldPhysics *world){
-	btCollisionShape* colShape = new btCapsuleShape(.5f,3.5f);/*btConvexTriangleMeshShape(originalMesh,true);*/  //btSphereShape(btScalar(1.f));
+	btCollisionShape* colShape = new btSphereShape(btScalar(0.5f)); //btCapsuleShape(.5f,3.5f);/*btConvexTriangleMeshShape(originalMesh,true);*/  //btSphereShape(btScalar(1.f));
 	world->getCollisionShapes().push_back(colShape);
 
 	/// Create Dynamic Objects
@@ -147,13 +147,18 @@ void protagonist::initPhysics(worldPhysics *world){
 	//using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
 	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
+	//rbInfo.m_friction = 50.0f;
 	this->body = new btRigidBody(rbInfo);
 	this->body->setActivationState(DISABLE_DEACTIVATION);
-	this->body->setDamping(0.1f,0.1f);
+	this->body->setDamping(0.6f,0.6f);
+	this->body->setAngularFactor(0.5);
 	world->addRigidBody(body);
 }
 btRigidBody* protagonist::getRigidBody(){
 	return this->body;
+}
+btRigidBody* protagonist::capsule(){
+	return this->cap;
 }
 bool protagonist::load_texture_rgb(const char *filename, const char *sampler_name, GLuint* shaderprog){
 	glActiveTexture(GL_TEXTURE0);

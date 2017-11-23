@@ -33,6 +33,7 @@ void input(GLFWwindow *window){
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
     impulso = glm::vec3(0,0,0);
+    jump = glm::vec3(0,0,0);
     bool wPressed=false;
     bool sPressed=false;
     float vectorTranquibarranqui = 50.0f;
@@ -79,11 +80,9 @@ void input(GLFWwindow *window){
         else yawPersonaje=yaw+90.0f;
     }
     if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS){
-        impulso += glm::vec3(0,100.0f,0);
+        jump = glm::vec3(0,1000.0f,0);
     }
-    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS){
-        impulso += glm::vec3(0,5.0f,0);
-    }
+
     cameraPos.x = (distancia*sin(glm::radians(pitch))*cos(glm::radians(yaw)))+posObj.x;
     cameraPos.z = (distancia*sin(glm::radians(pitch))*sin(glm::radians(yaw)))+posObj.z;
     cameraPos.y = (distancia*cos(glm::radians(pitch)))+posObj.y;

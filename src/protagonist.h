@@ -13,6 +13,7 @@ private:
     int matloc;
     char *filename;
     btRigidBody* body;
+    btRigidBody* cap;
     GLint texloc_rgb, texloc_normal;
     
 public:
@@ -26,6 +27,7 @@ public:
     GLuint getVbo();
     GLuint getTex();
     btRigidBody* getRigidBody();
+    btRigidBody* capsule();
     glm::vec3 getPos();
 
     // sets

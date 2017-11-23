@@ -158,7 +158,7 @@ void suelo::initPhysics(worldPhysics *world){
 	//using motionstate is optional, it provides interpolation capabilities, and only synchronizes 'active' objects
 	btDefaultMotionState* myMotionState = new btDefaultMotionState(groundTransform);
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, groundShape, localInertia);
-	rbInfo.m_friction = 2.0f;
+	rbInfo.m_friction = 50.0f;
 	this->body = new btRigidBody(rbInfo);
 	//add the body to the dynamics world
 	world->addRigidBody(this->body);
