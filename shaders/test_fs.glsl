@@ -1,7 +1,7 @@
 #version 130
 #define SPOTLIGHT_CUT 0.999f
 
-//in vec3 normal;
+in vec3 normal;
 in vec2 st;
 //in vec3 light;
 //in vec3 normal_eye;
@@ -9,6 +9,8 @@ in vec2 st;
 in vec3 view_dir_tan;
 in vec3 light_dir_tan;
 in vec4 test_tan;
+in vec3 hele;
+in vec4 gwl_position;
 
 out vec4 frag_colour;
 //uniform sampler2D basic_texture;
@@ -20,9 +22,9 @@ uniform sampler2D texsamp_normal;
 
 #define SPECULAR_EXP 200
 
-vec4 la = vec4(1.0, 1.0, 1.0, 1.0);
-vec4 ld = vec4(1.0, 1.0, 1.0, 1.0);
-vec4 ls = vec4(1.0, 1.0, 1.0, 1.0);
+vec4 laSol = vec4(1.0, 1.0, 1.0, 1.0);
+vec4 ldSol = vec4(1.0, 1.0, 1.0, 1.0);
+vec4 lsSol = vec4(1.0, 1.0, 1.0, 1.0);
 
 void main() {
 	// material objeto
@@ -35,7 +37,7 @@ void main() {
 	vec3 texel      = texture (texsamp_rgb, st).rgb;
 	normal_tan = normalize (normal_tan * 2.0 - 1.0);
 
-    vec3 Ia = la.xyz * ka.xyz * texel.xyz;
+    vec3 Ia = laSol.xyz * ka.xyz * texel.xyz;
 	/*
 	vec3 Id = dot(light, normal) * kd.xyz * ld.xyz * texel.xyz;
 
@@ -52,7 +54,7 @@ void main() {
 	float dot_prod = dot (direction_to_light_tan, normal_tan);
 	dot_prod = max (dot_prod, 0.0);
 	//vec3 Id = vec3 (0.7, 0.7, 0.7) * vec3 (1.0, 0.5, 0.0) * dot_prod;
-	vec3 Id = ld.rgb * kd.rgb * texel * dot_prod;
+	vec3 Id = ldSol.rgb * kd.rgb * texel * dot_prod;
 
 	// specular light equation done in tangent space
 	vec3 reflection_tan = reflect (normalize (light_dir_tan), normal_tan);
@@ -60,8 +62,11 @@ void main() {
 	dot_prod_specular = max (dot_prod_specular, 0.0);
 	float specular_factor = pow (dot_prod_specular, SPECULAR_EXP);
 	//vec3 Is = vec3 (1.0, 1.0, 1.0) * vec3 (0.5, 0.5, 0.5) * specular_factor;
-	vec3 Is = ls.rgb * ks.rgb * specular_factor;
+	vec3 Is = lsSol.rgb * ks.rgb * specular_factor;
+
+	vec3 L = gwl_position.xyz-hele;
+	float distancia = length(L);
+	vec3 Id2 = (vec3(10.0,10.0,10.0) * kd.rgb * texel )* (dot_prod/dot_prod) / distancia;
 
 	frag_colour = vec4(Ia+Id+Is,1.0);
 }
- 

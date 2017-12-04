@@ -9,6 +9,7 @@ extern float fov;
 extern int distancia;
 extern int speedLimit;
 extern float yawPersonaje;
+extern bool debugP;
 
 extern glm::vec3 impulso;
 extern glm::vec3 posObj;

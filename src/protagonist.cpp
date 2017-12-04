@@ -57,6 +57,11 @@ void protagonist::model2shader(GLuint shaderprog){
 	// enviar matriz al shader (gpu)
 	glUseProgram(shaderprog);
 	glUniformMatrix4fv(this->matloc, 1, GL_FALSE, &(this->model[0][0]));
+	GLfloat *position = (GLfloat*)malloc(sizeof(GLfloat)*3);
+	position[0] = this->pos.x;
+	position[1] = this->pos.y;
+	position[2] = this->pos.z;	
+	glUniform3fv(glGetUniformLocation(shaderprog,"pos_global"),3,&(position[0]));
 }
 bool protagonist::load_texture (const char* file_name,GLuint *tex) {
 	int x, y, n;
@@ -125,15 +130,15 @@ void protagonist::transform(glm::vec3 posObj, float rot){
 void protagonist::setRot(float angle, glm::vec3 vector){
     this->model = glm::rotate(this->model,(glm::mediump_float)angle,vector);
 }
-void protagonist::initPhysics(worldPhysics *world){
-	btCollisionShape* colShape = new btSphereShape(btScalar(0.5f)); //btCapsuleShape(.5f,3.5f);/*btConvexTriangleMeshShape(originalMesh,true);*/  //btSphereShape(btScalar(1.f));
+void protagonist::initPhysics(worldPhysics *world){	
+	btCollisionShape* colShape = new btSphereShape(btScalar(0.5f));//btCapsuleShape(.5f,3.5f);/*btConvexTriangleMeshShape(originalMesh,true);*/  //btSphereShape(btScalar(1.f));
 	world->getCollisionShapes().push_back(colShape);
 
 	/// Create Dynamic Objects
 	btTransform startTransform;
 	startTransform.setIdentity();
 
-	btScalar mass(100.f);
+	btScalar mass(50.f);
 
 	//rigidbody is dynamic if and only if mass is non zero, otherwise static
 	bool isDynamic = (mass != 0.f);
@@ -142,7 +147,7 @@ void protagonist::initPhysics(worldPhysics *world){
 	if (isDynamic)
 		colShape->calculateLocalInertia(mass, localInertia);
 
-	startTransform.setOrigin(btVector3(posObj.x, posObj.y, posObj.z));
+	startTransform.setOrigin(btVector3(this->pos.x, this->pos.y, this->pos.z));
 
 	//using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
 	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
@@ -150,8 +155,8 @@ void protagonist::initPhysics(worldPhysics *world){
 	//rbInfo.m_friction = 50.0f;
 	this->body = new btRigidBody(rbInfo);
 	this->body->setActivationState(DISABLE_DEACTIVATION);
-	this->body->setDamping(0.6f,0.6f);
-	this->body->setAngularFactor(0.5);
+	this->body->setDamping(0.5f,0.5f);
+//	this->body->setAngularFactor(0);
 	world->addRigidBody(body);
 }
 btRigidBody* protagonist::getRigidBody(){

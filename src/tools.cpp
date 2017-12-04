@@ -191,9 +191,23 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	sword->setPos(posObj);
 	sword->initPhysics(world);
 	sword->setMatloc(*shader_programme,"model");
+
+	cubo1 = new cubo((char*)"mallas/cubo.obj");
+//	cubo1->load_texture_rgb("textures/earth8k.jpg", "texsamp_rgb",shader_programme);
+//	cubo1->load_texture_normal("textures/earth8k-normal.png", "texsamp_normal",shader_programme);
+	cubo1->setPos(glm::vec3(8.25f,-47.0f,-12.25));
+	cubo1->initPhysics(world);
+	cubo1->setMatloc(*shader_programme,"model");
+
+	cubo2 = new cubo((char*)"mallas/cubo.obj");
+//	cubo2->load_texture_rgb("textures/earth8k.jpg", "texsamp_rgb",shader_programme);
+//	cubo2->load_texture_normal("textures/earth8k-normal.png", "texsamp_normal",shader_programme);
+	cubo2->setPos(glm::vec3(-7.25f,-47.0f,7.25));
+	cubo2->initPhysics(world);
+	cubo2->setMatloc(*shader_programme,"model");
 	
-	piso = new suelo((char*)"mallas/mapadm2.obj");
-	piso->load_texture_rgb("textures/agua.jpg", "texsamp_rgb",shader_programme);
+	piso = new suelo((char*)"mallas/puzzleTestCurvo.obj");
+	piso->load_texture_rgb("textures/redbrick.jpg", "texsamp_rgb",shader_programme);
 //	piso->load_texture_normal("textures/normal.jpg", "texsamp_normal",shader_programme);
 	piso->setLightConstants(0.05f,0.8f,0.0f);
 	piso->setPos(glm::vec3(0,-50.0f,0));
@@ -201,9 +215,9 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	piso->setMatloc(*shader_programme,"model");
 
 	castillo = new suelo((char*)"mallas/castillo.obj");
-	castillo->load_texture_rgb("textures/earth8k.jpg","texsamp_rgb",shader_programme);
-	castillo->load_texture_normal("textures/earth8k-normal.png", "texsamp_normal",shader_programme);
-	castillo->setLightConstants(0.5f,0.8f,0.6f);
+//	castillo->load_texture_rgb("textures/earth8k.jpg","texsamp_rgb",shader_programme);
+//	castillo->load_texture_normal("textures/earth8k-normal.png", "texsamp_normal",shader_programme);
+	castillo->setLightConstants(0.5f,1.0f,0.6f);
 	castillo->setPos(glm::vec3(-25.0f,-35.0f,-150.0f));
 	castillo->initPhysics(world);
 	castillo->setMatloc(*shader_programme,"model");

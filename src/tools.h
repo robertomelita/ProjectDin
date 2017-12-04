@@ -8,6 +8,7 @@
 #include "tools.h"
 #include "enemy.h"
 #include "protagonist.h"
+#include "cubo.h"
 #include "suelo.h"
 #include "input.h"
 #include "sound.h"
@@ -22,6 +23,8 @@ extern suelo *piso;
 extern suelo *castillo;
 extern suelo *espada;
 extern suelo *arbolito;
+extern cubo *cubo1;
+extern cubo *cubo2;
 extern worldPhysics *world;
 extern enemy *key;
 

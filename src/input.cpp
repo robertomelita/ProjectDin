@@ -36,8 +36,8 @@ void input(GLFWwindow *window){
     jump = glm::vec3(0,0,0);
     bool wPressed=false;
     bool sPressed=false;
-    float vectorTranquibarranqui = 50.0f;
-    speedLimit = 12.0f;
+    float vectorTranquibarranqui = 10.0f;
+    speedLimit = 8.0f;
     if(glfwGetKey(window,GLFW_KEY_LEFT_SHIFT)){
         speedLimit = 20.0f;
     }
@@ -80,7 +80,13 @@ void input(GLFWwindow *window){
         else yawPersonaje=yaw+90.0f;
     }
     if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS){
-        jump = glm::vec3(0,1000.0f,0);
+        jump = glm::vec3(0,100.0f,0);
+    }
+    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS){
+        impulso += glm::vec3(0,-10.0f,0);
+    }
+    if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS){
+        debugP= !debugP;
     }
 
     cameraPos.x = (distancia*sin(glm::radians(pitch))*cos(glm::radians(yaw)))+posObj.x;
@@ -88,13 +94,13 @@ void input(GLFWwindow *window){
     cameraPos.y = (distancia*cos(glm::radians(pitch)))+posObj.y;
 
 
-
+/*
     if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS){
          if(snd_02->get_source_state() != AL_PLAYING)
         {
             snd_02->play();
         }
-    }
+    }*/
     
 }
 

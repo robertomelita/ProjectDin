@@ -2,6 +2,7 @@
 #include <assimp/scene.h> // collects data
 #include <assimp/postprocess.h> // various extra operations
 #include <stdlib.h>
+#include <btBulletDynamicsCommon.h>
 #include <stdio.h>
 #include <math.h>
 #include <assert.h>
@@ -10,64 +11,53 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "tools.h"
+#include "worldPhysics.h"
 #include "stb_image.h"
-#include "suelo.h"
+#include "tools.h"
+#include "cubo.h"
 
-using namespace std;
-
-suelo::suelo(char* filename){
+cubo::cubo(char* filename){
     this->pos = glm::vec3(0,0,0);
     this->model = glm::mat4();
     this->filename = filename;
     assert(this->load_mesh(filename, &(this->nvertices)));
     printf("Objeto %s cargado, %i vertices\n", filename, this->nvertices);
 }
-GLuint suelo::getVao(){
+GLuint cubo::getVao(){
     return this->VAO;
 }
-GLuint suelo::getVbo(){
+GLuint cubo::getVbo(){
     return this->VBO;
 }
-glm::vec3 suelo::getPos(){
+glm::vec3 cubo::getPos(){
     return this->pos;
 }
-GLuint suelo::getTex(){
+GLuint cubo::getTex(){
 	return this->tex_rgb;
 }
-int suelo::getNvertices(){
+int cubo::getNvertices(){
     return this->nvertices;
 }
-void suelo::setPos(glm::vec3 pos){
+void cubo::setPos(glm::vec3 pos){
 	this->pos = pos;	
     this->model = glm::translate(glm::mat4(), this->pos);
 }
 
-void suelo::setMatloc(GLuint shaderprog, const char *name){	
+void cubo::setMatloc(GLuint shaderprog, const char *name){	
 	this->matloc = glGetUniformLocation (shaderprog, name);
 }
 
-void suelo::model2shader(GLuint shaderprog){
+void cubo::model2shader(GLuint shaderprog){
 	// enviar matriz al shader (gpu)
 	glUseProgram(shaderprog);
 	glUniformMatrix4fv(this->matloc, 1, GL_FALSE, &(this->model[0][0]));
-	glUniform1f(glGetUniformLocation(shaderprog,"ConstA"),this->ConstA);
-	glUniform1f(glGetUniformLocation(shaderprog,"ConstD"),this->ConstD);
-	glUniform1f(glGetUniformLocation(shaderprog,"ConstS"),this->ConstS);
+	GLfloat *position = (GLfloat*)malloc(sizeof(GLfloat)*3);
+	position[0] = this->pos.x;
+	position[1] = this->pos.y;
+	position[2] = this->pos.z;	
+	glUniform3fv(glGetUniformLocation(shaderprog,"pos_global"),3,&(position[0]));
 }
-void suelo::render(GLuint shader_programme){
-	setMatloc(shader_programme,"model");
-	glBindVertexArray(getVao());
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D,getTex());
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D,this->tex_normal);
-	model2shader(shader_programme);
-	glDrawArrays(GL_TRIANGLES,0,getNvertices());
-	glBindVertexArray(0);
-}
-
-bool suelo::load_texture (const char* file_name, GLuint *tex) {
+bool cubo::load_texture (const char* file_name,GLuint *tex) {
 	int x, y, n;
 	int force_channels = 4;
 	unsigned char* image_data = stbi_load (file_name, &x, &y, &n, force_channels);
@@ -116,64 +106,56 @@ bool suelo::load_texture (const char* file_name, GLuint *tex) {
 	return true;
 }
 
-void suelo::transform(glm::vec3 posObj){
+void cubo::render(GLuint shader_programme){
+	setMatloc(shader_programme,"model");
+	glBindVertexArray(getVao());
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D,getTex());
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D,this->tex_normal);
+	model2shader(shader_programme);
+	glDrawArrays(GL_TRIANGLES,0,getNvertices());
+}
+
+void cubo::transform(glm::vec3 posObj){
 	setPos(posObj);
 }
-void suelo::initPhysics(worldPhysics *world){
-	btTriangleMesh* originalMesh = new btTriangleMesh();
-		const aiScene* scene = aiImportFile(this->filename, aiProcess_Triangulate);
-		if (!scene) {
-			fprintf (stderr, "ERROR: reading mesh\n");
-			return;
-		}
-			
-		const aiMesh* mesh = scene->mMeshes[0];
-		printf ("    %i vertices in mesh[0]\n", mesh->mNumVertices);
-			
-		if (mesh->HasPositions ()) {
-			for (int i = 0; i < mesh->mNumVertices/3; i++) {
-				const aiVector3D* vp1 = &(mesh->mVertices[3*i]);
-				const aiVector3D* vp2 = &(mesh->mVertices[3*i+1]);
-				const aiVector3D* vp3 = &(mesh->mVertices[3*i+2]);
-				originalMesh->addTriangle(btVector3(vp1->x,vp1->y,vp1->z),btVector3(vp2->x,vp2->y,vp2->z) ,btVector3(vp3->x,vp3->y,vp3->z),false);
-			}
-		}
+void cubo::initPhysics(worldPhysics *world){	
+	btCollisionShape* colShape = new btBoxShape(btVector3(2.48,2.48,2.48));
+	world->getCollisionShapes().push_back(colShape);
 
-	btCollisionShape* groundShape = new btBvhTriangleMeshShape(originalMesh ,true);//btStaticPlaneShape(btVector3(0, 1, 0),1);
+	/// Create Dynamic Objects
+	btTransform startTransform;
+	startTransform.setIdentity();
 
-	world->getCollisionShapes().push_back(groundShape);
+	btScalar mass(50.f);
 
-	btTransform groundTransform;
-	groundTransform.setIdentity();
-	groundTransform.setOrigin(btVector3(this->pos.x,this->pos.y,this->pos.z));
-
-	btScalar mass(0.);
-
+	//rigidbody is dynamic if and only if mass is non zero, otherwise static
 	bool isDynamic = (mass != 0.f);
-	
+
 	btVector3 localInertia(0, 0, 0);
 	if (isDynamic)
-		groundShape->calculateLocalInertia(mass, localInertia);
+		colShape->calculateLocalInertia(mass, localInertia);
 
-	//using motionstate is optional, it provides interpolation capabilities, and only synchronizes 'active' objects
-	btDefaultMotionState* myMotionState = new btDefaultMotionState(groundTransform);
-	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, groundShape, localInertia);
-	rbInfo.m_friction = 0.0f;
+	startTransform.setOrigin(btVector3(this->pos.x, this->pos.y, this->pos.z));
+
+	//using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
+	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
+	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
+	//rbInfo.m_friction = 50.0f;
 	this->body = new btRigidBody(rbInfo);
-	//add the body to the dynamics world
-	world->addRigidBody(this->body);
+	this->body->setActivationState(DISABLE_DEACTIVATION);
+	this->body->setDamping(0.1f,0);
+	this->body->setAngularFactor(0);
+	world->addRigidBody(body);
 }
-
-btRigidBody* suelo::getRigidBody(){
+btRigidBody* cubo::getRigidBody(){
 	return this->body;
 }
-void suelo::setLightConstants(GLfloat ConstA,GLfloat ConstD,GLfloat ConstS){
-	this->ConstA=ConstA;
-	this->ConstD=ConstD;
-	this->ConstS=ConstS;
+btRigidBody* cubo::capsule(){
+	return this->cap;
 }
-
-bool suelo::load_texture_rgb(const char *filename, const char *sampler_name, GLuint* shaderprog){
+bool cubo::load_texture_rgb(const char *filename, const char *sampler_name, GLuint* shaderprog){
 	glActiveTexture(GL_TEXTURE0);
 	int code = load_texture(filename, &tex_rgb);
 
@@ -186,7 +168,7 @@ bool suelo::load_texture_rgb(const char *filename, const char *sampler_name, GLu
     glUseProgram(0);
 }
 
-bool suelo::load_texture_normal(const char *filename, const char *sampler_name, GLuint* shaderprog){
+bool cubo::load_texture_normal(const char *filename, const char *sampler_name, GLuint* shaderprog){
 	glActiveTexture(GL_TEXTURE1);
 	int code = load_texture(filename, &tex_normal);
 
@@ -196,10 +178,8 @@ bool suelo::load_texture_normal(const char *filename, const char *sampler_name, 
     printf("texloc_normal = %i\n", texloc_normal);
 	assert( texloc_normal > -1 );
 	glUniform1i( texloc_normal, 1 );
-	glUseProgram(0);
 }
-
-bool suelo::load_mesh (const char* file_name, int* point_count) {
+bool cubo::load_mesh (const char* file_name, int* point_count) {
 	const aiScene* scene = aiImportFile(file_name, aiProcess_Triangulate);
 	if (!scene) {
 		fprintf (stderr, "ERROR: reading mesh %s\n", file_name);
@@ -283,6 +263,10 @@ bool suelo::load_mesh (const char* file_name, int* point_count) {
 				tangents[i * 4 + 1] = t_i.y;
 				tangents[i * 4 + 2] = t_i.z;
 				tangents[i * 4 + 3] = det;
+
+               
+			    glVertexAttribPointer( 3, 4, GL_FLOAT, GL_FALSE, 0, NULL );
+			    glEnableVertexAttribArray( 3 );
 		}
 	}
 	this->makevao(points, normals, texcoords, tangents);
@@ -290,34 +274,31 @@ bool suelo::load_mesh (const char* file_name, int* point_count) {
 	free(points);
     free(normals);
     free(texcoords);
-    free(tangents);	
+    free(tangents);
 
-	
 	aiReleaseImport (scene);
 	printf ("mesh loaded\n");
+	
 	return true;
 }
-void suelo::makevao(GLfloat *vertices, GLfloat* normals, GLfloat *texcoords, GLfloat *tangents){
+void cubo::makevao(GLfloat *vertices, GLfloat* normals, GLfloat *texcoords, GLfloat *tangents){
     glGenVertexArrays (1, &VAO);
     glBindVertexArray (VAO);
         if(vertices){
-			glEnableVertexAttribArray (0);
             glGenBuffers (1, &VBO);
             glBindBuffer (GL_ARRAY_BUFFER, VBO);
             glBufferData ( GL_ARRAY_BUFFER, 3 * nvertices * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
             glVertexAttribPointer (0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
-            
+            glEnableVertexAttribArray (0);
         }
         if(normals){
-			glEnableVertexAttribArray (1);
             glGenBuffers (1, &nbo);
             glBindBuffer (GL_ARRAY_BUFFER, nbo);
             glBufferData ( GL_ARRAY_BUFFER, 3 * nvertices * sizeof (GLfloat), normals, GL_STATIC_DRAW);
             glVertexAttribPointer (1, 3, GL_FLOAT, GL_FALSE, 0, NULL);
-            
+            glEnableVertexAttribArray (1);
         }
         if(texcoords){
-			glEnableVertexAttribArray (2);
             glGenBuffers (1, &tbo);
             glBindBuffer (GL_ARRAY_BUFFER, tbo);
             glBufferData ( GL_ARRAY_BUFFER, 2 * nvertices * sizeof (GLfloat), texcoords, GL_STATIC_DRAW);
@@ -325,7 +306,6 @@ void suelo::makevao(GLfloat *vertices, GLfloat* normals, GLfloat *texcoords, GLf
             glEnableVertexAttribArray (2);
         }
 		if(tangents){
-			glEnableVertexAttribArray (3);
 			glGenBuffers( 1, &tanbo );
 			glBindBuffer( GL_ARRAY_BUFFER, tanbo );
 			glBufferData( GL_ARRAY_BUFFER, 4 * nvertices * sizeof( GLfloat ), tangents, GL_STATIC_DRAW );
@@ -333,4 +313,31 @@ void suelo::makevao(GLfloat *vertices, GLfloat* normals, GLfloat *texcoords, GLf
 			glEnableVertexAttribArray( 3 );
 		}
     glBindVertexArray(0);
+}
+
+void cubo::manager(){
+    //printf();
+    if(init && pos.y<=-47.3f/*this->body->getLinearVelocity().getY()==0*/){
+		this->body->setLinearVelocity(btVector3(0,0,0));
+        this->body->setLinearFactor(btVector3(1.0f,0,1.0f));
+        init = false;
+    }
+	btVector3 velocity = body->getLinearVelocity();
+	if(!init && !lockAxis && velocity.length()>0){
+		if(abs(velocity.getX()) > abs(velocity.getZ())){
+			if(velocity.getX()>0) this->body->setLinearVelocity(btVector3(5,0,0));
+			else this->body->setLinearVelocity(btVector3(-5,0,0));
+			this->body->setLinearFactor(btVector3(1,0,0));
+		}else if(abs(velocity.getX()) < abs(velocity.getZ())){
+			if(velocity.getZ()>0) this->body->setLinearVelocity(btVector3(0,0,5));
+			else this->body->setLinearVelocity(btVector3(0,0,-5));
+			this->body->setLinearFactor(btVector3(0,0,1));
+		}
+		lockAxis = true;
+	}
+	if(lockAxis && velocity.length()<0.5f){
+		lockAxis=false;
+		body->setLinearVelocity(btVector3(0,0,0));
+		body->setLinearFactor(btVector3(1,0,1));
+	}
 }

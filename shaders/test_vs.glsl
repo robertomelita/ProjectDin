@@ -8,11 +8,12 @@ in vec4 vtangent;
 
 // variables comunes para todos los shaders
 uniform mat4 view, proj, model;
+uniform vec3 pos_global;
 
 // variables de salida, cada shader genera un valor distinto
 /*
-out vec3 light;
-out vec3 normal; */
+out vec3 light;*/
+out vec3 normal; 
 
 
 out vec2 st;
@@ -21,6 +22,8 @@ out vec3 position_eye;
 out vec4 test_tan;
 out vec3 view_dir_tan;
 out vec3 light_dir_tan;
+out vec3 hele;
+out vec4 gwl_Position;
 
 float inverse(float m);
 mat2 inverse(mat2 m);
@@ -40,7 +43,7 @@ void main(){
 	
 
 	vec3 cam_pos_wor = (inverse (view) * vec4 (0.0, 0.0, 0.0, 1.0)).xyz;
-	vec3 light_dir_wor = vec3 (-0.5f, -1.0f, -0.5f);
+	vec3 light_dir_wor = normalize(vec3 (-1.5f, -1.0f, -1.5f));
 	
 
 	vec3 bitangent = cross (vertex_normal, vtangent.xyz) * vtangent.w;
@@ -48,6 +51,11 @@ void main(){
 	vec3 cam_pos_loc = vec3 (inverse (model) * vec4 (cam_pos_wor, 1.0));
 	vec3 light_dir_loc = vec3 (inverse (model) * vec4 (light_dir_wor, 0.0));
 	vec3 view_dir_loc = normalize (cam_pos_loc - vertex_position);
+
+    hele = (view * model * vec4(vertex_position,1.0)).xyz;
+    gwl_Position = view * model * vec4(vec3(10.0,10.0,10.0), 1.0);
+
+    gl_Position = proj * view * model * vec4(vertex_position, 1.0);
 	
 	view_dir_tan = vec3 (
 		dot (vtangent.xyz, view_dir_loc),

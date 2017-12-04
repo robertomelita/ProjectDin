@@ -33,6 +33,7 @@
 #include "stb_image.h"
 #include "tools.h"
 #include "malla.h"
+#include "cubo.h"
 #include "enemy.h"
 #include "protagonist.h"
 #include "suelo.h"
@@ -78,6 +79,8 @@ suelo *espada;
 suelo *arbolito;
 worldPhysics* world;
 enemy *key;
+cubo *cubo1;
+cubo *cubo2;
 sound *snd_01 = new sound((const char*)"audio/rito2.wav");
 sound *snd_02 = new sound((const char*)"audio/secret.wav");
 sound *snd_03 = new sound((const char*)"audio/naruto.wav");
@@ -90,6 +93,7 @@ int proj_mat_location;
 
 bool flagKey = false;
 bool flagCastle = false;
+bool debugP = true;
 
 int main(int argc, char **argv){
 
@@ -127,8 +131,7 @@ int main(int argc, char **argv){
         input(g_window);
         soundsPositioning();
 
-        world->getDynamicWorld()->debugDrawWorld();
-        drawer->drawLines();
+
         // render
         // ------
         
@@ -153,44 +156,54 @@ int main(int argc, char **argv){
             }
         }*/
         glUseProgram(shader_programme);
-        update_camera();
         if(!flagCastle && snd_01->get_source_state() != AL_PLAYING)
         {
-            snd_01->play(); 
+            snd_01->play();
         }
         btTransform trans;
         if(sword->getRigidBody()->getLinearVelocity().length()<speedLimit){
-            sword->getRigidBody()->applyImpulse(btVector3(impulso.x, 0,impulso.z),btVector3(0,0,0));
-            if(sword->getRigidBody()->getLinearVelocity().getY()<1.0f and sword->getRigidBody()->getLinearVelocity().getY()>-1.0f){
+            sword->getRigidBody()->applyImpulse(btVector3(impulso.x, 0.1f,impulso.z),btVector3(0,0,0));
+            if(sword->getRigidBody()->getLinearVelocity().getY()<0.1f and sword->getRigidBody()->getLinearVelocity().getY()>-0.1f){
                 sword->getRigidBody()->applyImpulse(btVector3(0,jump.y,0),btVector3(0,0,0));
             }
         }
-        printf("%f\n",sword->getRigidBody()->getLinearVelocity().getY());
+        //printf("%f\n",sword->getRigidBody()->getLinearVelocity().getY());
         world->stepSimulation();
         sword->getRigidBody()->getMotionState()->getWorldTransform(trans);
-        posObj = glm::vec3(float(trans.getOrigin().getX()),float(trans.getOrigin().getY()+1.75f),float(trans.getOrigin().getZ()));
+        posObj = glm::vec3(float(trans.getOrigin().getX()),float(trans.getOrigin().getY()),float(trans.getOrigin().getZ()));
         sword->transform(posObj,yawPersonaje);
-        sword->render(shader_programme);
-        if(!flagKey && posObj.x > 10.0f && posObj.x < 20.0f && posObj.z > -101.0f && posObj.z <-99.0f ){
+
+        btTransform trans2;
+        cubo1->manager();
+        cubo1->getRigidBody()->getMotionState()->getWorldTransform(trans2);
+        cubo1->transform(glm::vec3(float(trans2.getOrigin().getX()),float(trans2.getOrigin().getY()),float(trans2.getOrigin().getZ())));
+
+        cubo2->manager();
+        cubo2->getRigidBody()->getMotionState()->getWorldTransform(trans2);
+        cubo2->transform(glm::vec3(float(trans2.getOrigin().getX()),float(trans2.getOrigin().getY()),float(trans2.getOrigin().getZ())));
+
+        printf("(%f,%f)   %f\n",cubo1->getPos().x,cubo1->getPos().z,cubo1->getPos().y);
+
+        update_camera();
+        if(!flagKey &&( (cubo1->getPos().x > 17.2f && cubo1->getPos().z > -3.0f)
+                    || (cubo2->getPos().x > 17.2f && cubo2->getPos().z > -3.0f))){
             flagKey = true;
             snd_02->play();
             gltSetText(text,"Ahora entra al castillo");
         }
-        if(flagKey && !flagCastle && posObj.x < -18.0f && posObj.x > -24.0f && posObj.z > -135.0f && posObj.z <-134.0f){
-            flagCastle = true;
-            gltSetText(text,"GANASTE!!!!");
-            snd_01->stop();
-            snd_03->play();
-            size = 8;
-            x = 20;
-            y = (g_gl_height/2)-20;
+        if(debugP){
+            world->getDynamicWorld()->debugDrawWorld();
+            drawer->drawLines();
+        }else{
+            sword->render(shader_programme);
+            if(!flagKey) key->render(shader_programme);
+            piso->render(shader_programme);
+            cubo1->render(shader_programme);
+//           espada->render(shader_programme);
+//           castillo->render(shader_programme);
+//            arbolito->render(shader_programme);
+            skyshok->render(view);
         }
-        if(!flagKey) key->render(shader_programme);
-        /*piso->render(shader_programme);
-        espada->render(shader_programme);
-        castillo->render(shader_programme);
-        arbolito->render(shader_programme);*/
-        skyshok->render(view);
         glfwSwapBuffers(g_window);
         glfwPollEvents();
     }

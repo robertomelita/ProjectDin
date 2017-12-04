@@ -915,7 +915,7 @@ static const GLchar* _gltText2DFragmentShaderSource =
 "\n"
 "void main()\n"
 "{\n"
-"	fragColor = texture(diffuse, fTexCoord) * color;\n"
+"	fragColor = texture(diffuse, fTexCoord) * color * vec4(1.0 ,1.0, 1.0, 0.5);\n"
 "}\n";
 
 
