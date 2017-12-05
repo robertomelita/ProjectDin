@@ -80,7 +80,7 @@ void input(GLFWwindow *window){
         else yawPersonaje=yaw+90.0f;
     }
     if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS){
-        jump = glm::vec3(0,100.0f,0);
+        jump = glm::vec3(0,500.0f,0);
     }
     if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS){
         impulso += glm::vec3(0,-10.0f,0);

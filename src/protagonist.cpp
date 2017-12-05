@@ -156,6 +156,7 @@ void protagonist::initPhysics(worldPhysics *world){
 	this->body = new btRigidBody(rbInfo);
 	this->body->setActivationState(DISABLE_DEACTIVATION);
 	this->body->setDamping(0.5f,0.5f);
+	this->body->setRestitution(1.0f);
 //	this->body->setAngularFactor(0);
 	world->addRigidBody(body);
 }
