@@ -20,6 +20,7 @@ extern GLuint shader_programme;
 //mallas
 extern protagonist *sword;
 extern suelo *maz2;
+extern suelo *boton;
 extern suelo *casa1;
 extern suelo *casa2;
 extern suelo *casa3;

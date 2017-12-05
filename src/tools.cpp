@@ -241,6 +241,14 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	principal->setPos(glm::vec3(155.0f,-14.0f,0.0f));
 	principal->setMatloc(*shader_programme,"model");
 
+	boton = new suelo((char*)"mallas/boton.obj",1.0f);
+	boton->load_texture_rgb("textures/ice.jpg", "texsamp_rgb",shader_programme);
+	boton->load_texture_normal("textures/iceNormal.png", "texsamp_normal",shader_programme);
+	boton->setLightConstants(0.5f,0.8f,0.05f);
+	boton->setPos(glm::vec3(17.2f,-3.0f,-47.0f));
+	boton->setMatloc(*shader_programme,"model");
+
+
 	terrenoExterior = new suelo((char*)"mallas/terrneoExterior.obj",1.0f);
 	terrenoExterior->load_texture_rgb("textures/terreno/tierr.jpg", "texsamp_rgb",shader_programme);
 	terrenoExterior->load_texture_normal("textures/tierrNormal.png", "texsamp_normal",shader_programme);

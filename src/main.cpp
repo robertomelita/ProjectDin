@@ -92,6 +92,7 @@ suelo *arbolito3;
 suelo *arbolito4;
 suelo *arbolito5;
 suelo *arbolito6;
+suelo *boton;
 worldPhysics* world;
 enemy *key;
 cubo *cubo1;
@@ -231,6 +232,7 @@ int main(int argc, char **argv){
                         maz->play();
                     }
                     piso->render(shader_programme);
+					boton->render(shader_programme);
                     piso2->render(shader_programme);
                     sala->render(shader_programme);
                     cubo1->render(shader_programme);
