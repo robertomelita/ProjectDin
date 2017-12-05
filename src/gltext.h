@@ -915,7 +915,13 @@ static const GLchar* _gltText2DFragmentShaderSource =
 "\n"
 "void main()\n"
 "{\n"
-"	fragColor = texture(diffuse, fTexCoord) * color * vec4(1.0 ,1.0, 1.0, 0.5);\n"
+"	vec4 aux = texture(diffuse, fTexCoord) * color * vec4(1.0 ,1.0, 1.0, 1.0);"
+"	if(aux.xyz == vec3(1.0,1.0,1.0)){\n"
+"	 	fragColor = aux;\n"
+"	}\n"
+"	else{\n"
+"		fragColor = vec4(0,0,0,0);\n"
+"	}\n"
 "}\n";
 
 

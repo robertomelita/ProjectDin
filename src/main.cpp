@@ -61,7 +61,7 @@ glm::vec3 posObj = glm::vec3(0.0f,-8.0f,-2.0f);
 btQuaternion rotObj;
 
 // camera
-glm::vec3 cameraPos   = posObj + glm::vec3(0.0f, 0.5f, distancia);
+glm::vec3 cameraPos   = posObj + glm::vec3(distancia, 0.5f, 0.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f, 0.0f);
 float fov   =  45.0f;
@@ -74,6 +74,7 @@ GLuint shader_programme;
 
 //mallas
 protagonist *sword;
+suelo *principal;
 suelo *piso;
 suelo *piso2;
 suelo *sala;
@@ -105,18 +106,19 @@ int main(int argc, char **argv){
     init(g_gl_width, g_gl_height, &shader_programme);
     skybox *skyshok = new skybox(projection,view);
     gltInit();
-/*
+
     GLDebugDrawer *drawer = new GLDebugDrawer();
     world->getDynamicWorld()->setDebugDrawer(drawer);
     drawer->setView(&view);
     drawer->setProj(&projection);
     drawer->setDebugMode(btIDebugDraw::DBG_DrawWireframe);
-*/
+
     GLTtext *text = gltCreateText();
+    gltSetText(text,"PRESIONE ENTER PARA CONTINUAR");
  //   gltSetText(text, "Consigue la llave!");
     int size = 3;
-    int x = 10;
-    int y = 10;
+    int x = 300;
+    int y = g_gl_height-50;
 
     while (!glfwWindowShouldClose(g_window)){
         // per-frame time logic
@@ -129,6 +131,7 @@ int main(int argc, char **argv){
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         gltColor(1.0f, 1.0f, 1.0f, 1.0f);
         gltDrawText2D(text,x, y, size);
+                
 	
         // input
         // -----
@@ -199,8 +202,8 @@ int main(int argc, char **argv){
                 gltSetText(text,"Pasa a la siguiente sala");
             }
             if(debugP){
-            //    world->getDynamicWorld()->debugDrawWorld();
-            //    drawer->drawLines();
+                world->getDynamicWorld()->debugDrawWorld();
+                drawer->drawLines();
             }else{
                 sword->render(shader_programme);
                 if(!flagCastle) {
@@ -223,8 +226,14 @@ int main(int argc, char **argv){
                 sword->getRigidBody()->translate(btVector3(-10.0f,-45.0f,15.0f)-trans.getOrigin());                
             }
         }else{
-            if(glfwGetKey(g_window, GLFW_KEY_ENTER) == GLFW_PRESS) principalScreen=false;
-            gltSetText(text,"PRESIONE ENTER PARA CONTINUAR");
+            if(glfwGetKey(g_window, GLFW_KEY_ENTER) == GLFW_PRESS){ 
+                principalScreen=false;
+                x = 10;
+                y = 10;
+                gltDrawText2D(text,x, y, size);
+            }
+
+            principal->render(shader_programme);
         }
         glfwSwapBuffers(g_window);
         glfwPollEvents();

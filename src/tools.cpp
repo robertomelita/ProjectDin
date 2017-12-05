@@ -226,6 +226,13 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	piso->initPhysics(world);
 	piso->setMatloc(*shader_programme,"model");
 
+	principal = new suelo((char*)"mallas/main.obj",1.0f);
+	principal->load_texture_rgb("textures/main.jpg", "texsamp_rgb",shader_programme);
+	principal->load_texture_normal("textures/mainNormal.png", "texsamp_normal",shader_programme);
+	principal->setLightConstants(0.5f,0.8f,0.05f);
+	principal->setPos(glm::vec3(-7.5f,-8.0f,0.0f));
+	principal->setMatloc(*shader_programme,"model");
+
 	terrenoExterior = new suelo((char*)"mallas/terrneoExterior.obj",1.0f);
 	terrenoExterior->load_texture_rgb("textures/terreno/tierr.jpg", "texsamp_rgb",shader_programme);
 	terrenoExterior->load_texture_normal("textures/tierrNormal.png", "texsamp_normal",shader_programme);
