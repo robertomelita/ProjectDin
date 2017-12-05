@@ -367,7 +367,7 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 
 	key = new enemy((char*)"mallas/Key_B_02.obj");
 	key->load_texture("textures/keyB_tx.bmp");
-	key->setPos(glm::vec3(15.0f,-45.0f,-100.0f));
+	key->setPos(glm::vec3(76.0f,-33.0f,-4.0f));
 	key->setMatloc(*shader_programme,"model");
 
 

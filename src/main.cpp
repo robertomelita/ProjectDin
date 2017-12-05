@@ -111,6 +111,7 @@ bool flagKey = false;
 bool flagCastle = false;
 bool debugP = false;
 bool principalScreen = true;
+bool fin = false;
 
 int main(int argc, char **argv){
 
@@ -223,12 +224,12 @@ int main(int argc, char **argv){
                     cubo1->render(shader_programme);
                     cubo2->render(shader_programme);
                     maz2->render(shader_programme);
+                    if(!fin) key->render(shader_programme);
                 }
             }
             if(!flagCastle && posObj.x<-69.0f && posObj.z<5.0 && posObj.z>-3.0){
                 flagCastle=true;
                 sword->getRigidBody()->translate(btVector3(-10.0f,-45.0f,15.0f)-trans.getOrigin());
-                key->render(shader_programme);
                 gltSetText(text,"Resuelve el puzzle");
             }
         }else{
