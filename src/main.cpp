@@ -152,7 +152,7 @@ int main(int argc, char **argv){
         soundsPositioning();
         if(!principalScreen){
             input(g_window);
-            if(!flagKey) gltSetText(text, "");
+            if(!flagKey) gltSetText(text, "Avanza al castillo");
 
             // render
         
@@ -185,7 +185,7 @@ int main(int argc, char **argv){
             cubo2->getRigidBody()->getMotionState()->getWorldTransform(trans2);
             cubo2->transform(glm::vec3(float(trans2.getOrigin().getX()),float(trans2.getOrigin().getY()),float(trans2.getOrigin().getZ())));
 
-                        printf("%f %f\n",posObj.x,posObj.z);
+                    //    printf("%f %f\n",posObj.x,posObj.z);
 
 
             update_camera();
@@ -193,7 +193,7 @@ int main(int argc, char **argv){
                         || (cubo2->getPos().x > 17.2f && cubo2->getPos().z > -3.0f))){
                 flagKey = true;
                 snd_02->play();
-                gltSetText(text,"Pasa a la siguiente sala");
+                gltSetText(text,"Pasa a la siguiente sala y consigue la llave");
             }
             if(debugP){
                 world->getDynamicWorld()->debugDrawWorld();
@@ -217,7 +217,6 @@ int main(int argc, char **argv){
 					arbolito6->render(shader_programme);
                     skyshok->render(view);
                 }else{
-                    key->render(shader_programme);
                     piso->render(shader_programme);
                     piso2->render(shader_programme);
                     sala->render(shader_programme);
@@ -229,6 +228,8 @@ int main(int argc, char **argv){
             if(!flagCastle && posObj.x<-69.0f && posObj.z<5.0 && posObj.z>-3.0){
                 flagCastle=true;
                 sword->getRigidBody()->translate(btVector3(-10.0f,-45.0f,15.0f)-trans.getOrigin());
+                key->render(shader_programme);
+                gltSetText(text,"Resuelve el puzzle");
             }
         }else{
             if(maintheme->get_source_state() != AL_PLAYING)
