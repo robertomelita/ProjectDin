@@ -13,6 +13,7 @@
 | demo is a starting point before doing skinning animation                     |
 \******************************************************************************/
 #include <btBulletDynamicsCommon.h>
+#include <unistd.h>
 #include <assimp/cimport.h> // C importer
 #include <assimp/scene.h> // collects data
 #include <assimp/postprocess.h> // various extra operations
@@ -251,10 +252,12 @@ int main(int argc, char **argv){
                     if(!fin) key->render(shader_programme);
                     if(fin){
                         gltSetText(text,"¡¡¡Gracias por jugar!!!");
-                         x = 10;
-                        y = 10;
+                        x = 30;
+                        y = 30;
+                        size=6;
                         gltDrawText2D(text,x, y, size);
                          }
+                        
                 }
             }
             if(!flagCastle && posObj.x<-69.0f && posObj.z<5.0 && posObj.z>-3.0){
