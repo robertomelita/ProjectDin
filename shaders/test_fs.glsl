@@ -61,8 +61,8 @@ void main() {
 	dot_prod_specular = max (dot_prod_specular, 0.0);
 	float specular_factor = pow (dot_prod_specular, SPECULAR_EXP);
 	//vec3 Is = vec3 (1.0, 1.0, 1.0) * vec3 (0.5, 0.5, 0.5) * specular_factor;
-/*	vec3 Is = lsSol.rgb * ks.rgb * specular_factor;
-
+	vec3 Is = lsSol.rgb * ks.rgb * specular_factor;
+/*
 	vec3 L = gwl_position.xyz-hele;
 	float distancia = length(L);
 	vec3 Id2 = (vec3(10.0,10.0,10.0) * kd.rgb * texel )* (dot_prod/dot_prod) / distancia;
