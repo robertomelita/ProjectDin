@@ -100,6 +100,7 @@ suelo* terrenoExterior;
 sound *snd_01 = new sound((const char*)"audio/play.wav");
 sound *snd_02 = new sound((const char*)"audio/secret.wav");
 sound *maintheme = new sound((const char*)"audio/main.wav");
+sound *maz = new sound((const char*)"audio/maz.wav");
 
 glm::mat4 projection;
 glm::mat4 view;
@@ -218,6 +219,10 @@ int main(int argc, char **argv){
 					arbolito6->render(shader_programme);
                     skyshok->render(view);
                 }else{
+                     if(maz->get_source_state() != AL_PLAYING)
+                    {
+                        maz->play();
+                    }
                     piso->render(shader_programme);
                     piso2->render(shader_programme);
                     sala->render(shader_programme);
@@ -228,6 +233,7 @@ int main(int argc, char **argv){
                 }
             }
             if(!flagCastle && posObj.x<-69.0f && posObj.z<5.0 && posObj.z>-3.0){
+                snd_01->stop();
                 flagCastle=true;
                 sword->getRigidBody()->translate(btVector3(-10.0f,-45.0f,15.0f)-trans.getOrigin());
                 gltSetText(text,"Resuelve el puzzle");
