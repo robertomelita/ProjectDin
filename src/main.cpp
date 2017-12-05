@@ -154,7 +154,7 @@ int main(int argc, char **argv){
         soundsPositioning();
         if(!principalScreen){
             input(g_window);
-            if(flagCastle && posObj.y>=-33.0f && posObj.x>=76.0f){
+            if(flagCastle && posObj.y>=-33.0f && posObj.x<=76.0f){
                 fin=true;
                  if(snd_02->get_source_state() != AL_PLAYING)
                 {
