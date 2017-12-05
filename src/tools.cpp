@@ -259,7 +259,7 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 
 	castillo = new suelo((char*)"mallas/farmhouse_obj.obj",5.0f);
 	castillo->load_texture_rgb("textures/Farmhouse Texture.jpg","texsamp_rgb",shader_programme);
-//	castillo->load_texture_normal("textures/castle3Normal.png", "texsamp_normal",shader_programme);
+	castillo->load_texture_normal("textures/Farmhouse TextureNormal.png", "texsamp_normal",shader_programme);
 	castillo->setLightConstants(0.5f,1.0f,0.6f);
 	castillo->setPos(glm::vec3(80.0f,-11.0f,0));
 	castillo->initPhysics(world);
