@@ -105,13 +105,13 @@ int main(int argc, char **argv){
     init(g_gl_width, g_gl_height, &shader_programme);
     skybox *skyshok = new skybox(projection,view);
     gltInit();
-
+/*
     GLDebugDrawer *drawer = new GLDebugDrawer();
     world->getDynamicWorld()->setDebugDrawer(drawer);
     drawer->setView(&view);
     drawer->setProj(&projection);
     drawer->setDebugMode(btIDebugDraw::DBG_DrawWireframe);
-
+*/
     GLTtext *text = gltCreateText();
  //   gltSetText(text, "Consigue la llave!");
     int size = 3;
@@ -199,8 +199,8 @@ int main(int argc, char **argv){
                 gltSetText(text,"Pasa a la siguiente sala");
             }
             if(debugP){
-                world->getDynamicWorld()->debugDrawWorld();
-                drawer->drawLines();
+            //    world->getDynamicWorld()->debugDrawWorld();
+            //    drawer->drawLines();
             }else{
                 sword->render(shader_programme);
                 if(!flagCastle) {
