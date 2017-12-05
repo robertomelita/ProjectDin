@@ -74,13 +74,24 @@ GLuint shader_programme;
 
 //mallas
 protagonist *sword;
+suelo *casa1;
+suelo *casa2;
+suelo *casa3;
+suelo *casa4;
+suelo *casa5;
+suelo *casa6;
 suelo *principal;
 suelo *piso;
 suelo *piso2;
 suelo *sala;
 suelo *castillo;
 suelo *espada;
-suelo *arbolito;
+suelo *arbolito1;
+suelo *arbolito2;
+suelo *arbolito3;
+suelo *arbolito4;
+suelo *arbolito5;
+suelo *arbolito6;
 worldPhysics* world;
 enemy *key;
 cubo *cubo1;
@@ -214,7 +225,18 @@ int main(int argc, char **argv){
                     terrenoExterior->render(shader_programme);
                     //espada->render(shader_programme);
                     castillo->render(shader_programme);
-                   // arbolito->render(shader_programme);*/
+		    		casa1->render(shader_programme);
+					casa2->render(shader_programme);
+					casa3->render(shader_programme);
+					casa4->render(shader_programme);
+					casa5->render(shader_programme);
+					casa6->render(shader_programme);
+                   	arbolito1->render(shader_programme);
+					arbolito2->render(shader_programme);
+					arbolito3->render(shader_programme);
+					arbolito4->render(shader_programme);
+					arbolito5->render(shader_programme);
+					arbolito6->render(shader_programme);
                     skyshok->render(view);
                 }else{
                     key->render(shader_programme);

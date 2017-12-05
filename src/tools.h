@@ -19,13 +19,24 @@ extern GLuint shader_programme;
 
 //mallas
 extern protagonist *sword;
+extern suelo *casa1;
+extern suelo *casa2;
+extern suelo *casa3;
+extern suelo *casa4;
+extern suelo *casa5;
+extern suelo *casa6;
 extern suelo *principal;
 extern suelo *piso;
 extern suelo *piso2;
 extern suelo *sala;
 extern suelo *castillo;
 extern suelo *espada;
-extern suelo *arbolito;
+extern suelo *arbolito1;
+extern suelo *arbolito2;
+extern suelo *arbolito3;
+extern suelo *arbolito4;
+extern suelo *arbolito5;
+extern suelo *arbolito6;
 extern cubo *cubo1;
 extern cubo *cubo2;
 extern worldPhysics *world;

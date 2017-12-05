@@ -257,13 +257,63 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	sala->initPhysics(world);
 	sala->setMatloc(*shader_programme,"model");
 
-	castillo = new suelo((char*)"mallas/farmhouse_obj.obj",5.0f);
-	castillo->load_texture_rgb("textures/Farmhouse Texture.jpg","texsamp_rgb",shader_programme);
-	castillo->load_texture_normal("textures/Farmhouse TextureNormal.png", "texsamp_normal",shader_programme);
+	castillo = new suelo((char*)"mallas/castillo3.obj",5.0f);
+	castillo->load_texture_rgb("textures/castle3.jpg","texsamp_rgb",shader_programme);
+	castillo->load_texture_normal("textures/castle3Normal.png", "texsamp_normal",shader_programme);
 	castillo->setLightConstants(0.5f,1.0f,0.6f);
-	castillo->setPos(glm::vec3(80.0f,-11.0f,0));
+	castillo->setPos(glm::vec3(-80.0f,-11.0f,10.0f));
 	castillo->initPhysics(world);
 	castillo->setMatloc(*shader_programme,"model");
+
+	//casas
+	casa1 = new suelo((char*)"mallas/farmhouse_obj.obj",5.0f);
+	casa1->load_texture_rgb("textures/Farmhouse Texture.jpg","texsamp_rgb",shader_programme);
+	casa1->load_texture_normal("textures/Farmhouse TextureNormal.png", "texsamp_normal",shader_programme);
+	casa1->setLightConstants(0.5f,1.0f,0.6f);
+	casa1->setPos(glm::vec3(110.0f,-10.0f,50.0f));
+	casa1->initPhysics(world);
+	casa1->setMatloc(*shader_programme,"model");
+
+	casa2 = new suelo((char*)"mallas/farmhouse_obj.obj",5.0f);
+	casa2->load_texture_rgb("textures/Farmhouse Texture.jpg","texsamp_rgb",shader_programme);
+	casa2->load_texture_normal("textures/Farmhouse TextureNormal.png", "texsamp_normal",shader_programme);
+	casa2->setLightConstants(0.5f,1.0f,0.6f);
+	casa2->setPos(glm::vec3(30.0f,-10.0f,50.0f));
+	casa2->initPhysics(world);
+	casa2->setMatloc(*shader_programme,"model");
+
+	casa3 = new suelo((char*)"mallas/farmhouse_obj.obj",5.0f);
+	casa3->load_texture_rgb("textures/Farmhouse Texture.jpg","texsamp_rgb",shader_programme);
+	casa3->load_texture_normal("textures/Farmhouse TextureNormal.png", "texsamp_normal",shader_programme);
+	casa3->setLightConstants(0.5f,1.0f,0.6f);
+	casa3->setPos(glm::vec3(70.0f,-10.0f,-50.0f));
+	casa3->initPhysics(world);
+	casa3->setMatloc(*shader_programme,"model");
+
+	casa4 = new suelo((char*)"mallas/farmhouse_obj.obj",5.0f);
+	casa4->load_texture_rgb("textures/Farmhouse Texture.jpg","texsamp_rgb",shader_programme);
+	casa4->load_texture_normal("textures/Farmhouse TextureNormal.png", "texsamp_normal",shader_programme);
+	casa4->setLightConstants(0.5f,1.0f,0.6f);
+	casa4->setPos(glm::vec3(110.0f,-10.0f,-50.0f));
+	casa4->initPhysics(world);
+	casa4->setMatloc(*shader_programme,"model");
+
+	casa5 = new suelo((char*)"mallas/farmhouse_obj.obj",5.0f);
+	casa5->load_texture_rgb("textures/Farmhouse Texture.jpg","texsamp_rgb",shader_programme);
+	casa5->load_texture_normal("textures/Farmhouse TextureNormal.png", "texsamp_normal",shader_programme);
+	casa5->setLightConstants(0.5f,1.0f,0.6f);
+	casa5->setPos(glm::vec3(30.0f,-10.0f,-50.0f));
+	casa5->initPhysics(world);
+	casa5->setMatloc(*shader_programme,"model");
+
+	casa6 = new suelo((char*)"mallas/farmhouse_obj.obj",5.0f);
+	casa6->load_texture_rgb("textures/Farmhouse Texture.jpg","texsamp_rgb",shader_programme);
+	casa6->load_texture_normal("textures/Farmhouse TextureNormal.png", "texsamp_normal",shader_programme);
+	casa6->setLightConstants(0.5f,1.0f,0.6f);
+	casa6->setPos(glm::vec3(70.0f,-10.0f,50.0f));
+	casa6->initPhysics(world);
+	casa6->setMatloc(*shader_programme,"model");
+
 
 	espada = new suelo((char*)"mallas/mastersword.obj",0);
 	espada->load_texture_rgb("textures/espada.png", "texsamp_rgb",shader_programme);
@@ -273,12 +323,48 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	espada->initPhysics(world);
 	espada->setMatloc(*shader_programme,"model");
 
-	arbolito = new suelo((char*)"mallas/arbolito.obj",0);
-	arbolito->load_texture_rgb("textures/arbi.png", "texsamp_rgb",shader_programme);
-	arbolito->load_texture_normal("textures/normal.jpg", "texsamp_normal",shader_programme);
-	arbolito->setLightConstants(0.5,0.8f,0.6f);
-	arbolito->setPos(glm::vec3(-40.0f,-48.0f,-115.0f));
-	arbolito->setMatloc(*shader_programme,"model");
+	arbolito1 = new suelo((char*)"mallas/arbolito.obj",0);
+	arbolito1->load_texture_rgb("textures/arbi.png", "texsamp_rgb",shader_programme);
+	arbolito1->load_texture_normal("textures/normal.jpg", "texsamp_normal",shader_programme);
+	arbolito1->setLightConstants(0.5,0.8f,0.6f);
+	arbolito1->setPos(glm::vec3(-50.0f,-10.0f,-30.0f));
+	arbolito1->setMatloc(*shader_programme,"model");
+
+	arbolito2 = new suelo((char*)"mallas/arbolito.obj",0);
+	arbolito2->load_texture_rgb("textures/arbi.png", "texsamp_rgb",shader_programme);
+	arbolito2->load_texture_normal("textures/normal.jpg", "texsamp_normal",shader_programme);
+	arbolito2->setLightConstants(0.5,0.8f,0.6f);
+	arbolito2->setPos(glm::vec3(-50.0f,-10.0f,40.0f));
+	arbolito2->setMatloc(*shader_programme,"model");
+
+	arbolito3 = new suelo((char*)"mallas/arbolito.obj",0);
+	arbolito3->load_texture_rgb("textures/arbi.png", "texsamp_rgb",shader_programme);
+	arbolito3->load_texture_normal("textures/normal.jpg", "texsamp_normal",shader_programme);
+	arbolito3->setLightConstants(0.5,0.8f,0.6f);
+	arbolito3->setPos(glm::vec3(50.0f,-10.0f,-30.0f));
+	arbolito3->setMatloc(*shader_programme,"model");
+
+	arbolito4 = new suelo((char*)"mallas/arbolito.obj",0);
+	arbolito4->load_texture_rgb("textures/arbi.png", "texsamp_rgb",shader_programme);
+	arbolito4->load_texture_normal("textures/normal.jpg", "texsamp_normal",shader_programme);
+	arbolito4->setLightConstants(0.5,0.8f,0.6f);
+	arbolito4->setPos(glm::vec3(50.0f,-10.0f,40.0f));
+	arbolito4->setMatloc(*shader_programme,"model");
+
+	arbolito5 = new suelo((char*)"mallas/arbolito.obj",0);
+	arbolito5->load_texture_rgb("textures/arbi.png", "texsamp_rgb",shader_programme);
+	arbolito5->load_texture_normal("textures/normal.jpg", "texsamp_normal",shader_programme);
+	arbolito5->setLightConstants(0.5,0.8f,0.6f);
+	arbolito5->setPos(glm::vec3(90.0f,-10.0f,40.0f));
+	arbolito5->setMatloc(*shader_programme,"model");
+
+	arbolito6 = new suelo((char*)"mallas/arbolito.obj",0);
+	arbolito6->load_texture_rgb("textures/arbi.png", "texsamp_rgb",shader_programme);
+	arbolito6->load_texture_normal("textures/normal.jpg", "texsamp_normal",shader_programme);
+	arbolito6->setLightConstants(0.5,0.8f,0.6f);
+	arbolito6->setPos(glm::vec3(90.0f,-10.0f,-30.0f));
+	arbolito6->setMatloc(*shader_programme,"model");
+
 
 	key = new enemy((char*)"mallas/Key_B_02.obj");
 	key->load_texture("textures/keyB_tx.bmp");
