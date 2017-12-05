@@ -23,7 +23,6 @@ out vec4 test_tan;
 out vec3 view_dir_tan;
 out vec3 light_dir_tan;
 out vec3 hele;
-out vec4 gwl_Position;
 
 float inverse(float m);
 mat2 inverse(mat2 m);
@@ -53,7 +52,6 @@ void main(){
 	vec3 view_dir_loc = normalize (cam_pos_loc - vertex_position);
 
     hele = (view * model * vec4(vertex_position,1.0)).xyz;
-    gwl_Position = view * model * vec4(vec3(10.0,10.0,10.0), 1.0);
 
     gl_Position = proj * view * model * vec4(vertex_position, 1.0);
 	
