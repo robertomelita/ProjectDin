@@ -156,7 +156,10 @@ int main(int argc, char **argv){
             input(g_window);
             if(flagCastle && posObj.y>=-33.0f && posObj.x>=76.0f){
                 fin=true;
+                 if(snd_02->get_source_state() != AL_PLAYING)
+                {
                 snd_02->play();
+                }
             }
             if(!flagKey) gltSetText(text, "Avanza al castillo");
 
