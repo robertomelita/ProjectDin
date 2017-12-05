@@ -154,6 +154,10 @@ int main(int argc, char **argv){
         soundsPositioning();
         if(!principalScreen){
             input(g_window);
+            if(flagCastle && posObj.y>=-33.0f && posObj.x>=76.0f){
+                fin=true;
+                snd_02->play();
+            }
             if(!flagKey) gltSetText(text, "Avanza al castillo");
 
             // render
