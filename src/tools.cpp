@@ -198,8 +198,8 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	world = new worldPhysics();
 
 	sword = new protagonist((char*)"mallas/esfera.obj");
-	sword->load_texture_rgb("textures/earth8k.jpg", "texsamp_rgb",shader_programme);
-	sword->load_texture_normal("textures/earth8k-normal.png", "texsamp_normal",shader_programme);
+	sword->load_texture_rgb("textures/pelota.jpg", "texsamp_rgb",shader_programme);
+	sword->load_texture_normal("textures/pelota_normal.png", "texsamp_normal",shader_programme);
 	sword->setPos(posObj);
 	sword->initPhysics(world);
 	sword->setMatloc(*shader_programme,"model");

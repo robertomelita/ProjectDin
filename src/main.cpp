@@ -97,9 +97,9 @@ enemy *key;
 cubo *cubo1;
 cubo *cubo2;
 suelo* terrenoExterior;
-sound *snd_01 = new sound((const char*)"audio/rito2.wav");
+sound *snd_01 = new sound((const char*)"audio/play.wav");
 sound *snd_02 = new sound((const char*)"audio/secret.wav");
-sound *snd_03 = new sound((const char*)"audio/naruto.wav");
+sound *maintheme = new sound((const char*)"audio/main.wav");
 
 glm::mat4 projection;
 glm::mat4 view;
@@ -155,28 +155,7 @@ int main(int argc, char **argv){
             if(!flagKey) gltSetText(text, "");
 
             // render
-            // ------
-            
-            /*int numManifolds = world->getDynamicWorld()->getDispatcher()->getNumManifolds();
-            for (int i = 0; i < numManifolds; i++)
-            {
-                btPersistentManifold* contactManifold =  world->getDynamicWorld()->getDispatcher()->getManifoldByIndexInternal(i);
-                const btCollisionObject* obA = contactManifold->getBody0();
-                const btCollisionObject* obB = contactManifold->getBody1();
-
-                int numContacts = contactManifold->getNumContacts();
-                //printf("%i\n",numContacts);
-                for (int j = 0; j < numContacts; j++)
-                {
-                    btManifoldPoint& pt = contactManifold->getContactPoint(j);
-                    if (pt.getDistance() < 0.f)
-                    {
-                        const btVector3& ptA = pt.getPositionWorldOnA();
-                        const btVector3& ptB = pt.getPositionWorldOnB();
-                        const btVector3& normalOnB = pt.m_normalWorldOnB;
-                    }
-                }
-            }*/
+        
             glUseProgram(shader_programme);
             if(!flagCastle && snd_01->get_source_state() != AL_PLAYING)
             {
@@ -252,7 +231,12 @@ int main(int argc, char **argv){
                 sword->getRigidBody()->translate(btVector3(-10.0f,-45.0f,15.0f)-trans.getOrigin());
             }
         }else{
-            if(glfwGetKey(g_window, GLFW_KEY_ENTER) == GLFW_PRESS){ 
+            if(maintheme->get_source_state() != AL_PLAYING)
+            {
+                maintheme->play();
+            }
+            if(glfwGetKey(g_window, GLFW_KEY_ENTER) == GLFW_PRESS){
+                maintheme->stop(); 
                 principalScreen=false;
                 x = 10;
                 y = 10;
