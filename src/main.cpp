@@ -57,11 +57,11 @@ int speedLimit = 12;
 
 glm::vec3 impulso = glm::vec3(0,0,0);
 glm::vec3 jump = glm::vec3(0,0,0);
-glm::vec3 posObj = glm::vec3(0.0f,-8.0f,-2.0f);
+glm::vec3 posObj = glm::vec3(175.0f,-8.0f,-2.0f);
 btQuaternion rotObj;
 
 // camera
-glm::vec3 cameraPos   = posObj + glm::vec3(distancia, 0.5f, 0.0f);
+glm::vec3 cameraPos   = posObj + glm::vec3(distancia, 3.5f, 0.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f, 0.0f);
 float fov   =  45.0f;
@@ -74,6 +74,7 @@ GLuint shader_programme;
 
 //mallas
 protagonist *sword;
+suelo *maz2;
 suelo *casa1;
 suelo *casa2;
 suelo *casa3;
@@ -85,7 +86,6 @@ suelo *piso;
 suelo *piso2;
 suelo *sala;
 suelo *castillo;
-suelo *espada;
 suelo *arbolito1;
 suelo *arbolito2;
 suelo *arbolito3;
@@ -191,7 +191,6 @@ int main(int argc, char **argv){
                 }
                 last = sword->getRigidBody()->getLinearVelocity().getY();
             }
-            //printf("%f\n",sword->getRigidBody()->getLinearVelocity().getY());
             world->stepSimulation();
             sword->getRigidBody()->getMotionState()->getWorldTransform(trans);
             posObj = glm::vec3(float(trans.getOrigin().getX()),float(trans.getOrigin().getY()),float(trans.getOrigin().getZ()));
@@ -207,7 +206,8 @@ int main(int argc, char **argv){
             cubo2->getRigidBody()->getMotionState()->getWorldTransform(trans2);
             cubo2->transform(glm::vec3(float(trans2.getOrigin().getX()),float(trans2.getOrigin().getY()),float(trans2.getOrigin().getZ())));
 
-            
+                        printf("%f %f\n",posObj.x,posObj.z);
+
 
             update_camera();
             if(!flagKey &&( (cubo1->getPos().x > 17.2f && cubo1->getPos().z > -3.0f)
@@ -223,7 +223,6 @@ int main(int argc, char **argv){
                 sword->render(shader_programme);
                 if(!flagCastle) {
                     terrenoExterior->render(shader_programme);
-                    //espada->render(shader_programme);
                     castillo->render(shader_programme);
 		    		casa1->render(shader_programme);
 					casa2->render(shader_programme);
@@ -245,11 +244,12 @@ int main(int argc, char **argv){
                     sala->render(shader_programme);
                     cubo1->render(shader_programme);
                     cubo2->render(shader_programme);
+                    maz2->render(shader_programme);
                 }
             }
-            if(!flagCastle && glfwGetKey(g_window, GLFW_KEY_P) == GLFW_PRESS){
+            if(!flagCastle && posObj.x<-69.0f && posObj.z<5.0 && posObj.z>-3.0){
                 flagCastle=true;
-                sword->getRigidBody()->translate(btVector3(-10.0f,-45.0f,15.0f)-trans.getOrigin());                
+                sword->getRigidBody()->translate(btVector3(-10.0f,-45.0f,15.0f)-trans.getOrigin());
             }
         }else{
             if(glfwGetKey(g_window, GLFW_KEY_ENTER) == GLFW_PRESS){ 

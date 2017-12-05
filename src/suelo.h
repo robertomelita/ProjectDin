@@ -38,6 +38,8 @@ public:
     void render(GLuint shader_programme);
     void transform(glm::vec3 posObj);
     void initPhysics(worldPhysics *world);
+    void transform(glm::vec3 posObj, float rot, btVector3 rotVec);
+    void setRot(float angle);
 
     bool load_mesh(const char* file_name, int* point_count);
     bool load_texture (const char* file_name,GLuint *tex);

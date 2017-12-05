@@ -43,8 +43,15 @@ void suelo::setPos(glm::vec3 pos){
 	this->pos = pos;	
     this->model = glm::translate(glm::mat4(), this->pos);
 }
+void suelo::transform(glm::vec3 posObj, float rot, btVector3 rotVec){
+	setPos(posObj);
+	sword->setRot(rot,glm::vec3(rotVec.getX(),rotVec.getY(),rotVec.getZ()));
+}
+void suelo::setRot(float angle){
+    this->model = glm::rotate(this->model,(glm::mediump_float)glm::radians(angle),glm::vec3(0,1.0f,0));
+}
 
-void suelo::setMatloc(GLuint shaderprog, const char *name){	
+void suelo::setMatloc(GLuint shaderprog, const char *name){
 	this->matloc = glGetUniformLocation (shaderprog, name);
 }
 
