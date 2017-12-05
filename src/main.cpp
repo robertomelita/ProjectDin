@@ -92,6 +92,7 @@ suelo *arbolito3;
 suelo *arbolito4;
 suelo *arbolito5;
 suelo *arbolito6;
+suelo *puerta;
 suelo *boton;
 worldPhysics* world;
 enemy *key;
@@ -199,6 +200,7 @@ int main(int argc, char **argv){
 
 
             update_camera();
+
             if(!flagKey &&( (cubo1->getPos().x > 17.2f && cubo1->getPos().z > -3.0f)
                         || (cubo2->getPos().x > 17.2f && cubo2->getPos().z > -3.0f))){
                 flagKey = true;
@@ -209,6 +211,7 @@ int main(int argc, char **argv){
                 world->getDynamicWorld()->debugDrawWorld();
                 drawer->drawLines();
             }else{
+
                 sword->render(shader_programme);
                 if(!flagCastle) {
                     terrenoExterior->render(shader_programme);
@@ -238,6 +241,13 @@ int main(int argc, char **argv){
                     cubo1->render(shader_programme);
                     cubo2->render(shader_programme);
                     maz2->render(shader_programme);
+                    if(!flagKey){
+                        gltSetText(text,"Resuelve el puzzle");
+                        puerta->render(shader_programme);
+                    }
+                    if(flagKey){
+                         puerta->getRigidBody()->translate(btVector3(100,100,100));
+                    }
                     if(!fin) key->render(shader_programme);
                     if(fin){
                         gltSetText(text,"¡¡¡Gracias por jugar!!!");
@@ -251,7 +261,9 @@ int main(int argc, char **argv){
                 snd_01->stop();
                 flagCastle=true;
                 sword->getRigidBody()->translate(btVector3(-10.0f,-45.0f,15.0f)-trans.getOrigin());
-                gltSetText(text,"Resuelve el puzzle");
+                
+
+                
             }
         }else{
             if(maintheme->get_source_state() != AL_PLAYING)

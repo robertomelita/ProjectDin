@@ -204,6 +204,14 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	sword->initPhysics(world);
 	sword->setMatloc(*shader_programme,"model");
 
+	puerta = new suelo((char*)"mallas/puerta.obj",1.0f);
+	puerta->load_texture_rgb("textures/redbrick.jpg", "texsamp_rgb",shader_programme);
+	puerta->load_texture_normal("textures/iceNormal.png", "texsamp_normal",shader_programme);
+	puerta->setPos(glm::vec3(39.8f,-50.0f,-15.0f));
+	puerta->setLightConstants(0.5f,0.8f,0.05f);
+	puerta->initPhysics(world);
+	puerta->setMatloc(*shader_programme,"model");
+
 	cubo1 = new cubo((char*)"mallas/cubo.obj");
 	cubo1->load_texture_rgb("textures/snow.jpg", "texsamp_rgb",shader_programme);
 	cubo1->load_texture_normal("textures/snowNormal.png", "texsamp_normal",shader_programme);
