@@ -239,6 +239,12 @@ int main(int argc, char **argv){
                     cubo2->render(shader_programme);
                     maz2->render(shader_programme);
                     if(!fin) key->render(shader_programme);
+                    if(fin){
+                        gltSetText(text,"¡¡¡Gracias por jugar!!!");
+                         x = 10;
+                        y = 10;
+                        gltDrawText2D(text,x, y, size);
+                         }
                 }
             }
             if(!flagCastle && posObj.x<-69.0f && posObj.z<5.0 && posObj.z>-3.0){

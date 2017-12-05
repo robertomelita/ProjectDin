@@ -242,10 +242,10 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	principal->setMatloc(*shader_programme,"model");
 
 	boton = new suelo((char*)"mallas/boton.obj",1.0f);
-	boton->load_texture_rgb("textures/ice.jpg", "texsamp_rgb",shader_programme);
+	boton->load_texture_rgb("textures/redbrick.jpg", "texsamp_rgb",shader_programme);
 	boton->load_texture_normal("textures/iceNormal.png", "texsamp_normal",shader_programme);
 	boton->setLightConstants(0.5f,0.8f,0.05f);
-	boton->setPos(glm::vec3(17.2f,-3.0f,-47.0f));
+	boton->setPos(glm::vec3(17.2f,-50.0f,-3.0f));
 	boton->setMatloc(*shader_programme,"model");
 
 
