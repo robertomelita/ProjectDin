@@ -20,6 +20,8 @@ extern GLuint shader_programme;
 //mallas
 extern protagonist *sword;
 extern suelo *piso;
+extern suelo *piso2;
+extern suelo *sala;
 extern suelo *castillo;
 extern suelo *espada;
 extern suelo *arbolito;
@@ -27,6 +29,7 @@ extern cubo *cubo1;
 extern cubo *cubo2;
 extern worldPhysics *world;
 extern enemy *key;
+extern suelo* terrenoExterior;
 
 extern glm::mat4 projection;
 extern glm::mat4 view;

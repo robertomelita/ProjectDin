@@ -181,48 +181,84 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 
 
 	init_input();
+
+	projection = glm::perspective(glm::radians(fov), (float)g_gl_width / (float)g_gl_height, 0.1f, 1000.0f);
+	view = glm::lookAt(cameraPos, posObj, cameraUp);
 	
+	view_mat_location = glGetUniformLocation (*shader_programme, "view");
+	glUseProgram (*shader_programme);
+	glUniformMatrix4fv(view_mat_location, 1, GL_FALSE, &view[0][0]);
+	proj_mat_location = glGetUniformLocation (*shader_programme, "proj");
+	glUseProgram (*shader_programme);
+	glUniformMatrix4fv (proj_mat_location, 1, GL_FALSE, &projection[0][0]);
+	
+
+	glClearColor (0.2, 1.0, 0.8, 1.0);
 		/*-------------------------------CREATE SHADERS-------------------------------*/
 	world = new worldPhysics();
 
-	sword = new protagonist((char*)"mallas/maraca2.obj");
-	sword->load_texture_rgb("textures/ropa2.png", "texsamp_rgb",shader_programme);
-	sword->load_texture_normal("textures/tula_packed0_normal.png", "texsamp_normal",shader_programme);
+	sword = new protagonist((char*)"mallas/esfera.obj");
+	sword->load_texture_rgb("textures/earth8k.jpg", "texsamp_rgb",shader_programme);
+	sword->load_texture_normal("textures/earth8k-normal.png", "texsamp_normal",shader_programme);
 	sword->setPos(posObj);
 	sword->initPhysics(world);
 	sword->setMatloc(*shader_programme,"model");
 
 	cubo1 = new cubo((char*)"mallas/cubo.obj");
-//	cubo1->load_texture_rgb("textures/earth8k.jpg", "texsamp_rgb",shader_programme);
-//	cubo1->load_texture_normal("textures/earth8k-normal.png", "texsamp_normal",shader_programme);
+	cubo1->load_texture_rgb("textures/snow.jpg", "texsamp_rgb",shader_programme);
+	cubo1->load_texture_normal("textures/snowNormal.png", "texsamp_normal",shader_programme);
 	cubo1->setPos(glm::vec3(8.25f,-47.0f,-12.25));
 	cubo1->initPhysics(world);
 	cubo1->setMatloc(*shader_programme,"model");
 
 	cubo2 = new cubo((char*)"mallas/cubo.obj");
-//	cubo2->load_texture_rgb("textures/earth8k.jpg", "texsamp_rgb",shader_programme);
-//	cubo2->load_texture_normal("textures/earth8k-normal.png", "texsamp_normal",shader_programme);
+	cubo2->load_texture_rgb("textures/snow.jpg", "texsamp_rgb",shader_programme);
+	cubo2->load_texture_normal("textures/snowNormal.png", "texsamp_normal",shader_programme);
 	cubo2->setPos(glm::vec3(-7.25f,-47.0f,7.25));
 	cubo2->initPhysics(world);
 	cubo2->setMatloc(*shader_programme,"model");
 	
-	piso = new suelo((char*)"mallas/puzzleTestCurvo.obj");
-	piso->load_texture_rgb("textures/redbrick.jpg", "texsamp_rgb",shader_programme);
-//	piso->load_texture_normal("textures/normal.jpg", "texsamp_normal",shader_programme);
-	piso->setLightConstants(0.05f,0.8f,0.0f);
+	piso = new suelo((char*)"mallas/pisoPuzzle.obj",0);
+	piso->load_texture_rgb("textures/ice.jpg", "texsamp_rgb",shader_programme);
+	piso->load_texture_normal("textures/iceNormal.png", "texsamp_normal",shader_programme);
+	piso->setLightConstants(0.5f,0.8f,0.8f);
 	piso->setPos(glm::vec3(0,-50.0f,0));
 	piso->initPhysics(world);
 	piso->setMatloc(*shader_programme,"model");
 
-	castillo = new suelo((char*)"mallas/castillo.obj");
-//	castillo->load_texture_rgb("textures/earth8k.jpg","texsamp_rgb",shader_programme);
-//	castillo->load_texture_normal("textures/earth8k-normal.png", "texsamp_normal",shader_programme);
+	terrenoExterior = new suelo((char*)"mallas/terrneoExterior.obj",1.0f);
+	terrenoExterior->load_texture_rgb("textures/terreno/tierr.jpg", "texsamp_rgb",shader_programme);
+	terrenoExterior->load_texture_normal("textures/tierrNormal.png", "texsamp_normal",shader_programme);
+	terrenoExterior->setLightConstants(0.5f,0.8f,0.05f);
+	terrenoExterior->setPos(glm::vec3(0,-10.0f,0));
+	terrenoExterior->initPhysics(world);
+	terrenoExterior->setMatloc(*shader_programme,"model");
+
+	piso2 = new suelo((char*)"mallas/escalones.obj",0);
+	piso2->load_texture_rgb("textures/snow.jpg", "texsamp_rgb",shader_programme);
+	piso2->load_texture_normal("textures/snowNormal.png", "texsamp_normal",shader_programme);
+	piso2->setLightConstants(0.5f,0.8f,0.8f);
+	piso2->setPos(glm::vec3(0,-50.0f,0));
+	piso2->initPhysics(world);
+	piso2->setMatloc(*shader_programme,"model");
+
+	sala = new suelo((char*)"mallas/sala.obj",5.0f);
+	sala->load_texture_rgb("textures/wall.jpg", "texsamp_rgb",shader_programme);
+	sala->load_texture_normal("textures/wallNormal.png", "texsamp_normal",shader_programme);
+	sala->setLightConstants(0.5f,0.8f,0.8f);
+	sala->setPos(glm::vec3(0,-50.01f,0));
+	sala->initPhysics(world);
+	sala->setMatloc(*shader_programme,"model");
+
+	castillo = new suelo((char*)"mallas/farmhouse_obj.obj",5.0f);
+	castillo->load_texture_rgb("textures/Farmhouse Texture.jpg","texsamp_rgb",shader_programme);
+//	castillo->load_texture_normal("textures/castle3Normal.png", "texsamp_normal",shader_programme);
 	castillo->setLightConstants(0.5f,1.0f,0.6f);
-	castillo->setPos(glm::vec3(-25.0f,-35.0f,-150.0f));
+	castillo->setPos(glm::vec3(80.0f,-11.0f,0));
 	castillo->initPhysics(world);
 	castillo->setMatloc(*shader_programme,"model");
 
-	espada = new suelo((char*)"mallas/mastersword.obj");
+	espada = new suelo((char*)"mallas/mastersword.obj",0);
 	espada->load_texture_rgb("textures/espada.png", "texsamp_rgb",shader_programme);
 	espada->load_texture_normal("textures/normal.jpg", "texsamp_normal",shader_programme);
 	espada->setLightConstants(0.5f,0.8f,0.6f);
@@ -230,7 +266,7 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	espada->initPhysics(world);
 	espada->setMatloc(*shader_programme,"model");
 
-	arbolito = new suelo((char*)"mallas/arbolito.obj");
+	arbolito = new suelo((char*)"mallas/arbolito.obj",0);
 	arbolito->load_texture_rgb("textures/arbi.png", "texsamp_rgb",shader_programme);
 	arbolito->load_texture_normal("textures/normal.jpg", "texsamp_normal",shader_programme);
 	arbolito->setLightConstants(0.5,0.8f,0.6f);
@@ -243,13 +279,5 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	key->setMatloc(*shader_programme,"model");
 
 
-	projection = glm::perspective(glm::radians(fov), (float)g_gl_width / (float)g_gl_height, 0.1f, 1000.0f);
-	view = glm::lookAt(cameraPos, posObj, cameraUp);
-	
-	view_mat_location = glGetUniformLocation (*shader_programme, "view");
-	glUseProgram (*shader_programme);
-	glUniformMatrix4fv(view_mat_location, 1, GL_FALSE, &view[0][0]);
-	proj_mat_location = glGetUniformLocation (*shader_programme, "proj");
-	glUseProgram (*shader_programme);
-	glUniformMatrix4fv (proj_mat_location, 1, GL_FALSE, &projection[0][0]);
+
 }

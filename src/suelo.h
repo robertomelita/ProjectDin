@@ -7,6 +7,7 @@ class suelo
 {
 private:
 	GLuint VAO, VBO, nbo, tbo, tanbo, ebo, tex_rgb,tex_normal;
+    float roce;
     int nvertices;
     glm::vec3 pos;
     glm::mat4 model;
@@ -17,7 +18,7 @@ private:
     GLint texloc_rgb, texloc_normal;
 
 public:
-	suelo(char *filename);
+	suelo(char *filename, float roce);
 	 //gets
     int getNvertices();
     GLuint getVao();

@@ -38,7 +38,7 @@ public:
     void setMatloc(GLuint shaderprog, const char* name);
     void model2shader(GLuint shaderprog);
 	void render(GLuint shader_programme);
-    void transform(glm::vec3 posObj,float rot);
+    void transform(glm::vec3 posObj,float rot, btVector3 rotVec);
     void initPhysics(worldPhysics *world);
     void setRot(float angle , glm::vec3 vector);
 

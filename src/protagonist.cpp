@@ -101,8 +101,8 @@ bool protagonist::load_texture (const char* file_name,GLuint *tex) {
 	glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data);
 	glGenerateMipmap (GL_TEXTURE_2D);
     // probar cambiar GL_CLAMP_TO_EDGE por GL_REPEAT
-	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	GLfloat max_aniso = 16.0f;
@@ -123,15 +123,15 @@ void protagonist::render(GLuint shader_programme){
 	glDrawArrays(GL_TRIANGLES,0,getNvertices());
 }
 
-void protagonist::transform(glm::vec3 posObj, float rot){
+void protagonist::transform(glm::vec3 posObj, float rot, btVector3 rotVec){
 	setPos(posObj);
-	sword->setRot(-glm::radians(yawPersonaje+90.f),glm::vec3(0,1,0));
+	sword->setRot(rot,glm::vec3(rotVec.getX(),rotVec.getY(),rotVec.getZ()));
 }
 void protagonist::setRot(float angle, glm::vec3 vector){
     this->model = glm::rotate(this->model,(glm::mediump_float)angle,vector);
 }
 void protagonist::initPhysics(worldPhysics *world){	
-	btCollisionShape* colShape = new btSphereShape(btScalar(0.5f));//btCapsuleShape(.5f,3.5f);/*btConvexTriangleMeshShape(originalMesh,true);*/  //btSphereShape(btScalar(1.f));
+	btCollisionShape* colShape = new btSphereShape(btScalar(1));//btCapsuleShape(.5f,3.5f);/*btConvexTriangleMeshShape(originalMesh,true);*/  //btSphereShape(btScalar(1.f));
 	world->getCollisionShapes().push_back(colShape);
 
 	/// Create Dynamic Objects
@@ -152,7 +152,7 @@ void protagonist::initPhysics(worldPhysics *world){
 	//using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
 	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
-	//rbInfo.m_friction = 50.0f;
+	//rbInfo.m_friction = 0.0f;
 	this->body = new btRigidBody(rbInfo);
 	this->body->setActivationState(DISABLE_DEACTIVATION);
 	this->body->setDamping(0.5f,0.5f);
