@@ -120,6 +120,8 @@ int main(int argc, char **argv){
     int x = 300;
     int y = g_gl_height-50;
 
+    float last = 0.0f;
+
     while (!glfwWindowShouldClose(g_window)){
         // per-frame time logic
         // --------------------
@@ -172,9 +174,11 @@ int main(int argc, char **argv){
             btTransform trans;
             if(sword->getRigidBody()->getLinearVelocity().length()<speedLimit){
                 sword->getRigidBody()->applyImpulse(btVector3(impulso.x, 0.1f,impulso.z),btVector3(0,0,0));
-                if(sword->getRigidBody()->getLinearVelocity().getY()<0.1f and sword->getRigidBody()->getLinearVelocity().getY()>-0.1f){
+                if(last >= -0.1f && last<=0.1 && sword->getRigidBody()->getLinearVelocity().getY()<0.1f and sword->getRigidBody()->getLinearVelocity().getY()>-0.1f){
                     sword->getRigidBody()->applyImpulse(btVector3(0,jump.y,0),btVector3(0,0,0));
+                    
                 }
+                last = sword->getRigidBody()->getLinearVelocity().getY();
             }
             //printf("%f\n",sword->getRigidBody()->getLinearVelocity().getY());
             world->stepSimulation();
