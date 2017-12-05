@@ -219,7 +219,7 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	cubo2->setMatloc(*shader_programme,"model");
 
 	maz2 = new suelo((char*)"mallas/maz2.obj",5.0f);
-	maz2->load_texture_rgb("textures/maz2.jpg","texsamp_rgb",shader_programme);
+	maz2->load_texture_rgb("textures/redbrick.jpg","texsamp_rgb",shader_programme);
 	maz2->load_texture_normal("textures/maz2Normal.png", "texsamp_normal",shader_programme);
 	maz2->setLightConstants(0.5f,1.0f,0.6f);
 	maz2->setPos(glm::vec3(90.0f,-52.0f,0.0f));
