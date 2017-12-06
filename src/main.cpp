@@ -197,7 +197,6 @@ int main(int argc, char **argv){
             cubo2->getRigidBody()->getMotionState()->getWorldTransform(trans2);
             cubo2->transform(glm::vec3(float(trans2.getOrigin().getX()),float(trans2.getOrigin().getY()),float(trans2.getOrigin().getZ())));
 
-                    //    printf("%f %f\n",posObj.x,posObj.z);
 
 
             update_camera();
@@ -243,6 +242,7 @@ int main(int argc, char **argv){
                     cubo2->render(shader_programme);
                     maz2->render(shader_programme);
                     if(!flagKey){
+                        sword->getRigidBody()->clearForces();
                         gltSetText(text,"Resuelve el puzzle");
                         puerta->render(shader_programme);
                     }

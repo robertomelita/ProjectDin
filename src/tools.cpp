@@ -206,7 +206,7 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 
 	puerta = new suelo((char*)"mallas/puerta.obj",1.0f);
 	puerta->load_texture_rgb("textures/redbrick.jpg", "texsamp_rgb",shader_programme);
-	puerta->load_texture_normal("textures/iceNormal.png", "texsamp_normal",shader_programme);
+	puerta->load_texture_normal("textures/redbrickNormal.png", "texsamp_normal",shader_programme);
 	puerta->setPos(glm::vec3(39.8f,-50.0f,-15.0f));
 	puerta->setLightConstants(0.5f,0.8f,0.05f);
 	puerta->initPhysics(world);
@@ -215,20 +215,20 @@ void init(int g_gl_width, int g_gl_height, GLuint *shader_programme){
 	cubo1 = new cubo((char*)"mallas/cubo.obj");
 	cubo1->load_texture_rgb("textures/snow.jpg", "texsamp_rgb",shader_programme);
 	cubo1->load_texture_normal("textures/snowNormal.png", "texsamp_normal",shader_programme);
-	cubo1->setPos(glm::vec3(8.25f,-47.0f,-12.25));
+	cubo1->setPos(glm::vec3(7.0f,-47.0f,-12.75));
 	cubo1->initPhysics(world);
 	cubo1->setMatloc(*shader_programme,"model");
 
 	cubo2 = new cubo((char*)"mallas/cubo.obj");
 	cubo2->load_texture_rgb("textures/snow.jpg", "texsamp_rgb",shader_programme);
 	cubo2->load_texture_normal("textures/snowNormal.png", "texsamp_normal",shader_programme);
-	cubo2->setPos(glm::vec3(-7.25f,-47.0f,7.25));
+	cubo2->setPos(glm::vec3(-7.52,-47.0f,7.25));
 	cubo2->initPhysics(world);
 	cubo2->setMatloc(*shader_programme,"model");
 
 	maz2 = new suelo((char*)"mallas/maz2.obj",5.0f);
 	maz2->load_texture_rgb("textures/redbrick.jpg","texsamp_rgb",shader_programme);
-	maz2->load_texture_normal("textures/maz2Normal.png", "texsamp_normal",shader_programme);
+	maz2->load_texture_normal("textures/redbrickNormal.png", "texsamp_normal",shader_programme);
 	maz2->setLightConstants(0.5f,1.0f,0.6f);
 	maz2->setPos(glm::vec3(90.0f,-52.0f,0.0f));
 	maz2->initPhysics(world);
